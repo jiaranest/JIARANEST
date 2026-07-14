@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       subtitle: 'Up to 45% off building blocks, soft toys, dolls & more.',
       cta: 'Shop Toys',
       link: ['/category', 'toys'],
-      bg: 'linear-gradient(125deg, #137a49 0%, #0f5132 55%, #0a3d26 100%)',
+      bg: 'linear-gradient(125deg, #808e5c 0%, #6e7b4f 55%, #57623d 100%)',
       accent: illus('teddy', 0),
     },
     {
@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       subtitle: 'Fresh kids\' clothing for every occasion — soft, comfy, adorable.',
       cta: 'Shop Clothing',
       link: ['/category', 'clothing'],
-      bg: 'linear-gradient(125deg, #0a3d26 0%, #0f5132 60%, #2f8f5e 100%)',
+      bg: 'linear-gradient(125deg, #b57a1e 0%, #d99a34 60%, #e8b95c 100%)',
       accent: illus('frock', 2),
     },
     {
@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       subtitle: 'Kurtas, lehengas & party frocks for your tiny celebrations.',
       cta: 'Shop Ethnic Wear',
       link: ['/category', 'ethnic-wear'],
-      bg: 'linear-gradient(125deg, #0a3d26 0%, #0f5132 45%, #c8a951 135%)',
+      bg: 'linear-gradient(125deg, #57623d 0%, #6e7b4f 45%, #d99a34 135%)',
       accent: illus('lehenga', 3),
     },
   ];

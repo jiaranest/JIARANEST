@@ -22,6 +22,15 @@
 
             @for (item of cart.items(); track item.product.id) {
               <div class="item">
+                <button
+                  type="button"
+                  class="item-delete"
+                  aria-label="Delete item"
+                  title="Remove from cart"
+                  (click)="cart.remove(item.product.id)"
+                >
+                  <span class="material-icons">delete_outline</span>
+                </button>
                 <a class="item-img" [routerLink]="['/product', item.product.slug]">
                   <img [src]="item.product.images[0].url" [alt]="item.product.name" />
                 </a>
@@ -55,7 +64,7 @@
                       Save for later
                     </button>
                     <button type="button" class="rm" (click)="cart.remove(item.product.id)">
-                      Remove
+                      <span class="material-icons">delete_outline</span> Remove
                     </button>
                   </div>
                 </div>

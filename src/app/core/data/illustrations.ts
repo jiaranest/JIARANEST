@@ -38,9 +38,9 @@ export type Illustration =
   | 'pyjama'
   | 'nightdress';
 
-// Muted, warm backgrounds tuned to the emerald & champagne theme — soft ivory
-// and sage neutrals, rotated so adjacent cards differ pleasantly.
-const BG = ['#f2f5f1', '#f7f3ea', '#eef3ee', '#f6f2e8', '#eaf1ec', '#f4efe4'];
+// Cozy, warm backgrounds tuned to the honey & moss theme — soft honeyed cream
+// and muted sage tones, rotated so adjacent cards differ pleasantly.
+const BG = ['#f6f0e0', '#eef1e2', '#faf2df', '#f1f0e0', '#f7efdc', '#edf0df'];
 
 /**
  * Each entry is the *inner* SVG markup (paths/shapes) drawn inside a
@@ -243,7 +243,7 @@ const ART: Record<Illustration, string> = {
 const cache = new Map<string, string>();
 
 // Friendly avatar palette for customer testimonials.
-const AVATAR_BG = ['#0f5132', '#2f8f5e', '#c8a951', '#0a3d26', '#a4842f'];
+const AVATAR_BG = ['#6e7b4f', '#d99a34', '#808e5c', '#b57a1e', '#57623d'];
 
 /**
  * A simple initial-in-a-circle avatar for a person's name — used for

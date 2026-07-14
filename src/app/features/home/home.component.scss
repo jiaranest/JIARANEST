@@ -243,11 +243,11 @@
   transform: translateY(-3px);
   box-shadow: var(--zylo-shadow-2);
 }
-// Cohesive emerald-to-gold progression across the four age tiles.
-.age:nth-child(1) { background: linear-gradient(135deg, #2f8f5e, #137a49); }
-.age:nth-child(2) { background: linear-gradient(135deg, #137a49, #0f5132); }
-.age:nth-child(3) { background: linear-gradient(135deg, #0f5132, #0a3d26); }
-.age:nth-child(4) { background: linear-gradient(135deg, #c8a951, #a4842f); }
+// Cohesive moss → honey progression across the four age tiles.
+.age:nth-child(1) { background: linear-gradient(135deg, #808e5c, #6e7b4f); }
+.age:nth-child(2) { background: linear-gradient(135deg, #6e7b4f, #57623d); }
+.age:nth-child(3) { background: linear-gradient(135deg, #e8b95c, #d99a34); }
+.age:nth-child(4) { background: linear-gradient(135deg, #d99a34, #b57a1e); }
 .age-num {
   font-size: 22px;
   font-weight: 800;
@@ -281,11 +281,11 @@
   transform: translateY(-3px);
 }
 .promo.p1 {
-  background: linear-gradient(125deg, #0f5132, #0a3d26);
+  background: linear-gradient(125deg, #6e7b4f, #57623d);
 }
 .promo.p2 {
-  // Champagne-gold panel for contrast against the emerald p1.
-  background: linear-gradient(125deg, #c8a951, #a4842f);
+  // Warm-honey panel for playful contrast against the moss p1.
+  background: linear-gradient(125deg, #d99a34, #b57a1e);
 }
 .p-eyebrow {
   font-size: 12px;
@@ -354,11 +354,18 @@
   .t-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 720px) {
-  .slide { grid-template-columns: 1fr; padding: 28px; }
+  // Single-column hero; reserve bottom room so the CTA never sits under the
+  // dots, and hide the side arrows (dots + autoplay are enough on mobile).
+  .slide {
+    grid-template-columns: 1fr;
+    padding: 26px 26px 56px;
+  }
   .slide-art { display: none; }
-  .carousel { min-height: 260px; }
+  .carousel { min-height: 240px; }
+  .c-nav { display: none; }
+  .dots { left: 26px; bottom: 20px; }
+  .hero-cta { padding: 11px 20px; }
   .promos { grid-template-columns: 1fr; }
-  .dots { left: 28px; }
 }
 @media (max-width: 480px) {
   .cat-grid { grid-template-columns: repeat(3, 1fr); }

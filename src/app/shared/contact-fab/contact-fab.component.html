@@ -1,0 +1,67 @@
+<div class="fab-root" [class.open]="open()">
+  <!-- Expandable panel -->
+  <div class="panel" [attr.aria-hidden]="!open()">
+    <div class="panel-head">
+      <span class="panel-title">Get in touch</span>
+      <span class="panel-sub">We'd love to help — reach us anytime.</span>
+    </div>
+
+    <a class="row" [href]="phoneHref">
+      <span class="row-ico phone"><span class="material-icons">call</span></span>
+      <span class="row-body">
+        <span class="row-label">Call us</span>
+        <span class="row-value">{{ phone }}</span>
+      </span>
+    </a>
+
+    <a class="row" [href]="emailHref">
+      <span class="row-ico email"><span class="material-icons">mail_outline</span></span>
+      <span class="row-body">
+        <span class="row-label">Email</span>
+        <span class="row-value">{{ email }}</span>
+      </span>
+    </a>
+
+    <a class="row" [href]="whatsappHref" target="_blank" rel="noopener">
+      <span class="row-ico whatsapp">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path
+            d="M12.04 2c-5.5 0-9.96 4.46-9.96 9.96 0 1.76.46 3.45 1.34 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.5 0 9.96-4.46 9.96-9.96 0-2.66-1.04-5.16-2.92-7.04A9.9 9.9 0 0 0 12.04 2Zm0 18.02h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.24 8.24 0 0 1-1.26-4.4c0-4.55 3.7-8.25 8.26-8.25 2.2 0 4.28.86 5.84 2.42a8.2 8.2 0 0 1 2.42 5.84c0 4.56-3.71 8.25-8.27 8.25Zm4.53-6.18c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.8-.79.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.4-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z"
+          />
+        </svg>
+      </span>
+      <span class="row-body">
+        <span class="row-label">WhatsApp</span>
+        <span class="row-value">Chat with us</span>
+      </span>
+      <span class="material-icons row-arrow">open_in_new</span>
+    </a>
+
+    <a class="row" [href]="instagramHref" target="_blank" rel="noopener">
+      <span class="row-ico instagram">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.7" />
+          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7" />
+          <circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" />
+        </svg>
+      </span>
+      <span class="row-body">
+        <span class="row-label">Instagram</span>
+        <span class="row-value">&#64;jiaranest</span>
+      </span>
+      <span class="material-icons row-arrow">open_in_new</span>
+    </a>
+  </div>
+
+  <!-- Round toggle button -->
+  <button
+    type="button"
+    class="fab"
+    [attr.aria-expanded]="open()"
+    [attr.aria-label]="open() ? 'Close contact menu' : 'Open contact menu'"
+    (click)="toggle()"
+  >
+    <span class="material-icons ico-open">chat_bubble</span>
+    <span class="material-icons ico-close">close</span>
+  </button>
+</div>

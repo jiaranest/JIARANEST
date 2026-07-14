@@ -11,7 +11,7 @@ html {
   @include mat.theme(
     (
       color: (
-        // Premium "emerald & champagne" palette — heritage-luxury, not marketplace.
+        // "Warm Honey & Muted Moss" — cozy & playful, warm and inviting.
         primary: mat.$green-palette,
         tertiary: mat.$yellow-palette,
       ),
@@ -21,31 +21,31 @@ html {
   );
 
   // ---- Brand design tokens (consumed by our own components) ----
-  // Brand is a deep emerald with a subtle gradient for fills; champagne gold is
-  // the jewel accent, used sparingly. `--zylo-brand` is the solid emerald.
-  --zylo-brand: #0f5132; // deep emerald
-  --zylo-brand-dark: #0a3d26; // deeper emerald (hover)
-  --zylo-brand-tint: #edf3ef; // soft emerald wash
-  --zylo-brand-grad: linear-gradient(125deg, #137a49 0%, #0f5132 55%, #0a3d26 100%); // emerald
-  --zylo-brand-grad-dark: linear-gradient(125deg, #0f5132 0%, #072b1a 100%);
-  --zylo-accent: #c8a951; // champagne gold — prices/deals/stars/secondary
-  --zylo-accent-dark: #a4842f; // deeper gold (hover)
-  --zylo-success: #15803d;
-  --zylo-danger: #b91c1c;
+  // Brand = muted moss green; accent = warm honey; backgrounds are honeyed
+  // cream. Cozy, playful and warm — soft but with friendly amber warmth.
+  --zylo-brand: #6e7b4f; // muted moss (brand)
+  --zylo-brand-dark: #57623d; // deeper moss (hover)
+  --zylo-brand-tint: #eef0e3; // soft moss wash
+  --zylo-brand-grad: linear-gradient(125deg, #808e5c 0%, #6e7b4f 55%, #57623d 100%); // moss
+  --zylo-brand-grad-dark: linear-gradient(125deg, #57623d 0%, #434d30 100%);
+  --zylo-accent: #d99a34; // warm honey — prices/stars/deals/secondary
+  --zylo-accent-dark: #b57a1e; // deeper honey (hover)
+  --zylo-success: #5f7a3a; // moss-green (in stock / savings)
+  --zylo-danger: #c15b3c; // warm terracotta (errors / out of stock)
 
-  --zylo-ink: #2a2420; // espresso (warm near-black)
-  --zylo-ink-2: #5c534b;
-  --zylo-ink-3: #a39a8e;
-  --zylo-line: #e8e2d6; // warm ivory hairline
-  --zylo-surface: #ffffff;
-  --zylo-bg: #fbf9f4; // warm ivory page background
+  --zylo-ink: #3b3325; // warm cocoa
+  --zylo-ink-2: #6c6149;
+  --zylo-ink-3: #a1957c;
+  --zylo-line: #ece1cd; // honey-cream hairline
+  --zylo-surface: #fefbf4; // soft cream card surface (not stark white)
+  --zylo-bg: #fbf3e4; // warm honey-cream page background
 
   --zylo-radius-sm: 8px;
   --zylo-radius: 12px;
   --zylo-radius-lg: 20px;
 
-  --zylo-shadow-1: 0 1px 3px rgba(42, 36, 32, 0.07), 0 1px 2px rgba(42, 36, 32, 0.04);
-  --zylo-shadow-2: 0 10px 30px rgba(15, 81, 50, 0.14);
+  --zylo-shadow-1: 0 1px 3px rgba(59, 51, 37, 0.07), 0 1px 2px rgba(59, 51, 37, 0.04);
+  --zylo-shadow-2: 0 12px 34px rgba(87, 98, 61, 0.14);
 
   --zylo-max: 1280px;
   --zylo-header-h: 112px; // announcement strip (~32) + header (~80)
@@ -75,7 +75,7 @@ html {
 body {
   margin: 0;
   min-height: 100%;
-  background-color: var(--zylo-bg);
+  background-color: #ffffff;
   color: var(--zylo-ink);
   font-family: 'Inter', Roboto, 'Helvetica Neue', system-ui, -apple-system, sans-serif;
   font-size: 14px;
@@ -161,10 +161,11 @@ img {
   text-transform: uppercase;
   letter-spacing: 0.03em;
 }
-.zylo-badge--new { background: #dbeafe; color: #1d4ed8; }
-.zylo-badge--deal { background: #fee2e2; color: var(--zylo-danger); }
-.zylo-badge--bestseller { background: #fef3c7; color: var(--zylo-accent-dark); }
-.zylo-badge--trending { background: #dcefe4; color: #0f5132; }
+// Warm, cozy badge tones tuned to the honey & moss palette.
+.zylo-badge--new { background: #e8ecd9; color: #57623d; }
+.zylo-badge--deal { background: #f6e2d5; color: var(--zylo-danger); }
+.zylo-badge--bestseller { background: #f8eccf; color: var(--zylo-accent-dark); }
+.zylo-badge--trending { background: #e8ecd9; color: var(--zylo-brand-dark); }
 
 // Truncate helpers
 .zylo-clamp-1,

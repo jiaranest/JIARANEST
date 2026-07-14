@@ -20,8 +20,8 @@
   background: rgba(251, 249, 244, 0.92);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--zylo-line);
-  // Gold hairline accent under the header.
-  box-shadow: 0 1px 0 0 rgba(200, 169, 81, 0.35);
+  // Honey hairline accent under the header.
+  box-shadow: 0 1px 0 0 rgba(217, 154, 52, 0.35);
 }
 .hdr-inner {
   display: grid;
@@ -49,18 +49,59 @@
   color: var(--zylo-brand);
   padding-inline: 10px;
 }
-// Middle "ARA" in premium champagne gold with a subtle metallic sheen.
+// Middle "ARA" in warm honey with an animated GLITTER shine — a bright light
+// band sweeps across the gold gradient text on a loop.
+// inline-block so the clipped-text box reserves width (prevents letter overlap).
 .brand-accent {
-  color: var(--zylo-accent); // solid-gold fallback
-  background: linear-gradient(180deg, #e2c473 0%, #c8a951 50%, #a4842f 100%);
+  display: inline-block;
+  // Preserve the wordmark's letter rhythm around the clipped-text span so the
+  // adjacent "Ji" / "nest" letters never collide with the gold "ara".
+  margin-inline: 0.02em 0.14em;
+  color: var(--zylo-accent); // solid-honey fallback
+  // Gold base + a bright highlight band; the band is swept by animating
+  // background-position (the gradient is wider than the text, hence 220% size).
+  background-image: linear-gradient(
+    100deg,
+    #b57a1e 0%,
+    #d99a34 30%,
+    #f6d98a 45%,
+    #fff6df 50%,
+    #f6d98a 55%,
+    #d99a34 70%,
+    #b57a1e 100%
+  );
+  background-size: 220% 100%;
+  background-position: 120% 0;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation: brand-glitter 3.6s ease-in-out infinite;
 }
+
+@keyframes brand-glitter {
+  0% { background-position: 120% 0; }
+  // Sweep the highlight across, then hold on the resting gold for the rest.
+  35%, 100% { background-position: -20% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-accent {
+    animation: none;
+    background-position: 50% 0;
+  }
+}
+
+// ✦ stars flanking the wordmark — one before "JI", one after "NEST".
 .brand-orn {
-  display: none; // shown on ≥ md via .brand::before layout below
+  display: inline-block;
+  margin-left: 0.12em;
   color: var(--zylo-accent);
-  font-size: 12px;
+  font-size: 0.42em;
+  vertical-align: 0.55em; // lift toward the top like a superscript accent
+}
+.brand-orn--lead {
+  margin-left: 0;
+  margin-right: 0.12em;
 }
 .brand-tagline {
   margin-top: 5px;
@@ -70,15 +111,6 @@
   color: var(--zylo-ink-3);
 }
 
-// place the two ornaments flanking the wordmark
-.brand {
-  .brand-orn { position: absolute; top: 8px; }
-  .brand-orn:first-of-type { left: -6px; }
-  .brand-orn:last-of-type { right: -6px; }
-}
-@media (min-width: 900px) {
-  .brand-orn { display: block; }
-}
 
 // ---- Nav clusters ----
 .nav {
@@ -377,9 +409,18 @@
     display: none;
   }
   .menu-btn { display: grid; }
-  .brand-name { font-size: 22px; letter-spacing: 0.1em; }
+  .brand-name { font-size: 22px; letter-spacing: 0.1em; padding-inline: 4px; }
   .brand-tagline { display: none; }
   .brand-orn { display: none; }
   .nav-left { gap: 0; }
+  .icons { margin-left: 0; }
   .search-row input { font-size: 19px; }
+}
+
+// Small phones — tighten further so the wordmark never crowds the icons.
+@media (max-width: 400px) {
+  .hdr-inner { gap: 6px; }
+  .brand-name { font-size: 18px; letter-spacing: 0.06em; padding-inline: 2px; }
+  .icon-btn { width: 34px; height: 34px; }
+  .icon-btn .material-icons { font-size: 20px; }
 }

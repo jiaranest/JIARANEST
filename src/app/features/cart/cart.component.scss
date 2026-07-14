@@ -69,11 +69,37 @@
 }
 
 .item {
+  position: relative;
   display: grid;
   grid-template-columns: 100px 1fr auto;
   gap: 16px;
   padding: 16px 0;
   border-top: 1px solid var(--zylo-line);
+}
+// Clear delete (trash) button in the top-right corner of each cart item.
+.item-delete {
+  position: absolute;
+  top: 14px;
+  right: 0;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--zylo-line);
+  border-radius: 50%;
+  background: var(--zylo-surface);
+  color: var(--zylo-ink-3);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background 0.15s var(--zylo-ease), color 0.15s, border-color 0.15s;
+  z-index: 2;
+}
+.item-delete .material-icons {
+  font-size: 20px;
+}
+.item-delete:hover {
+  background: #f7e6e0;
+  border-color: var(--zylo-danger);
+  color: var(--zylo-danger);
 }
 .item-img img {
   width: 100px;
@@ -127,6 +153,14 @@
 .item-actions button:hover {
   color: var(--zylo-brand);
 }
+.item-actions .rm {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.item-actions .rm .material-icons {
+  font-size: 17px;
+}
 .item-actions .rm:hover {
   color: var(--zylo-danger);
 }
@@ -137,6 +171,8 @@
   font-weight: 700;
   font-size: 16px;
   white-space: nowrap;
+  align-self: end; // sit at the bottom of the cell, clear of the corner delete btn
+  padding-bottom: 4px;
 }
 
 // ---- Summary ----
@@ -302,5 +338,12 @@
   .item-total {
     grid-column: 2;
     text-align: right;
+  }
+  // Keep the item name clear of the corner delete button on small screens.
+  .item-info {
+    padding-right: 40px;
+  }
+  .item-delete {
+    top: 12px;
   }
 }

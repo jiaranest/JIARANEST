@@ -1,0 +1,219 @@
+// Fixed floating container in the bottom-right corner.
+.fab-root {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 300;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+// ---- Round toggle button ----
+.fab {
+  position: relative;
+  width: 58px;
+  height: 58px;
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  background: var(--zylo-brand-grad);
+  box-shadow: 0 8px 22px rgba(87, 98, 61, 0.4);
+  display: grid;
+  place-items: center;
+  color: #fff;
+  transition: transform 0.2s var(--zylo-ease), box-shadow 0.2s var(--zylo-ease);
+  // Sits above the panel in the flex column, but rendered last so it stacks on top.
+  align-self: flex-end;
+}
+.fab:hover {
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 12px 28px rgba(87, 98, 61, 0.5);
+}
+.fab:active {
+  transform: scale(0.96);
+}
+
+// Icon crossfade + rotate between chat and close.
+.fab .material-icons {
+  grid-area: 1 / 1; // stack both icons in the same cell
+  font-size: 26px;
+  transition: opacity 0.25s var(--zylo-ease), transform 0.3s var(--zylo-ease);
+}
+.ico-open {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+.ico-close {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.6);
+}
+.fab-root.open .ico-open {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.6);
+}
+.fab-root.open .ico-close {
+  opacity: 1;
+  transform: rotate(0) scale(1);
+}
+
+// A soft attention pulse while closed (stops once opened).
+.fab::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--zylo-accent);
+  opacity: 0;
+  animation: fab-pulse 2.8s ease-out infinite;
+  pointer-events: none;
+}
+.fab-root.open .fab::after {
+  animation: none;
+}
+@keyframes fab-pulse {
+  0% { transform: scale(1); opacity: 0.5; }
+  70%, 100% { transform: scale(1.5); opacity: 0; }
+}
+
+// ---- Expandable panel ----
+.panel {
+  width: 300px;
+  max-width: calc(100vw - 40px);
+  background: var(--zylo-surface);
+  border: 1px solid var(--zylo-line);
+  border-radius: var(--zylo-radius-lg);
+  box-shadow: var(--zylo-shadow-2);
+  overflow: hidden;
+  padding: 6px;
+  transform-origin: bottom right;
+  // Collapsed state.
+  opacity: 0;
+  transform: translateY(12px) scale(0.9);
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity 0.25s var(--zylo-ease),
+    transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.28s;
+}
+.fab-root.open .panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  visibility: visible;
+  transition:
+    opacity 0.25s var(--zylo-ease),
+    transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s;
+}
+
+.panel-head {
+  padding: 14px 14px 12px;
+  border-bottom: 1px solid var(--zylo-line);
+  margin-bottom: 6px;
+}
+.panel-title {
+  display: block;
+  font-family: Georgia, serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--zylo-brand);
+}
+.panel-sub {
+  display: block;
+  font-size: 12px;
+  color: var(--zylo-ink-3);
+  margin-top: 2px;
+}
+
+// ---- Contact rows ----
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--zylo-radius-sm);
+  color: var(--zylo-ink);
+  transition: background 0.15s var(--zylo-ease);
+}
+.row:hover {
+  background: var(--zylo-brand-tint);
+}
+.row-ico {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: #fff;
+}
+.row-ico .material-icons {
+  font-size: 20px;
+}
+.row-ico svg {
+  width: 20px;
+  height: 20px;
+}
+.row-ico.phone { background: #5f7a3a; }
+.row-ico.email { background: var(--zylo-brand); }
+.row-ico.whatsapp { background: #25d366; }
+.row-ico.instagram {
+  background: linear-gradient(45deg, #f09433, #e6683c 30%, #dc2743 60%, #bc1888);
+}
+.row-body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+.row-label {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--zylo-ink-3);
+  font-weight: 600;
+}
+.row-value {
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.row-arrow {
+  font-size: 16px;
+  color: var(--zylo-ink-3);
+}
+
+// ---- Responsive ----
+@media (max-width: 560px) {
+  .fab-root {
+    right: 16px;
+    bottom: 16px;
+    gap: 12px;
+  }
+  .fab {
+    width: 52px;
+    height: 52px;
+  }
+  .fab .material-icons {
+    font-size: 24px;
+  }
+  .panel {
+    width: 280px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fab,
+  .fab .material-icons,
+  .panel {
+    transition-duration: 0.01ms;
+  }
+  .fab::after {
+    animation: none;
+  }
+}
