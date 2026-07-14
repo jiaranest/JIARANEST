@@ -232,7 +232,7 @@
     @if (related().length) {
       <section class="zylo-section related">
         <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">Related Products</h2></div>
-        <div zyloReveal><zylo-product-rail [products]="related()" /></div>
+        <zylo-product-rail [products]="related()" />
       </section>
     }
   </div>

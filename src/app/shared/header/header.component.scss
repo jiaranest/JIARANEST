@@ -6,6 +6,8 @@
 }
 
 // ---- Announcement strip ----
+// Kept to a single line at a fixed height so it never wraps and inflates the
+// header (which would break the --zylo-header-h sticky offsets on mobile).
 .promo-strip {
   background: var(--zylo-brand-dark);
   color: #e7efe9;
@@ -13,6 +15,15 @@
   font-size: 11.5px;
   letter-spacing: 0.04em;
   padding: 7px 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.promo-short { display: none; }
+@media (max-width: 560px) {
+  .promo-full { display: none; }
+  .promo-short { display: inline; }
+  .promo-strip { font-size: 11px; padding: 6px 10px; }
 }
 
 // ---- Main header: ivory, three-column grid with centered wordmark ----
@@ -333,18 +344,24 @@
   top: 0;
   left: 0;
   bottom: 0;
+  height: 100%;
+  // Use dynamic viewport height on mobile so the drawer matches the visible
+  // area even with the browser's collapsing address bar.
+  height: 100dvh;
   width: min(86vw, 340px);
   z-index: 200;
   background: var(--zylo-bg);
   border-right: 2px solid var(--zylo-accent);
   transform: translateX(-100%);
   transition: transform 0.28s var(--zylo-ease);
-  overflow-y: auto;
+  // The drawer is a fixed, NON-scrolling shell; the nav inside scrolls.
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
 .drawer.open { transform: translateX(0); }
 .drawer-head {
+  flex: 0 0 auto; // fixed header, never shrinks or scrolls
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -356,9 +373,15 @@
   padding: 0;
 }
 .drawer-nav {
+  flex: 1 1 auto; // fills remaining height and IS the scroll area
+  min-height: 0; // allow the flex child to shrink so overflow can scroll
   display: flex;
   flex-direction: column;
   padding: 12px 10px 30px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; // momentum scroll on iOS
+  touch-action: pan-y; // swipe anywhere in the nav scrolls vertically
+  overscroll-behavior: contain; // don't chain scroll to the page behind
 }
 .drawer-nav > a {
   padding: 12px 14px;
@@ -398,9 +421,12 @@
 // ---- Responsive ----
 @media (max-width: 900px) {
   .hdr-inner {
-    grid-template-columns: auto 1fr auto;
+    // Left (menu) and right (icons) size to content; the CENTER column takes
+    // the remaining space and is allowed to shrink (min-width:0) so the
+    // wordmark never pushes the side clusters and overlaps them.
+    grid-template-columns: auto minmax(0, 1fr) auto;
     min-height: 64px;
-    gap: 10px;
+    gap: 8px;
   }
   // Hide desktop nav links; keep menu button + icons.
   .nav-left .nav-item,
@@ -409,18 +435,27 @@
     display: none;
   }
   .menu-btn { display: grid; }
-  .brand-name { font-size: 22px; letter-spacing: 0.1em; padding-inline: 4px; }
   .brand-tagline { display: none; }
   .brand-orn { display: none; }
   .nav-left { gap: 0; }
-  .icons { margin-left: 0; }
+  .icons { margin-left: 0; gap: 0; }
+
+  // Center wordmark: allow it to shrink and never overflow its column.
+  .brand { min-width: 0; max-width: 100%; }
+  .brand-name {
+    font-size: clamp(15px, 5.2vw, 22px); // scales smoothly across all phones
+    letter-spacing: 0.08em;
+    padding-inline: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    max-width: 100%;
+  }
   .search-row input { font-size: 19px; }
 }
 
-// Small phones — tighten further so the wordmark never crowds the icons.
-@media (max-width: 400px) {
-  .hdr-inner { gap: 6px; }
-  .brand-name { font-size: 18px; letter-spacing: 0.06em; padding-inline: 2px; }
+// Very small phones — trim icon footprint so 3 icons + menu + wordmark fit.
+@media (max-width: 380px) {
   .icon-btn { width: 34px; height: 34px; }
   .icon-btn .material-icons { font-size: 20px; }
 }

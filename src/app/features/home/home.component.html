@@ -77,7 +77,7 @@
     <h2 zyloReveal class="reveal-underline">⚡ Deals of the Day</h2>
     <a routerLink="/search" [queryParams]="{ discount: 30 }">View all</a>
   </div>
-  <div zyloReveal><zylo-product-rail [products]="featured()" /></div>
+  <zylo-product-rail [products]="featured()" />
 </section>
 
 <!-- Promo banners -->
@@ -93,19 +93,19 @@
 <!-- New arrivals -->
 <section class="zylo-section zylo-container">
   <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">New Arrivals</h2><a routerLink="/search" [queryParams]="{ sort: 'latest' }">View all</a></div>
-  <div zyloReveal><zylo-product-rail [products]="newArrivals()" /></div>
+  <zylo-product-rail [products]="newArrivals()" />
 </section>
 
 <!-- Best sellers -->
 <section class="zylo-section zylo-container">
   <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">Best Sellers</h2><a routerLink="/search" [queryParams]="{ sort: 'popular' }">View all</a></div>
-  <div zyloReveal><zylo-product-rail [products]="bestSellers()" /></div>
+  <zylo-product-rail [products]="bestSellers()" />
 </section>
 
 <!-- Trending -->
 <section class="zylo-section zylo-container">
   <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">🔥 Trending Now</h2></div>
-  <div zyloReveal><zylo-product-rail [products]="trending()" /></div>
+  <zylo-product-rail [products]="trending()" />
 </section>
 
 <!-- Testimonials -->

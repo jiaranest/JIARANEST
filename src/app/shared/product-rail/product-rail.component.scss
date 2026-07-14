@@ -4,15 +4,32 @@
 .rail {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(220px, 1fr);
+  // Fixed card width on mobile so the track is wider than the screen and
+  // genuinely overflows → horizontal swipe works. (`1fr` here can let columns
+  // shrink to fit and kill the scroll.)
+  grid-auto-columns: 62vw;
   gap: 16px;
   overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch; // momentum scrolling on iOS
+  // Allow BOTH: horizontal swipes scroll the rail, vertical swipes scroll the
+  // page (pan-x alone would trap vertical page scrolling over the rail).
+  touch-action: pan-x pan-y;
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  padding-bottom: 8px;
+  padding-bottom: 10px;
   scrollbar-width: thin;
 }
 .cell {
   scroll-snap-align: start;
+  min-width: 0;
+}
+// Roomier cards on small tablets before the grid layout takes over.
+@media (min-width: 560px) {
+  .rail { grid-auto-columns: 42vw; }
+}
+@media (min-width: 768px) {
+  .rail { grid-auto-columns: 30vw; }
 }
 @media (min-width: 1100px) {
   .rail {

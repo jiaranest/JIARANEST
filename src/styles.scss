@@ -53,6 +53,15 @@ html {
   --zylo-ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+// On phones/tablets the header row is shorter (min-height 64) + slimmer strip,
+// so keep the sticky-offset token in sync to avoid gaps/overlaps.
+@media (max-width: 900px) {
+  html { --zylo-header-h: 92px; }
+}
+@media (max-width: 560px) {
+  html { --zylo-header-h: 88px; }
+}
+
 // Scale the content width up on large monitors, 4K, and TVs so the layout
 // fills the screen instead of sitting in a narrow column with dead margins.
 @media (min-width: 1536px) {
