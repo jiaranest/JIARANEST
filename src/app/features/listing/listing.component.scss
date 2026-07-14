@@ -36,6 +36,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap; // let controls wrap on very narrow screens instead of overflowing
+  min-width: 0;
 }
 .filter-toggle {
   display: none;
@@ -198,6 +200,12 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
+  min-width: 0; // let the grid shrink within its column instead of overflowing
+}
+// Grid tracks are `1fr`; ensure each cell can shrink below its content's
+// intrinsic min-width (otherwise cards force the grid wider than the viewport).
+.grid > * {
+  min-width: 0;
 }
 .grid.list {
   grid-template-columns: 1fr;
