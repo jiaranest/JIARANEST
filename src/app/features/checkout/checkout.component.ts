@@ -20,7 +20,7 @@ interface Address {
 }
 
 @Component({
-  selector: 'zylo-checkout',
+  selector: 'jiara-checkout',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, FormsModule, UpperCasePipe],

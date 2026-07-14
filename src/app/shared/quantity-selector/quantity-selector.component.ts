@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 @Component({
-  selector: 'zylo-quantity-selector',
+  selector: 'jiara-quantity-selector',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -30,7 +30,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
       .qty {
         display: inline-flex;
         align-items: center;
-        border: 1px solid var(--zylo-line);
+        border: 1px solid var(--jiara-line);
         border-radius: 999px;
         overflow: hidden;
         background: #fff;
@@ -46,22 +46,22 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
         display: grid;
         place-items: center;
         cursor: pointer;
-        color: var(--zylo-ink);
-        transition: background 0.15s var(--zylo-ease);
+        color: var(--jiara-ink);
+        transition: background 0.15s var(--jiara-ease);
         touch-action: pan-x pan-y;
       }
       button:active:not(:disabled) {
-        background: var(--zylo-brand-tint);
-        color: var(--zylo-brand);
+        background: var(--jiara-brand-tint);
+        color: var(--jiara-brand);
       }
       @media (hover: hover) {
         button:hover:not(:disabled) {
-          background: var(--zylo-brand-tint);
-          color: var(--zylo-brand);
+          background: var(--jiara-brand-tint);
+          color: var(--jiara-brand);
         }
       }
       button:disabled {
-        color: var(--zylo-ink-3);
+        color: var(--jiara-ink-3);
         cursor: not-allowed;
       }
       .material-icons {

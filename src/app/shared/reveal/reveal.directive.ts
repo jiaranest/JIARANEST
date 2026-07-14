@@ -9,18 +9,18 @@ import {
 } from '@angular/core';
 
 /**
- * `zyloReveal` — Jiaranest's signature scroll-reveal.
+ * `jiaraReveal` — Jiaranest's signature scroll-reveal.
  *
  * When the element scrolls into view it plays a soft "settle onto the shelf"
  * motion: rise + un-blur + a gentle over-shoot scale. Applied to a container
- * with `[zyloReveal]="'stagger'"`, its direct children cascade in one-by-one.
+ * with `[jiaraReveal]="'stagger'"`, its direct children cascade in one-by-one.
  *
  * Motion lives in global CSS (the `.reveal*` classes in styles.scss); this
  * directive only toggles `is-in` via IntersectionObserver + sets child delays.
  * Honours `prefers-reduced-motion` by revealing instantly.
  */
 @Directive({
-  selector: '[zyloReveal]',
+  selector: '[jiaraReveal]',
   standalone: true,
 })
 export class RevealDirective implements AfterViewInit, OnDestroy {
@@ -30,7 +30,7 @@ export class RevealDirective implements AfterViewInit, OnDestroy {
   private mutation?: MutationObserver;
 
   /** '' | 'stagger' — stagger cascades direct children. */
-  @Input('zyloReveal') mode: '' | 'stagger' = '';
+  @Input('jiaraReveal') mode: '' | 'stagger' = '';
   /** Optional per-child stagger step in ms (stagger mode). */
   @Input() revealStep = 80;
   /** Optional delay before the whole element reveals, ms. */

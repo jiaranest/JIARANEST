@@ -1,4 +1,4 @@
-<div class="zylo-container listing">
+<div class="jiara-container listing">
   <!-- Breadcrumb + heading -->
   <nav class="crumbs">
     <a routerLink="/">Home</a> <span>/</span> <span>{{ heading() }}</span>
@@ -215,7 +215,7 @@
         <div class="grid grid-enter" [class.list]="view() === 'list'">
           @for (p of result().items; track p.id; let i = $index) {
             @if (view() === 'grid') {
-              <zylo-product-card
+              <jiara-product-card
                 class="grid-cell"
                 [style.--card-i]="i % 12"
                 [product]="p"
@@ -230,11 +230,11 @@
                 <div class="row-body">
                   <a class="row-brand" [routerLink]="['/product', p.slug]">{{ p.brand }}</a>
                   <a class="row-name" [routerLink]="['/product', p.slug]">{{ p.name }}</a>
-                  <zylo-star-rating [value]="p.rating" [count]="p.ratingCount" />
-                  <p class="row-desc zylo-clamp-2">{{ p.description }}</p>
+                  <jiara-star-rating [value]="p.rating" [count]="p.ratingCount" />
+                  <p class="row-desc jiara-clamp-2">{{ p.description }}</p>
                 </div>
                 <div class="row-buy">
-                  <div class="price"><span class="zylo-price">{{ inr(p.price) }}</span></div>
+                  <div class="price"><span class="jiara-price">{{ inr(p.price) }}</span></div>
                   <button class="add" type="button" [routerLink]="['/product', p.slug]">
                     View Details
                   </button>

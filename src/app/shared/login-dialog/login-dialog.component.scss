@@ -10,7 +10,7 @@
   border: 0;
   background: transparent;
   cursor: pointer;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 .brand {
   display: flex;
@@ -22,7 +22,7 @@
   width: 30px;
   height: 30px;
   border-radius: 8px;
-  background: var(--zylo-brand-grad);
+  background: var(--jiara-brand-grad);
   color: #fff;
   font-weight: 800;
   display: grid;
@@ -32,7 +32,7 @@
   font-size: 20px;
   font-weight: 800;
   letter-spacing: -0.03em;
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
 }
 h2 {
   margin: 0 0 4px;
@@ -41,24 +41,24 @@ h2 {
 }
 .sub {
   margin: 0 0 18px;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
   font-size: 13px;
 }
 .field {
   display: flex;
   align-items: center;
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
   border-radius: 10px;
   overflow: hidden;
 }
 .field:focus-within {
-  border-color: var(--zylo-brand);
+  border-color: var(--jiara-brand);
 }
 .prefix {
   padding: 0 10px;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
   font-weight: 600;
-  border-right: 1px solid var(--zylo-line);
+  border-right: 1px solid var(--jiara-line);
   height: 46px;
   display: grid;
   place-items: center;
@@ -73,7 +73,7 @@ h2 {
 }
 .otp {
   width: 100%;
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
   border-radius: 10px;
   height: 48px;
   text-align: center;
@@ -83,7 +83,7 @@ h2 {
   outline: 0;
 }
 .otp:focus {
-  border-color: var(--zylo-brand);
+  border-color: var(--jiara-brand);
 }
 .primary {
   width: 100%;
@@ -91,12 +91,12 @@ h2 {
   margin-top: 14px;
   border: 0;
   border-radius: 10px;
-  background: var(--zylo-brand-grad);
+  background: var(--jiara-brand-grad);
   color: #fff;
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
-  transition: filter 0.15s var(--zylo-ease);
+  transition: filter 0.15s var(--jiara-ease);
 }
 .primary:hover {
   filter: brightness(0.94);
@@ -105,7 +105,7 @@ h2 {
   text-align: center;
   margin: 16px 0;
   position: relative;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
   font-size: 12px;
 }
 .or::before {
@@ -115,7 +115,7 @@ h2 {
   left: 0;
   right: 0;
   height: 1px;
-  background: var(--zylo-line);
+  background: var(--jiara-line);
 }
 .or span {
   background: #fff;
@@ -125,7 +125,7 @@ h2 {
 .google {
   width: 100%;
   height: 46px;
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
   border-radius: 10px;
   background: #fff;
   font-weight: 600;
@@ -145,12 +145,12 @@ h2 {
   font-size: 18px;
 }
 .err {
-  color: var(--zylo-danger);
+  color: var(--jiara-danger);
   font-size: 12px;
   margin-top: 8px;
 }
 .hint {
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
   font-size: 12px;
   margin-top: 8px;
   text-align: center;
@@ -160,7 +160,7 @@ h2 {
   margin: 12px auto 0;
   border: 0;
   background: transparent;
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
   font-weight: 600;
   cursor: pointer;
 }
@@ -168,5 +168,5 @@ h2 {
   margin: 18px 0 0;
   text-align: center;
   font-size: 11px;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }

@@ -2,8 +2,8 @@ import { Injectable, computed, effect, signal } from '@angular/core';
 import { CartItem, Coupon, OrderSummary } from '../models/cart.model';
 import { Product, discountPercent } from '../models/product.model';
 
-const CART_KEY = 'zylo.cart.v1';
-const SAVED_KEY = 'zylo.saved.v1';
+const CART_KEY = 'jiara.cart.v1';
+const SAVED_KEY = 'jiara.saved.v1';
 
 /** Demo coupons the checkout/cart accepts. */
 export const COUPONS: Coupon[] = [

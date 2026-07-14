@@ -15,7 +15,7 @@ import { ProductRailComponent } from '../../shared/product-rail/product-rail.com
 import { RevealDirective } from '../../shared/reveal/reveal.directive';
 
 @Component({
-  selector: 'zylo-product',
+  selector: 'jiara-product',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [

@@ -8,7 +8,7 @@ export interface AuthUser {
   method: 'otp' | 'google';
 }
 
-const KEY = 'zylo.auth.v1';
+const KEY = 'jiara.auth.v1';
 
 /**
  * Phase-1 auth stub. There is NO login wall on browsing — the storefront gates

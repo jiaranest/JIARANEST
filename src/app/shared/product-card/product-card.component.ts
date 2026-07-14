@@ -8,7 +8,7 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { QuantitySelectorComponent } from '../quantity-selector/quantity-selector.component';
 
 @Component({
-  selector: 'zylo-product-card',
+  selector: 'jiara-product-card',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, StarRatingComponent, QuantitySelectorComponent],

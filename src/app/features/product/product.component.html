@@ -1,9 +1,9 @@
 @if (product(); as p) {
-  <div class="zylo-container product">
+  <div class="jiara-container product">
     <nav class="crumbs">
       <a routerLink="/">Home</a> <span>/</span>
       <a [routerLink]="['/category', 'all']">{{ p.brand }}</a> <span>/</span>
-      <span class="zylo-clamp-1">{{ p.name }}</span>
+      <span class="jiara-clamp-1">{{ p.name }}</span>
     </nav>
 
     <div class="top">
@@ -46,17 +46,17 @@
         <h1>{{ p.name }}</h1>
 
         <div class="rating-row">
-          <zylo-star-rating [value]="p.rating" [count]="p.ratingCount" [showValue]="true" />
+          <jiara-star-rating [value]="p.rating" [count]="p.ratingCount" [showValue]="true" />
           <button class="share" type="button" (click)="share()">
             <span class="material-icons">share</span> Share
           </button>
         </div>
 
         <div class="price">
-          <span class="zylo-price">{{ inr(p.price) }}</span>
+          <span class="jiara-price">{{ inr(p.price) }}</span>
           @if (discount() > 0) {
-            <span class="zylo-mrp">{{ inr(p.mrp) }}</span>
-            <span class="zylo-badge zylo-badge--deal">{{ discount() }}% OFF</span>
+            <span class="jiara-mrp">{{ inr(p.mrp) }}</span>
+            <span class="jiara-badge jiara-badge--deal">{{ discount() }}% OFF</span>
           }
         </div>
         <span class="tax-note">Inclusive of all taxes</span>
@@ -86,7 +86,7 @@
         </div>
 
         <div class="buy-actions">
-          <zylo-quantity-selector
+          <jiara-quantity-selector
             [value]="qty()"
             [max]="p.inStock ? p.stockCount : 1"
             (valueChange)="qty.set($event)"
@@ -127,7 +127,7 @@
 
     <!-- Frequently bought together -->
     @if (frequentlyBought().length > 1) {
-      <section class="fbt zylo-section" zyloReveal>
+      <section class="fbt jiara-section" jiaraReveal>
         <h2>Frequently bought together</h2>
         <div class="fbt-row">
           <div class="fbt-items">
@@ -148,7 +148,7 @@
     }
 
     <!-- Tabs -->
-    <section class="tabs zylo-section" zyloReveal>
+    <section class="tabs jiara-section" jiaraReveal>
       <div class="tab-head">
         <button [class.on]="activeTab() === 'desc'" (click)="activeTab.set('desc')">Description</button>
         <button [class.on]="activeTab() === 'specs'" (click)="activeTab.set('specs')">Specifications</button>
@@ -184,7 +184,7 @@
             <div class="rev-summary">
               <div class="rev-score">
                 <span class="big">{{ p.rating.toFixed(1) }}</span>
-                <zylo-star-rating [value]="p.rating" />
+                <jiara-star-rating [value]="p.rating" />
                 <span class="muted">{{ p.ratingCount.toLocaleString('en-IN') }} ratings</span>
               </div>
             </div>
@@ -230,14 +230,14 @@
 
     <!-- Related -->
     @if (related().length) {
-      <section class="zylo-section related">
-        <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">Related Products</h2></div>
-        <zylo-product-rail [products]="related()" />
+      <section class="jiara-section related">
+        <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">Related Products</h2></div>
+        <jiara-product-rail [products]="related()" />
       </section>
     }
   </div>
 } @else {
-  <div class="zylo-container loading-state">
-    <div class="zylo-skeleton" style="height: 460px; border-radius: 16px"></div>
+  <div class="jiara-container loading-state">
+    <div class="jiara-skeleton" style="height: 460px; border-radius: 16px"></div>
   </div>
 }

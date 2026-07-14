@@ -10,12 +10,12 @@ import { ContactFabComponent } from './shared/contact-fab/contact-fab.component'
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, HeaderComponent, FooterComponent, ContactFabComponent],
   template: `
-    <zylo-header />
+    <jiara-header />
     <main class="app-main">
       <router-outlet />
     </main>
-    <zylo-footer />
-    <zylo-contact-fab />
+    <jiara-footer />
+    <jiara-contact-fab />
   `,
   styles: [
     `

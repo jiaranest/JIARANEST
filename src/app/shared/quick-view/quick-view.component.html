@@ -17,17 +17,17 @@
   <div class="info">
     <span class="brand">{{ product.brand }}</span>
     <h2>{{ product.name }}</h2>
-    <zylo-star-rating [value]="product.rating" [count]="product.ratingCount" [showValue]="true" />
+    <jiara-star-rating [value]="product.rating" [count]="product.ratingCount" [showValue]="true" />
 
     <div class="price">
-      <span class="zylo-price">{{ inr(product.price) }}</span>
+      <span class="jiara-price">{{ inr(product.price) }}</span>
       @if (discount() > 0) {
-        <span class="zylo-mrp">{{ inr(product.mrp) }}</span>
-        <span class="zylo-off">{{ discount() }}% off</span>
+        <span class="jiara-mrp">{{ inr(product.mrp) }}</span>
+        <span class="jiara-off">{{ discount() }}% off</span>
       }
     </div>
 
-    <p class="desc zylo-clamp-2">{{ product.description }}</p>
+    <p class="desc jiara-clamp-2">{{ product.description }}</p>
 
     @if (product.colors?.length) {
       <div class="opt">
@@ -52,7 +52,7 @@
     </div>
 
     <div class="buy-row">
-      <zylo-quantity-selector
+      <jiara-quantity-selector
         [value]="qty()"
         [max]="product.inStock ? product.stockCount : 1"
         (valueChange)="qty.set($event)"

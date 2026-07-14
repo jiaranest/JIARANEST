@@ -3,14 +3,14 @@
 }
 .crumbs {
   font-size: 12px;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
   margin-bottom: 16px;
   display: flex;
   gap: 4px;
   align-items: center;
 }
 .crumbs a:hover {
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
 }
 .loading-state {
   padding-block: 24px;
@@ -39,7 +39,7 @@
 .thumbs button {
   width: 72px;
   height: 72px;
-  border: 2px solid var(--zylo-line);
+  border: 2px solid var(--jiara-line);
   border-radius: 8px;
   overflow: hidden;
   padding: 0;
@@ -47,7 +47,7 @@
   background: #fff;
 }
 .thumbs button.on {
-  border-color: var(--zylo-brand);
+  border-color: var(--jiara-brand);
 }
 .thumbs img {
   width: 100%;
@@ -57,8 +57,8 @@
 .main-img {
   position: relative;
   aspect-ratio: 1;
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius);
   overflow: hidden;
   background: #fff;
   cursor: zoom-in;
@@ -78,13 +78,13 @@
   border-radius: 50%;
   border: 0;
   background: rgba(255, 255, 255, 0.92);
-  box-shadow: var(--zylo-shadow-1);
+  box-shadow: var(--jiara-shadow-1);
   cursor: pointer;
   display: grid;
   place-items: center;
 }
 .main-img .wish.active .material-icons {
-  color: var(--zylo-danger);
+  color: var(--jiara-danger);
 }
 .zoom-hint {
   position: absolute;
@@ -114,7 +114,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
 }
 .info h1 {
   font-size: clamp(22px, 3vw, 30px);
@@ -130,7 +130,7 @@
 .share {
   border: 0;
   background: transparent;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
   font-weight: 600;
   font-size: 13px;
   display: flex;
@@ -147,15 +147,15 @@
   gap: 12px;
   margin-top: 6px;
 }
-.price .zylo-price {
+.price .jiara-price {
   font-size: 32px;
 }
-.price .zylo-mrp {
+.price .jiara-mrp {
   font-size: 18px;
 }
 .tax-note {
   font-size: 12px;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
   margin-top: -6px;
 }
 
@@ -174,25 +174,25 @@
   gap: 8px;
 }
 .chip {
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
   background: #fff;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
   padding: 8px 14px;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
 }
 .chip.on {
-  border-color: var(--zylo-brand);
-  background: var(--zylo-brand-tint);
-  color: var(--zylo-brand);
+  border-color: var(--jiara-brand);
+  background: var(--jiara-brand-tint);
+  color: var(--jiara-brand);
 }
 
 .stock {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--zylo-success);
+  color: var(--jiara-success);
   font-weight: 600;
   font-size: 14px;
 }
@@ -200,7 +200,7 @@
   font-size: 18px;
 }
 .stock.out {
-  color: var(--zylo-danger);
+  color: var(--jiara-danger);
 }
 
 .buy-actions {
@@ -215,7 +215,7 @@
   flex: 1;
   min-width: 140px;
   height: 50px;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
@@ -226,20 +226,20 @@
 }
 .buy-actions .add {
   border: 0;
-  background: var(--zylo-brand-grad);
+  background: var(--jiara-brand-grad);
   color: #fff;
-  transition: filter 0.15s var(--zylo-ease);
+  transition: filter 0.15s var(--jiara-ease);
 }
 .buy-actions .add:hover:not(:disabled) {
   filter: brightness(0.94);
 }
 .buy-actions .buy {
   border: 0;
-  background: var(--zylo-accent);
+  background: var(--jiara-accent);
   color: #fff;
 }
 .buy-actions .buy:hover:not(:disabled) {
-  background: var(--zylo-accent-dark);
+  background: var(--jiara-accent-dark);
   color: #fff;
 }
 .buy-actions .add:disabled,
@@ -249,8 +249,8 @@
 }
 
 .delivery {
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius);
   padding: 16px;
   margin-top: 8px;
 }
@@ -258,13 +258,13 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius-sm);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius-sm);
   padding: 0 12px;
   height: 44px;
 }
 .pin-check .material-icons {
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 .pin-check input {
   flex: 1;
@@ -275,13 +275,13 @@
 .pin-check button {
   border: 0;
   background: transparent;
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
   font-weight: 700;
   cursor: pointer;
 }
 .pin-result {
   margin-top: 8px;
-  color: var(--zylo-success);
+  color: var(--jiara-success);
   font-weight: 600;
   font-size: 13px;
 }
@@ -297,10 +297,10 @@
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
 }
 .perks .material-icons {
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
   font-size: 18px;
 }
 
@@ -317,8 +317,8 @@
   gap: 20px;
   flex-wrap: wrap;
   background: #fff;
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius);
   padding: 18px;
 }
 .fbt-items {
@@ -334,7 +334,7 @@
   height: 90px;
   border-radius: 8px;
   object-fit: cover;
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
 }
 .fbt-price {
   display: block;
@@ -344,7 +344,7 @@
 }
 .plus {
   font-size: 24px;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 .fbt-buy {
   display: flex;
@@ -356,10 +356,10 @@
 }
 .fbt-buy button {
   border: 0;
-  background: var(--zylo-brand-grad);
+  background: var(--jiara-brand-grad);
   color: #fff;
   padding: 12px 20px;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
   font-weight: 700;
   cursor: pointer;
 }
@@ -368,7 +368,7 @@
 .tab-head {
   display: flex;
   gap: 4px;
-  border-bottom: 2px solid var(--zylo-line);
+  border-bottom: 2px solid var(--jiara-line);
   overflow-x: auto;
 }
 .tab-head button {
@@ -377,15 +377,15 @@
   padding: 14px 18px;
   font-weight: 700;
   font-size: 14px;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
   cursor: pointer;
   border-bottom: 3px solid transparent;
   margin-bottom: -2px;
   white-space: nowrap;
 }
 .tab-head button.on {
-  color: var(--zylo-brand);
-  border-bottom-color: var(--zylo-brand);
+  color: var(--jiara-brand);
+  border-bottom-color: var(--jiara-brand);
 }
 .tab-body {
   padding-top: 20px;
@@ -393,7 +393,7 @@
 .desc-text {
   font-size: 14px;
   line-height: 1.7;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
   max-width: 800px;
 }
 .specs {
@@ -405,17 +405,17 @@
 .specs td {
   text-align: left;
   padding: 10px 14px;
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
   font-size: 13px;
 }
 .specs th {
-  background: var(--zylo-bg);
+  background: var(--jiara-bg);
   font-weight: 600;
   width: 200px;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
 }
 .muted {
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 
 .rev-summary {
@@ -432,7 +432,7 @@
   line-height: 1;
 }
 .review {
-  border-top: 1px solid var(--zylo-line);
+  border-top: 1px solid var(--jiara-line);
   padding: 16px 0;
 }
 .rev-top {
@@ -441,7 +441,7 @@
   gap: 8px;
 }
 .rev-badge {
-  background: var(--zylo-success);
+  background: var(--jiara-success);
   color: #fff;
   border-radius: 4px;
   padding: 2px 6px;
@@ -451,7 +451,7 @@
 .review p {
   margin: 8px 0;
   font-size: 14px;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
 }
 .rev-imgs {
   display: flex;
@@ -469,20 +469,20 @@
   font-size: 12px;
   align-items: center;
   flex-wrap: wrap;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
 }
 .verified {
   display: flex;
   align-items: center;
   gap: 2px;
-  color: var(--zylo-success);
+  color: var(--jiara-success);
   font-weight: 600;
 }
 .verified .material-icons {
   font-size: 14px;
 }
 .qa-item {
-  border-bottom: 1px solid var(--zylo-line);
+  border-bottom: 1px solid var(--jiara-line);
   padding: 12px 0;
 }
 .qa-item p {
@@ -491,11 +491,11 @@
 }
 .qa .ask {
   margin-top: 14px;
-  border: 1px solid var(--zylo-brand);
-  color: var(--zylo-brand);
+  border: 1px solid var(--jiara-brand);
+  color: var(--jiara-brand);
   background: #fff;
   padding: 10px 18px;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
   font-weight: 700;
   cursor: pointer;
 }

@@ -1,4 +1,4 @@
-<div class="zylo-container cart">
+<div class="jiara-container cart">
   <h1>Your Cart</h1>
 
   @if (cart.items().length === 0 && cart.saved().length === 0) {
@@ -47,14 +47,14 @@
                     </span>
                   }
                   <div class="item-price">
-                    <span class="zylo-price">{{ inr(item.product.price) }}</span>
+                    <span class="jiara-price">{{ inr(item.product.price) }}</span>
                     @if (discountPercent(item.product) > 0) {
-                      <span class="zylo-mrp">{{ inr(item.product.mrp) }}</span>
-                      <span class="zylo-off">{{ discountPercent(item.product) }}% off</span>
+                      <span class="jiara-mrp">{{ inr(item.product.mrp) }}</span>
+                      <span class="jiara-off">{{ discountPercent(item.product) }}% off</span>
                     }
                   </div>
                   <div class="item-actions">
-                    <zylo-quantity-selector
+                    <jiara-quantity-selector
                       size="sm"
                       [value]="item.quantity"
                       [max]="item.product.stockCount"
@@ -87,7 +87,7 @@
                     {{ item.product.name }}
                   </a>
                   <span class="item-brand">{{ item.product.brand }}</span>
-                  <div class="item-price"><span class="zylo-price">{{ inr(item.product.price) }}</span></div>
+                  <div class="item-price"><span class="jiara-price">{{ inr(item.product.price) }}</span></div>
                   <div class="item-actions">
                     <button type="button" class="primary-link" (click)="cart.moveToCart(item.product.id)">
                       Move to cart

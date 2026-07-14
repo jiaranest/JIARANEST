@@ -8,7 +8,7 @@ import { inr } from '../../core/util/format';
 import { QuantitySelectorComponent } from '../../shared/quantity-selector/quantity-selector.component';
 
 @Component({
-  selector: 'zylo-cart',
+  selector: 'jiara-cart',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, KeyValuePipe, QuantitySelectorComponent],

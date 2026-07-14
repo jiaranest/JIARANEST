@@ -12,7 +12,7 @@
   padding-bottom: 40px;
 }
 .statement .orn {
-  color: var(--zylo-accent);
+  color: var(--jiara-accent);
   font-size: 16px;
   letter-spacing: 0.4em;
 }
@@ -57,7 +57,7 @@
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: var(--zylo-accent);
+  color: var(--jiara-accent);
   margin: 0 0 16px;
 }
 .col a {
@@ -87,7 +87,7 @@
   padding-bottom: 8px;
   transition: border-color 0.2s;
 }
-.news:focus-within { border-color: var(--zylo-accent); }
+.news:focus-within { border-color: var(--jiara-accent); }
 .news input {
   flex: 1;
   border: 0;
@@ -101,7 +101,7 @@
 .news button {
   border: 0;
   background: transparent;
-  color: var(--zylo-accent);
+  color: var(--jiara-accent);
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -133,8 +133,8 @@
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 .social a:hover {
-  background: var(--zylo-accent);
-  border-color: var(--zylo-accent);
+  background: var(--jiara-accent);
+  border-color: var(--jiara-accent);
   color: #2f3720;
 }
 .social a svg {
@@ -174,7 +174,7 @@
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.03em;
-  color: var(--zylo-accent);
+  color: var(--jiara-accent);
   white-space: nowrap;
 }
 .links {
@@ -186,7 +186,7 @@
   color: #beb69d;
   transition: color 0.15s;
 }
-.links a:hover { color: var(--zylo-accent); }
+.links a:hover { color: var(--jiara-accent); }
 
 // ---- Responsive ----
 @media (max-width: 860px) {

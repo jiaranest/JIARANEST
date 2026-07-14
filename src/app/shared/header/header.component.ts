@@ -9,7 +9,7 @@ import { AGE_GROUPS, Category } from '../../core/models/product.model';
 import { inr } from '../../core/util/format';
 
 @Component({
-  selector: 'zylo-header',
+  selector: 'jiara-header',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],

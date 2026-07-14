@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
-  selector: 'zylo-star-rating',
+  selector: 'jiara-star-rating',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
@@ -33,18 +33,18 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
       }
       .star.filled .material-icons,
       .star.half .material-icons {
-        color: var(--zylo-accent);
+        color: var(--jiara-accent);
       }
       .val {
         margin-left: 6px;
         font-weight: 700;
         font-size: 12px;
-        color: var(--zylo-ink);
+        color: var(--jiara-ink);
       }
       .count {
         margin-left: 4px;
         font-size: 12px;
-        color: var(--zylo-ink-3);
+        color: var(--jiara-ink-3);
       }
     `,
   ],

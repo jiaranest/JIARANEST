@@ -1,6 +1,6 @@
 <!-- Hero carousel -->
 <section class="hero">
-  <div class="zylo-container">
+  <div class="jiara-container">
     <div class="carousel">
       @for (s of slides; track s.title; let i = $index) {
         <div class="slide" [class.active]="current() === i" [style.background]="s.bg">
@@ -37,7 +37,7 @@
 </section>
 
 <!-- Trust strip -->
-<section class="trust zylo-container" zyloReveal="stagger" [revealStep]="90">
+<section class="trust jiara-container" jiaraReveal="stagger" [revealStep]="90">
   <div class="trust-item"><span class="material-icons">local_shipping</span><div><strong>Free Delivery</strong><span>On orders over ₹999</span></div></div>
   <div class="trust-item"><span class="material-icons">replay</span><div><strong>7-Day Returns</strong><span>Easy, no-questions refunds</span></div></div>
   <div class="trust-item"><span class="material-icons">child_care</span><div><strong>Child-Safe</strong><span>Tested, non-toxic materials</span></div></div>
@@ -45,9 +45,9 @@
 </section>
 
 <!-- Shop by category -->
-<section class="zylo-section zylo-container">
-  <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">Shop by Category</h2></div>
-  <div class="cat-grid" zyloReveal="stagger" [revealStep]="70">
+<section class="jiara-section jiara-container">
+  <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">Shop by Category</h2></div>
+  <div class="cat-grid" jiaraReveal="stagger" [revealStep]="70">
     @for (c of browseCategories(); track c.id) {
       <a class="cat" [routerLink]="['/category', c.slug]">
         <div class="cat-img"><img [src]="c.image" [alt]="c.name" loading="lazy" /></div>
@@ -59,9 +59,9 @@
 </section>
 
 <!-- Shop by age -->
-<section class="zylo-section zylo-container">
-  <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">Shop by Age</h2></div>
-  <div class="age-grid" zyloReveal="stagger" [revealStep]="90">
+<section class="jiara-section jiara-container">
+  <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">Shop by Age</h2></div>
+  <div class="age-grid" jiaraReveal="stagger" [revealStep]="90">
     @for (a of ageGroups; track a.id) {
       <a class="age" routerLink="/search" [queryParams]="{ age: a.id }">
         <span class="age-num">{{ a.label }}</span>
@@ -72,16 +72,16 @@
 </section>
 
 <!-- Featured / deals -->
-<section class="zylo-section zylo-container">
-  <div class="zylo-section-head">
-    <h2 zyloReveal class="reveal-underline">⚡ Deals of the Day</h2>
+<section class="jiara-section jiara-container">
+  <div class="jiara-section-head">
+    <h2 jiaraReveal class="reveal-underline">⚡ Deals of the Day</h2>
     <a routerLink="/search" [queryParams]="{ discount: 30 }">View all</a>
   </div>
-  <zylo-product-rail [products]="featured()" />
+  <jiara-product-rail [products]="featured()" />
 </section>
 
 <!-- Promo banners -->
-<section class="zylo-section zylo-container promos" zyloReveal="stagger" [revealStep]="120">
+<section class="jiara-section jiara-container promos" jiaraReveal="stagger" [revealStep]="120">
   <a class="promo p1" routerLink="/category/soft-toys">
     <div><span class="p-eyebrow">Cuddle Time</span><h3>Soft toys they'll love</h3><span class="p-link">Up to 40% off →</span></div>
   </a>
@@ -91,28 +91,28 @@
 </section>
 
 <!-- New arrivals -->
-<section class="zylo-section zylo-container">
-  <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">New Arrivals</h2><a routerLink="/search" [queryParams]="{ sort: 'latest' }">View all</a></div>
-  <zylo-product-rail [products]="newArrivals()" />
+<section class="jiara-section jiara-container">
+  <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">New Arrivals</h2><a routerLink="/search" [queryParams]="{ sort: 'latest' }">View all</a></div>
+  <jiara-product-rail [products]="newArrivals()" />
 </section>
 
 <!-- Best sellers -->
-<section class="zylo-section zylo-container">
-  <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">Best Sellers</h2><a routerLink="/search" [queryParams]="{ sort: 'popular' }">View all</a></div>
-  <zylo-product-rail [products]="bestSellers()" />
+<section class="jiara-section jiara-container">
+  <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">Best Sellers</h2><a routerLink="/search" [queryParams]="{ sort: 'popular' }">View all</a></div>
+  <jiara-product-rail [products]="bestSellers()" />
 </section>
 
 <!-- Trending -->
-<section class="zylo-section zylo-container">
-  <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">🔥 Trending Now</h2></div>
-  <zylo-product-rail [products]="trending()" />
+<section class="jiara-section jiara-container">
+  <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">🔥 Trending Now</h2></div>
+  <jiara-product-rail [products]="trending()" />
 </section>
 
 <!-- Testimonials -->
-<section class="zylo-section testimonials">
-  <div class="zylo-container">
-    <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">What shoppers say</h2></div>
-    <div class="t-grid" zyloReveal="stagger" [revealStep]="110">
+<section class="jiara-section testimonials">
+  <div class="jiara-container">
+    <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">What shoppers say</h2></div>
+    <div class="t-grid" jiaraReveal="stagger" [revealStep]="110">
       @for (t of testimonials; track t.name) {
         <figure class="t-card">
           <div class="t-stars">

@@ -19,7 +19,7 @@ export class LoginGateService {
       return true;
     }
     const ref = this.dialog.open(LoginDialogComponent, {
-      panelClass: ['zylo-dialog', 'zylo-dialog--sm'],
+      panelClass: ['jiara-dialog', 'jiara-dialog--sm'],
       autoFocus: false,
     });
     const result = await firstValueFrom(ref.afterClosed() ?? of(false));

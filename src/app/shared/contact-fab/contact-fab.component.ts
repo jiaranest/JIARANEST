@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, HostListener, signal } from '@angul
  * The icon toggles between "chat" and "close (✕)". Fully self-contained.
  */
 @Component({
-  selector: 'zylo-contact-fab',
+  selector: 'jiara-contact-fab',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './contact-fab.component.html',

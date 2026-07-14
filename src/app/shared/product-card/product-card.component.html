@@ -8,11 +8,11 @@
 
     <div class="badges">
       @if (discount() > 0) {
-        <span class="zylo-badge zylo-badge--deal">{{ discount() }}% OFF</span>
+        <span class="jiara-badge jiara-badge--deal">{{ discount() }}% OFF</span>
       }
       @for (b of product().badges; track b) {
         @if (b !== 'deal') {
-          <span class="zylo-badge zylo-badge--{{ b }}">{{ b }}</span>
+          <span class="jiara-badge jiara-badge--{{ b }}">{{ b }}</span>
         }
       }
     </div>
@@ -38,15 +38,15 @@
 
   <div class="body">
     <a class="brand" [routerLink]="['/product', product().slug]">{{ product().brand }}</a>
-    <a class="name zylo-clamp-2" [routerLink]="['/product', product().slug]">{{ product().name }}</a>
+    <a class="name jiara-clamp-2" [routerLink]="['/product', product().slug]">{{ product().name }}</a>
 
-    <zylo-star-rating [value]="product().rating" [count]="product().ratingCount" />
+    <jiara-star-rating [value]="product().rating" [count]="product().ratingCount" />
 
     <div class="price">
-      <span class="zylo-price">{{ inr(product().price) }}</span>
+      <span class="jiara-price">{{ inr(product().price) }}</span>
       @if (discount() > 0) {
-        <span class="zylo-mrp">{{ inr(product().mrp) }}</span>
-        <span class="zylo-off">{{ discount() }}% off</span>
+        <span class="jiara-mrp">{{ inr(product().mrp) }}</span>
+        <span class="jiara-off">{{ discount() }}% off</span>
       }
     </div>
 
@@ -55,7 +55,7 @@
     }
 
     <div class="actions">
-      <zylo-quantity-selector
+      <jiara-quantity-selector
         size="sm"
         [value]="qty()"
         [max]="product().inStock ? product().stockCount : 1"

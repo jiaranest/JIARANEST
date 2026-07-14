@@ -7,9 +7,9 @@
 
 // ---- Announcement strip ----
 // Kept to a single line at a fixed height so it never wraps and inflates the
-// header (which would break the --zylo-header-h sticky offsets on mobile).
+// header (which would break the --jiara-header-h sticky offsets on mobile).
 .promo-strip {
-  background: var(--zylo-brand-dark);
+  background: var(--jiara-brand-dark);
   color: #e7efe9;
   text-align: center;
   font-size: 11.5px;
@@ -30,7 +30,7 @@
 .hdr {
   background: rgba(251, 249, 244, 0.92);
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--zylo-line);
+  border-bottom: 1px solid var(--jiara-line);
   // Honey hairline accent under the header.
   box-shadow: 0 1px 0 0 rgba(217, 154, 52, 0.35);
 }
@@ -57,7 +57,7 @@
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
   padding-inline: 10px;
 }
 // Middle "ARA" in warm honey with an animated GLITTER shine — a bright light
@@ -68,7 +68,7 @@
   // Preserve the wordmark's letter rhythm around the clipped-text span so the
   // adjacent "Ji" / "nest" letters never collide with the gold "ara".
   // margin-inline: 0.02em 0.14em;
-  color: var(--zylo-accent); // solid-honey fallback
+  color: var(--jiara-accent); // solid-honey fallback
   // Gold base + a bright highlight band; the band is swept by animating
   // background-position (the gradient is wider than the text, hence 220% size).
   background-image: linear-gradient(
@@ -106,7 +106,7 @@
 .brand-orn {
   display: inline-block;
   margin-left: 0.12em;
-  color: var(--zylo-accent);
+  color: var(--jiara-accent);
   font-size: 0.42em;
   vertical-align: 0.55em; // lift toward the top like a superscript accent
 }
@@ -119,7 +119,7 @@
   font-size: 10px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 
 
@@ -141,7 +141,7 @@
   font-weight: 600;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--zylo-ink);
+  color: var(--jiara-ink);
   cursor: pointer;
   padding: 6px 0;
   position: relative;
@@ -155,30 +155,50 @@
   bottom: 0;
   height: 1.5px;
   width: 0;
-  background: var(--zylo-accent);
-  transition: width 0.25s var(--zylo-ease);
+  background: var(--jiara-accent);
+  transition: width 0.25s var(--jiara-ease);
 }
 .nav-item:hover > a::after,
 .nav-link:hover::after {
   width: 100%;
 }
 .sale {
-  color: var(--zylo-accent-dark);
+  color: var(--jiara-accent-dark);
 }
 
 // ---- Mega dropdown ----
+// The dropdown sits flush to the trigger (top:100%) with the visual gap created
+// by an INNER padding-top rather than a physical `top` offset — so there's no
+// dead zone between trigger and menu for the cursor to cross (which was closing
+// it early). A transparent ::before bridges any sub-pixel gap for safety.
 .mega {
   position: absolute;
-  top: calc(100% + 10px);
+  top: 100%;
   left: 0;
   min-width: 210px;
-  background: var(--zylo-surface);
-  border: 1px solid var(--zylo-line);
-  border-top: 2px solid var(--zylo-accent);
-  border-radius: 0 0 var(--zylo-radius) var(--zylo-radius);
-  box-shadow: var(--zylo-shadow-2);
-  padding: 10px;
+  padding-top: 10px; // visual spacing, still inside the hoverable area
   display: none;
+  flex-direction: column;
+  gap: 2px;
+}
+// Transparent bridge covering the trigger↔menu seam.
+.mega::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 0;
+  right: 0;
+  height: 12px;
+}
+// The actual visible panel is an inner wrapper so padding-top stays transparent.
+.mega-inner {
+  background: var(--jiara-surface);
+  border: 1px solid var(--jiara-line);
+  border-top: 2px solid var(--jiara-accent);
+  border-radius: 0 0 var(--jiara-radius) var(--jiara-radius);
+  box-shadow: var(--jiara-shadow-2);
+  padding: 10px;
+  display: flex;
   flex-direction: column;
   gap: 2px;
 }
@@ -190,13 +210,13 @@
   font-weight: 500;
   letter-spacing: 0.02em;
   text-transform: none;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
   border-radius: 8px;
   transition: background 0.15s, color 0.15s;
 }
 .mega a:hover {
-  background: var(--zylo-brand-tint);
-  color: var(--zylo-brand);
+  background: var(--jiara-brand-tint);
+  color: var(--jiara-brand);
 }
 
 // ---- Icons ----
@@ -214,14 +234,14 @@
   place-items: center;
   border: 0;
   background: transparent;
-  color: var(--zylo-ink);
+  color: var(--jiara-ink);
   cursor: pointer;
   border-radius: 50%;
-  transition: background 0.15s var(--zylo-ease), color 0.15s;
+  transition: background 0.15s var(--jiara-ease), color 0.15s;
 }
 .icon-btn:hover {
-  background: var(--zylo-brand-tint);
-  color: var(--zylo-brand);
+  background: var(--jiara-brand-tint);
+  color: var(--jiara-brand);
 }
 .icon-btn .material-icons {
   font-size: 22px;
@@ -234,7 +254,7 @@
   height: 17px;
   padding: 0 4px;
   border-radius: 999px;
-  background: var(--zylo-accent);
+  background: var(--jiara-accent);
   color: #3a2e0a;
   font-size: 10px;
   font-weight: 800;
@@ -250,26 +270,26 @@
   z-index: 200;
   background: rgba(42, 36, 32, 0.35);
   backdrop-filter: blur(2px);
-  animation: ov-fade 0.2s var(--zylo-ease);
+  animation: ov-fade 0.2s var(--jiara-ease);
 }
 @keyframes ov-fade { from { opacity: 0; } to { opacity: 1; } }
 .search-panel {
-  background: var(--zylo-bg);
-  border-bottom: 2px solid var(--zylo-accent);
+  background: var(--jiara-bg);
+  border-bottom: 2px solid var(--jiara-accent);
   padding: 22px 0 26px;
-  box-shadow: var(--zylo-shadow-2);
-  animation: ov-drop 0.25s var(--zylo-ease);
+  box-shadow: var(--jiara-shadow-2);
+  animation: ov-drop 0.25s var(--jiara-ease);
 }
 @keyframes ov-drop { from { transform: translateY(-16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .search-row {
   display: flex;
   align-items: center;
   gap: 12px;
-  border-bottom: 1px solid var(--zylo-brand);
+  border-bottom: 1px solid var(--jiara-brand);
   padding-bottom: 10px;
 }
 .search-row > .material-icons {
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
   font-size: 26px;
 }
 .search-row input {
@@ -279,10 +299,10 @@
   outline: none;
   font-family: Georgia, serif;
   font-size: 24px;
-  color: var(--zylo-ink);
+  color: var(--jiara-ink);
 }
 .search-row input::placeholder {
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 
 .suggest {
@@ -300,12 +320,12 @@
   border-radius: 10px;
   cursor: pointer;
 }
-.suggest li:hover { background: var(--zylo-brand-tint); }
+.suggest li:hover { background: var(--jiara-brand-tint); }
 .suggest img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; }
 .s-body { flex: 1; display: flex; flex-direction: column; }
 .s-name { font-size: 14px; font-weight: 600; }
-.s-brand { font-size: 12px; color: var(--zylo-ink-3); }
-.s-price { font-weight: 700; color: var(--zylo-accent-dark); }
+.s-brand { font-size: 12px; color: var(--jiara-ink-3); }
+.s-price { font-weight: 700; color: var(--jiara-accent-dark); }
 
 .search-hint {
   margin-top: 18px;
@@ -317,19 +337,19 @@
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 .sh-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .sh-chips a {
   padding: 7px 14px;
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
   border-radius: 999px;
   font-size: 13px;
   font-weight: 500;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
   transition: border-color 0.15s, color 0.15s;
 }
-.sh-chips a:hover { border-color: var(--zylo-accent); color: var(--zylo-brand); }
+.sh-chips a:hover { border-color: var(--jiara-accent); color: var(--jiara-brand); }
 
 // ---- Mobile drawer ----
 .drawer-scrim {
@@ -337,7 +357,7 @@
   inset: 0;
   z-index: 190;
   background: rgba(42, 36, 32, 0.4);
-  animation: ov-fade 0.2s var(--zylo-ease);
+  animation: ov-fade 0.2s var(--jiara-ease);
 }
 .drawer {
   position: fixed;
@@ -350,10 +370,10 @@
   height: 100dvh;
   width: min(86vw, 340px);
   z-index: 200;
-  background: var(--zylo-bg);
-  border-right: 2px solid var(--zylo-accent);
+  background: var(--jiara-bg);
+  border-right: 2px solid var(--jiara-accent);
   transform: translateX(-100%);
-  transition: transform 0.28s var(--zylo-ease);
+  transition: transform 0.28s var(--jiara-ease);
   // The drawer is a fixed, NON-scrolling shell; the nav inside scrolls.
   overflow: hidden;
   display: flex;
@@ -366,7 +386,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 18px 18px 14px;
-  border-bottom: 1px solid var(--zylo-line);
+  border-bottom: 1px solid var(--jiara-line);
 }
 .drawer-head .brand-name {
   font-size: 22px;
@@ -390,10 +410,10 @@
   padding: 12px 14px;
   font-size: 15px;
   font-weight: 600;
-  color: var(--zylo-ink);
+  color: var(--jiara-ink);
   border-radius: 8px;
 }
-.drawer-nav > a:hover { background: var(--zylo-brand-tint); }
+.drawer-nav > a:hover { background: var(--jiara-brand-tint); }
 .drawer-group {
   display: block;
   margin-top: 14px;
@@ -401,25 +421,25 @@
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--zylo-accent-dark);
+  color: var(--jiara-accent-dark);
   font-weight: 700;
 }
 .drawer-sub {
   display: block;
   padding: 9px 22px;
   font-size: 14px;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
   border-radius: 8px;
 }
-.drawer-sub:hover { background: var(--zylo-brand-tint); color: var(--zylo-brand); }
+.drawer-sub:hover { background: var(--jiara-brand-tint); color: var(--jiara-brand); }
 .drawer-sale {
   display: block;
   margin: 16px 14px 0;
   padding: 11px 14px;
   text-align: center;
-  background: var(--zylo-brand-grad);
+  background: var(--jiara-brand-grad);
   color: #fff;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
   font-weight: 700;
   letter-spacing: 0.04em;
 }

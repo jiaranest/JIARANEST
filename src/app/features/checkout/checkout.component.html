@@ -1,6 +1,6 @@
 @if (placed()) {
   <!-- Order confirmation -->
-  <div class="zylo-container confirm">
+  <div class="jiara-container confirm">
     <div class="confirm-card">
       <div class="tick"><span class="material-icons">check_circle</span></div>
       <h1>Order Confirmed!</h1>
@@ -32,13 +32,13 @@
     </div>
   </div>
 } @else if (cart.items().length === 0) {
-  <div class="zylo-container empty">
+  <div class="jiara-container empty">
     <span class="material-icons">shopping_cart</span>
     <h3>Your cart is empty</h3>
     <a routerLink="/" class="cta">Go Shopping</a>
   </div>
 } @else {
-  <div class="zylo-container checkout">
+  <div class="jiara-container checkout">
     <h1>Checkout</h1>
 
     <div class="steps">
@@ -172,7 +172,7 @@
               <div class="mini-item">
                 <img [src]="item.product.images[0].url" [alt]="item.product.name" />
                 <span class="q">{{ item.quantity }}</span>
-                <span class="mi-name zylo-clamp-1">{{ item.product.name }}</span>
+                <span class="mi-name jiara-clamp-1">{{ item.product.name }}</span>
                 <span class="mi-price">{{ inr(item.product.price * item.quantity) }}</span>
               </div>
             }

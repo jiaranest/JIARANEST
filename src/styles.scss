@@ -1,7 +1,7 @@
 // ============================================================================
 // Jiaranest storefront — global styles & premium theme
 // Angular Material 3 (M3) theming via mat.theme(), plus design tokens.
-// Note: the `zylo-` / `--zylo-` prefix is retained as an internal namespace.
+// Note: the `jiara-` / `--jiara-` prefix is retained as an internal namespace.
 // ============================================================================
 @use '@angular/material' as mat;
 
@@ -23,58 +23,58 @@ html {
   // ---- Brand design tokens (consumed by our own components) ----
   // Brand = muted moss green; accent = warm honey; backgrounds are honeyed
   // cream. Cozy, playful and warm — soft but with friendly amber warmth.
-  --zylo-brand: #6e7b4f; // muted moss (brand)
-  --zylo-brand-dark: #57623d; // deeper moss (hover)
-  --zylo-brand-tint: #eef0e3; // soft moss wash
-  --zylo-brand-grad: linear-gradient(125deg, #808e5c 0%, #6e7b4f 55%, #57623d 100%); // moss
-  --zylo-brand-grad-dark: linear-gradient(125deg, #57623d 0%, #434d30 100%);
-  --zylo-accent: #d99a34; // warm honey — prices/stars/deals/secondary
-  --zylo-accent-dark: #b57a1e; // deeper honey (hover)
-  --zylo-success: #5f7a3a; // moss-green (in stock / savings)
-  --zylo-danger: #c15b3c; // warm terracotta (errors / out of stock)
+  --jiara-brand: #6e7b4f; // muted moss (brand)
+  --jiara-brand-dark: #57623d; // deeper moss (hover)
+  --jiara-brand-tint: #eef0e3; // soft moss wash
+  --jiara-brand-grad: linear-gradient(125deg, #808e5c 0%, #6e7b4f 55%, #57623d 100%); // moss
+  --jiara-brand-grad-dark: linear-gradient(125deg, #57623d 0%, #434d30 100%);
+  --jiara-accent: #d99a34; // warm honey — prices/stars/deals/secondary
+  --jiara-accent-dark: #b57a1e; // deeper honey (hover)
+  --jiara-success: #5f7a3a; // moss-green (in stock / savings)
+  --jiara-danger: #c15b3c; // warm terracotta (errors / out of stock)
 
-  --zylo-ink: #3b3325; // warm cocoa
-  --zylo-ink-2: #6c6149;
-  --zylo-ink-3: #a1957c;
-  --zylo-line: #ece1cd; // honey-cream hairline
-  --zylo-surface: #fefbf4; // soft cream card surface (not stark white)
-  --zylo-bg: #fbf3e4; // warm honey-cream page background
+  --jiara-ink: #3b3325; // warm cocoa
+  --jiara-ink-2: #6c6149;
+  --jiara-ink-3: #a1957c;
+  --jiara-line: #ece1cd; // honey-cream hairline
+  --jiara-surface: #fefbf4; // soft cream card surface (not stark white)
+  --jiara-bg: #fbf3e4; // warm honey-cream page background
 
-  --zylo-radius-sm: 8px;
-  --zylo-radius: 12px;
-  --zylo-radius-lg: 20px;
+  --jiara-radius-sm: 8px;
+  --jiara-radius: 12px;
+  --jiara-radius-lg: 20px;
 
-  --zylo-shadow-1: 0 1px 3px rgba(59, 51, 37, 0.07), 0 1px 2px rgba(59, 51, 37, 0.04);
-  --zylo-shadow-2: 0 12px 34px rgba(87, 98, 61, 0.14);
+  --jiara-shadow-1: 0 1px 3px rgba(59, 51, 37, 0.07), 0 1px 2px rgba(59, 51, 37, 0.04);
+  --jiara-shadow-2: 0 12px 34px rgba(87, 98, 61, 0.14);
 
-  --zylo-max: 1280px;
-  --zylo-header-h: 112px; // announcement strip (~32) + header (~80)
+  --jiara-max: 1280px;
+  --jiara-header-h: 112px; // announcement strip (~32) + header (~80)
 
-  --zylo-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --jiara-ease: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // On phones/tablets the header row is shorter (min-height 64) + slimmer strip,
 // so keep the sticky-offset token in sync to avoid gaps/overlaps.
 @media (max-width: 900px) {
-  html { --zylo-header-h: 92px; }
+  html { --jiara-header-h: 92px; }
 }
 @media (max-width: 560px) {
-  html { --zylo-header-h: 88px; }
+  html { --jiara-header-h: 88px; }
 }
 
 // Scale the content width up on large monitors, 4K, and TVs so the layout
 // fills the screen instead of sitting in a narrow column with dead margins.
 @media (min-width: 1536px) {
-  html { --zylo-max: 1440px; }
+  html { --jiara-max: 1440px; }
 }
 @media (min-width: 1920px) {
-  html { --zylo-max: 1760px; font-size: 15px; }
+  html { --jiara-max: 1760px; font-size: 15px; }
 }
 @media (min-width: 2560px) {
-  html { --zylo-max: 2200px; font-size: 17px; }
+  html { --jiara-max: 2200px; font-size: 17px; }
 }
 @media (min-width: 3200px) {
-  html { --zylo-max: 2800px; font-size: 20px; }
+  html { --jiara-max: 2800px; font-size: 20px; }
 }
 
 * {
@@ -85,7 +85,7 @@ body {
   margin: 0;
   min-height: 100%;
   background-color: #ffffff;
-  color: var(--zylo-ink);
+  color: var(--jiara-ink);
   font-family: 'Inter', Roboto, 'Helvetica Neue', system-ui, -apple-system, sans-serif;
   font-size: 14px;
   line-height: 1.5;
@@ -117,9 +117,9 @@ a,
 }
 
 // ---- Layout helpers ----
-.zylo-container {
+.jiara-container {
   width: 100%;
-  max-width: var(--zylo-max);
+  max-width: var(--jiara-max);
   margin-inline: auto;
   padding-inline: 16px;
 
@@ -128,7 +128,7 @@ a,
   }
 }
 
-.zylo-section {
+.jiara-section {
   padding-block: 32px;
 
   @media (min-width: 768px) {
@@ -136,7 +136,7 @@ a,
   }
 }
 
-.zylo-section-head {
+.jiara-section-head {
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -151,28 +151,28 @@ a,
   }
 
   a {
-    color: var(--zylo-brand);
+    color: var(--jiara-brand);
     font-weight: 600;
     white-space: nowrap;
   }
 }
 
 // ---- Utility ----
-.zylo-price {
-  color: var(--zylo-ink);
+.jiara-price {
+  color: var(--jiara-ink);
   font-weight: 700;
 }
-.zylo-mrp {
-  color: var(--zylo-ink-3);
+.jiara-mrp {
+  color: var(--jiara-ink-3);
   text-decoration: line-through;
   font-weight: 500;
 }
-.zylo-off {
-  color: var(--zylo-success);
+.jiara-off {
+  color: var(--jiara-success);
   font-weight: 700;
 }
 
-.zylo-badge {
+.jiara-badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -184,23 +184,23 @@ a,
   letter-spacing: 0.03em;
 }
 // Warm, cozy badge tones tuned to the honey & moss palette.
-.zylo-badge--new { background: #e8ecd9; color: #57623d; }
-.zylo-badge--deal { background: #f6e2d5; color: var(--zylo-danger); }
-.zylo-badge--bestseller { background: #f8eccf; color: var(--zylo-accent-dark); }
-.zylo-badge--trending { background: #e8ecd9; color: var(--zylo-brand-dark); }
+.jiara-badge--new { background: #e8ecd9; color: #57623d; }
+.jiara-badge--deal { background: #f6e2d5; color: var(--jiara-danger); }
+.jiara-badge--bestseller { background: #f8eccf; color: var(--jiara-accent-dark); }
+.jiara-badge--trending { background: #e8ecd9; color: var(--jiara-brand-dark); }
 
 // Truncate helpers
-.zylo-clamp-1,
-.zylo-clamp-2 {
+.jiara-clamp-1,
+.jiara-clamp-2 {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.zylo-clamp-1 { -webkit-line-clamp: 1; }
-.zylo-clamp-2 { -webkit-line-clamp: 2; }
+.jiara-clamp-1 { -webkit-line-clamp: 1; }
+.jiara-clamp-2 { -webkit-line-clamp: 2; }
 
 // ============================================================================
-// Scroll-reveal motion (driven by the zyloReveal directive)
+// Scroll-reveal motion (driven by the jiaraReveal directive)
 // Signature "settle onto the shelf": rise + un-blur + soft over-shoot scale.
 // ============================================================================
 .reveal {
@@ -210,9 +210,9 @@ a,
   filter: blur(6px);
   will-change: opacity, transform, filter;
   transition:
-    opacity 0.66s var(--zylo-ease) var(--reveal-delay),
+    opacity 0.66s var(--jiara-ease) var(--reveal-delay),
     transform 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay),
-    filter 0.66s var(--zylo-ease) var(--reveal-delay);
+    filter 0.66s var(--jiara-ease) var(--reveal-delay);
 }
 .reveal.is-in {
   opacity: 1;
@@ -241,9 +241,9 @@ a,
   transform: translate3d(0, 0, 0) scale(1);
   filter: blur(0);
   transition:
-    opacity 0.6s var(--zylo-ease),
+    opacity 0.6s var(--jiara-ease),
     transform 0.66s cubic-bezier(0.22, 1, 0.36, 1),
-    filter 0.6s var(--zylo-ease);
+    filter 0.6s var(--jiara-ease);
   transition-delay: calc(var(--reveal-i) * var(--reveal-step));
 }
 
@@ -258,7 +258,7 @@ a,
   bottom: -8px;
   height: 2px;
   width: 0;
-  background: linear-gradient(90deg, var(--zylo-accent), transparent);
+  background: linear-gradient(90deg, var(--jiara-accent), transparent);
   transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
 }
 .reveal-underline.is-in::after {
@@ -268,7 +268,7 @@ a,
 // Grid cell entry — used by product grids (listing, wishlist). Because @for
 // remounts cells on data change, this CSS animation replays automatically,
 // so it stays correct through filter/sort/remove without any observer.
-@keyframes zylo-cell-in {
+@keyframes jiara-cell-in {
   from {
     opacity: 0;
     transform: translate3d(0, 26px, 0) scale(0.96);
@@ -282,7 +282,7 @@ a,
 }
 .grid-cell {
   --card-i: 0;
-  animation: zylo-cell-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: jiara-cell-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: calc(var(--card-i) * 55ms);
 }
 
@@ -304,15 +304,15 @@ a,
 }
 
 // Skeleton shimmer for loading states
-@keyframes zylo-shimmer {
+@keyframes jiara-shimmer {
   0% { background-position: -400px 0; }
   100% { background-position: 400px 0; }
 }
-.zylo-skeleton {
+.jiara-skeleton {
   background: #eceef1;
   background-image: linear-gradient(90deg, #eceef1 0px, #f6f7f8 200px, #eceef1 400px);
   background-size: 800px 100%;
-  animation: zylo-shimmer 1.4s infinite linear;
+  animation: jiara-shimmer 1.4s infinite linear;
   border-radius: 8px;
 }
 
@@ -320,26 +320,26 @@ a,
 .mat-mdc-raised-button,
 .mat-mdc-outlined-button,
 .mat-mdc-unelevated-button {
-  border-radius: var(--zylo-radius-sm) !important;
+  border-radius: var(--jiara-radius-sm) !important;
 }
 
 // Our dialogs render their own chrome — strip Material's default padding.
 // The panel itself owns the width so the inner content fills it exactly and
 // never overflows past the surface (which would clip via overflow:hidden).
-.zylo-dialog {
+.jiara-dialog {
   width: min(94vw, 820px);
   max-width: 94vw !important;
 }
-.zylo-dialog .mat-mdc-dialog-surface {
-  border-radius: var(--zylo-radius-lg) !important;
+.jiara-dialog .mat-mdc-dialog-surface {
+  border-radius: var(--jiara-radius-lg) !important;
   overflow: hidden;
   padding: 0;
 }
-.zylo-dialog .mat-mdc-dialog-container {
+.jiara-dialog .mat-mdc-dialog-container {
   --mat-dialog-container-max-width: 94vw;
 }
 // The login dialog is narrow — let it size to its own content instead.
-.zylo-dialog.zylo-dialog--sm {
+.jiara-dialog.jiara-dialog--sm {
   width: auto;
 }
 

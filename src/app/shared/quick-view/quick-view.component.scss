@@ -19,7 +19,7 @@
   display: grid;
   place-items: center;
   cursor: pointer;
-  box-shadow: var(--zylo-shadow-1);
+  box-shadow: var(--jiara-shadow-1);
 }
 
 .gallery {
@@ -34,7 +34,7 @@
   width: 100%;
   aspect-ratio: 1;
   object-fit: cover;
-  border-radius: var(--zylo-radius);
+  border-radius: var(--jiara-radius);
   background: #fff;
 }
 .thumbs {
@@ -52,7 +52,7 @@
   background: #fff;
 }
 .thumbs button.active {
-  border-color: var(--zylo-brand);
+  border-color: var(--jiara-brand);
 }
 .thumbs img {
   width: 100%;
@@ -74,7 +74,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 h2 {
   margin: 0;
@@ -87,11 +87,11 @@ h2 {
   align-items: baseline;
   gap: 10px;
 }
-.price .zylo-price {
+.price .jiara-price {
   font-size: 26px;
 }
 .desc {
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
   font-size: 13px;
   margin: 0;
 }
@@ -102,7 +102,7 @@ h2 {
   font-size: 13px;
 }
 .opt-label {
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
   font-weight: 600;
 }
 .chips {
@@ -111,7 +111,7 @@ h2 {
   flex-wrap: wrap;
 }
 .chip {
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
   border-radius: 999px;
   padding: 3px 10px;
   font-size: 12px;
@@ -121,7 +121,7 @@ h2 {
   display: flex;
   align-items: center;
   gap: 5px;
-  color: var(--zylo-success);
+  color: var(--jiara-success);
   font-weight: 600;
   font-size: 13px;
 }
@@ -129,7 +129,7 @@ h2 {
   font-size: 18px;
 }
 .stock.out {
-  color: var(--zylo-danger);
+  color: var(--jiara-danger);
 }
 
 .buy-row {
@@ -140,8 +140,8 @@ h2 {
 .add {
   flex: 1;
   border: 0;
-  border-radius: var(--zylo-radius-sm);
-  background: var(--zylo-brand-grad);
+  border-radius: var(--jiara-radius-sm);
+  background: var(--jiara-brand-grad);
   color: #fff;
   font-weight: 700;
   height: 44px;
@@ -150,17 +150,17 @@ h2 {
   justify-content: center;
   gap: 8px;
   cursor: pointer;
-  transition: filter 0.15s var(--zylo-ease);
+  transition: filter 0.15s var(--jiara-ease);
 }
 .add:hover:not(:disabled) {
   filter: brightness(0.94);
 }
 .buy {
   flex: 1;
-  border: 1px solid var(--zylo-accent);
-  border-radius: var(--zylo-radius-sm);
+  border: 1px solid var(--jiara-accent);
+  border-radius: var(--jiara-radius-sm);
   background: #fff7ed;
-  color: var(--zylo-accent-dark);
+  color: var(--jiara-accent-dark);
   font-weight: 700;
   height: 44px;
   cursor: pointer;
@@ -175,18 +175,18 @@ h2 {
 }
 .wish {
   width: 44px;
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius-sm);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius-sm);
   background: #fff;
   cursor: pointer;
   display: grid;
   place-items: center;
 }
 .wish.active .material-icons {
-  color: var(--zylo-danger);
+  color: var(--jiara-danger);
 }
 .full {
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
   font-weight: 600;
   font-size: 13px;
   margin-top: 4px;

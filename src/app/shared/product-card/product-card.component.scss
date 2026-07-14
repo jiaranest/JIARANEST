@@ -7,18 +7,18 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--zylo-surface);
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius);
+  background: var(--jiara-surface);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius);
   overflow: hidden;
-  transition: box-shadow 0.2s var(--zylo-ease), transform 0.2s var(--zylo-ease), border-color 0.2s;
+  transition: box-shadow 0.2s var(--jiara-ease), transform 0.2s var(--jiara-ease), border-color 0.2s;
 }
 // Hover lift only on pointer devices. On touch, dragging a finger across the
 // rail would otherwise fire :hover on each card → transform/shadow repaints
 // mid-scroll → the stiff/janky scrolling. Guarding it keeps the swipe smooth.
 @media (hover: hover) {
   .card:hover {
-    box-shadow: var(--zylo-shadow-2);
+    box-shadow: var(--jiara-shadow-2);
     transform: translateY(-3px);
     border-color: transparent;
   }
@@ -40,7 +40,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s var(--zylo-ease);
+  transition: transform 0.4s var(--jiara-ease);
   // Prevent the browser "grabbing"/dragging the image so a swipe scrolls the
   // rail; the tap still reaches the link.
   -webkit-user-drag: none;
@@ -76,8 +76,8 @@
   display: grid;
   place-items: center;
   cursor: pointer;
-  box-shadow: var(--zylo-shadow-1);
-  transition: transform 0.15s var(--zylo-ease);
+  box-shadow: var(--jiara-shadow-1);
+  transition: transform 0.15s var(--jiara-ease);
   -webkit-tap-highlight-color: transparent;
 }
 .wish:active {
@@ -90,10 +90,10 @@
 }
 .wish .material-icons {
   font-size: 19px;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
 }
 .wish.active .material-icons {
-  color: var(--zylo-danger);
+  color: var(--jiara-danger);
 }
 
 .quick {
@@ -103,7 +103,7 @@
   bottom: 8px;
   z-index: 2; // above the media link
   border: 0;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
   background: rgba(28, 24, 18, 0.9);
   color: #fff;
   padding: 10px;
@@ -115,7 +115,7 @@
   gap: 6px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: opacity 0.2s var(--zylo-ease), transform 0.2s var(--zylo-ease);
+  transition: opacity 0.2s var(--jiara-ease), transform 0.2s var(--jiara-ease);
 }
 .quick .material-icons {
   font-size: 17px;
@@ -142,7 +142,7 @@
   display: grid;
   place-items: center;
   background: rgba(255, 255, 255, 0.6);
-  color: var(--zylo-danger);
+  color: var(--jiara-danger);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -160,17 +160,17 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 .name {
   font-size: 14px;
   font-weight: 600;
-  color: var(--zylo-ink);
+  color: var(--jiara-ink);
   min-height: 2.6em;
   line-height: 1.3;
 }
 .name:hover {
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
 }
 
 .price {
@@ -180,20 +180,20 @@
   flex-wrap: wrap;
   margin-top: 2px;
 }
-.price .zylo-price {
+.price .jiara-price {
   font-size: 17px;
 }
-.price .zylo-mrp {
+.price .jiara-mrp {
   font-size: 13px;
 }
-.price .zylo-off {
+.price .jiara-off {
   font-size: 12px;
 }
 
 .low {
   font-size: 12px;
   font-weight: 600;
-  color: var(--zylo-danger);
+  color: var(--jiara-danger);
 }
 
 .actions {
@@ -207,8 +207,8 @@
   flex: 1;
   height: 36px;
   border: 0;
-  border-radius: var(--zylo-radius-sm);
-  background: var(--zylo-brand-grad);
+  border-radius: var(--jiara-radius-sm);
+  background: var(--jiara-brand-grad);
   color: #fff;
   font-weight: 700;
   font-size: 13px;
@@ -217,7 +217,7 @@
   justify-content: center;
   gap: 6px;
   cursor: pointer;
-  transition: filter 0.15s var(--zylo-ease);
+  transition: filter 0.15s var(--jiara-ease);
 }
 .add .material-icons {
   font-size: 17px;
@@ -233,14 +233,14 @@
 
 .buy {
   height: 38px;
-  border: 1px solid var(--zylo-accent);
-  border-radius: var(--zylo-radius-sm);
+  border: 1px solid var(--jiara-accent);
+  border-radius: var(--jiara-radius-sm);
   background: #fff7ed;
-  color: var(--zylo-accent-dark);
+  color: var(--jiara-accent-dark);
   font-weight: 700;
   font-size: 13px;
   cursor: pointer;
-  transition: background 0.15s var(--zylo-ease);
+  transition: background 0.15s var(--jiara-ease);
 }
 .buy:hover:not(:disabled) {
   background: #ffedd5;

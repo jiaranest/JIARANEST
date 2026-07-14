@@ -14,16 +14,16 @@
 .steps span {
   font-size: 13px;
   font-weight: 700;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
   padding: 6px 14px;
   border-radius: 999px;
   background: #fff;
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
 }
 .steps span.on {
   color: #fff;
-  background: var(--zylo-brand);
-  border-color: var(--zylo-brand);
+  background: var(--jiara-brand);
+  border-color: var(--jiara-brand);
 }
 
 .checkout-layout {
@@ -34,8 +34,8 @@
 }
 .panel {
   background: #fff;
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius);
   padding: 20px;
   margin-bottom: 20px;
 }
@@ -48,10 +48,10 @@
 .errs {
   background: #fef2f2;
   border: 1px solid #fecaca;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
   padding: 10px 14px 10px 28px;
   margin: 0 0 16px;
-  color: var(--zylo-danger);
+  color: var(--jiara-danger);
   font-size: 13px;
 }
 
@@ -67,7 +67,7 @@
   gap: 6px;
   font-size: 13px;
   font-weight: 600;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
 }
 .form-grid .full,
 .pay-fields .full {
@@ -76,18 +76,18 @@
 .form-grid input,
 .pay-fields input,
 .pay-fields select {
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius-sm);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius-sm);
   padding: 11px 12px;
   font-size: 14px;
   outline: none;
   font-weight: 500;
-  color: var(--zylo-ink);
+  color: var(--jiara-ink);
 }
 .form-grid input:focus,
 .pay-fields input:focus,
 .pay-fields select:focus {
-  border-color: var(--zylo-brand);
+  border-color: var(--jiara-brand);
 }
 .check {
   display: flex;
@@ -99,29 +99,29 @@
   cursor: pointer;
 }
 .check input {
-  accent-color: var(--zylo-brand);
+  accent-color: var(--jiara-brand);
 }
 
 .radio-card {
   display: flex;
   align-items: center;
   gap: 12px;
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius-sm);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius-sm);
   padding: 14px;
   margin-bottom: 10px;
   cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
 }
 .radio-card.on {
-  border-color: var(--zylo-brand);
-  background: var(--zylo-brand-tint);
+  border-color: var(--jiara-brand);
+  background: var(--jiara-brand-tint);
 }
 .radio-card input {
-  accent-color: var(--zylo-brand);
+  accent-color: var(--jiara-brand);
 }
 .radio-card .material-icons {
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
 }
 .radio-card div {
   display: flex;
@@ -132,7 +132,7 @@
 }
 .radio-card span:not(.material-icons) {
   font-size: 12px;
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
 }
 
 .pay-methods {
@@ -146,24 +146,24 @@
 }
 .cod-note {
   font-size: 13px;
-  color: var(--zylo-ink-2);
-  background: var(--zylo-bg);
+  color: var(--jiara-ink-2);
+  background: var(--jiara-bg);
   padding: 12px;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
 }
 
 .next {
   width: 100%;
   margin-top: 18px;
   border: 0;
-  background: var(--zylo-brand-grad);
+  background: var(--jiara-brand-grad);
   color: #fff;
   height: 50px;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
-  transition: filter 0.15s var(--zylo-ease);
+  transition: filter 0.15s var(--jiara-ease);
 }
 .next:hover {
   filter: brightness(0.94);
@@ -179,11 +179,11 @@
   flex: 1;
 }
 .back {
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
   background: #fff;
   height: 50px;
   padding: 0 20px;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
   font-weight: 700;
   cursor: pointer;
 }
@@ -194,7 +194,7 @@
   justify-content: center;
   margin: 14px 0 0;
   font-size: 12px;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 .secure .material-icons {
   font-size: 15px;
@@ -225,13 +225,13 @@
   height: 44px;
   border-radius: 6px;
   object-fit: cover;
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
 }
 .mini-item .q {
   position: absolute;
   top: -6px;
   left: 32px;
-  background: var(--zylo-ink);
+  background: var(--jiara-ink);
   color: #fff;
   border-radius: 999px;
   min-width: 18px;
@@ -252,7 +252,7 @@
 
 .totals {
   margin: 0;
-  border-top: 1px solid var(--zylo-line);
+  border-top: 1px solid var(--jiara-line);
   padding-top: 12px;
 }
 .totals > div {
@@ -269,10 +269,10 @@
   font-weight: 600;
 }
 .totals .disc dd {
-  color: var(--zylo-success);
+  color: var(--jiara-success);
 }
 .totals .grand {
-  border-top: 1px solid var(--zylo-line);
+  border-top: 1px solid var(--jiara-line);
   margin-top: 6px;
   padding-top: 10px;
   font-size: 18px;
@@ -290,8 +290,8 @@
 }
 .confirm-card {
   background: #fff;
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius-lg);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius-lg);
   padding: 40px;
   max-width: 620px;
   width: 100%;
@@ -299,7 +299,7 @@
 }
 .tick .material-icons {
   font-size: 72px;
-  color: var(--zylo-success);
+  color: var(--jiara-success);
 }
 .confirm-card h1 {
   font-size: 28px;
@@ -307,15 +307,15 @@
   margin: 8px 0 6px;
 }
 .confirm-card .sub {
-  color: var(--zylo-ink-2);
+  color: var(--jiara-ink-2);
   margin: 0 0 24px;
 }
 .order-meta {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
-  background: var(--zylo-bg);
-  border-radius: var(--zylo-radius);
+  background: var(--jiara-bg);
+  border-radius: var(--jiara-radius);
   padding: 18px;
   margin-bottom: 28px;
 }
@@ -326,7 +326,7 @@
 }
 .order-meta span {
   font-size: 12px;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 .order-meta strong {
   font-size: 15px;
@@ -355,14 +355,14 @@
   left: 5%;
   right: 5%;
   height: 2px;
-  background: var(--zylo-line);
+  background: var(--jiara-line);
 }
 .timeline li {
   position: relative;
   flex: 1;
   text-align: center;
   font-size: 11px;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
   z-index: 1;
 }
 .timeline .dot {
@@ -371,16 +371,16 @@
   height: 16px;
   border-radius: 50%;
   background: #fff;
-  border: 2px solid var(--zylo-line);
+  border: 2px solid var(--jiara-line);
   margin: 0 auto 6px;
 }
 .timeline li.done {
-  color: var(--zylo-success);
+  color: var(--jiara-success);
   font-weight: 700;
 }
 .timeline li.done .dot {
-  background: var(--zylo-success);
-  border-color: var(--zylo-success);
+  background: var(--jiara-success);
+  border-color: var(--jiara-success);
 }
 
 .confirm-actions {
@@ -393,23 +393,23 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
   padding: 12px 18px;
   font-weight: 700;
   cursor: pointer;
   font-size: 14px;
 }
 .confirm-actions .ghost {
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
   background: #fff;
-  color: var(--zylo-ink);
+  color: var(--jiara-ink);
 }
 .confirm-actions .ghost .material-icons {
   font-size: 18px;
 }
 .confirm-actions .primary {
   border: 0;
-  background: var(--zylo-brand-grad);
+  background: var(--jiara-brand-grad);
   color: #fff;
 }
 
@@ -419,15 +419,15 @@
 }
 .empty .material-icons {
   font-size: 64px;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 .empty .cta {
   display: inline-block;
   margin-top: 12px;
-  background: var(--zylo-brand-grad);
+  background: var(--jiara-brand-grad);
   color: #fff;
   padding: 12px 24px;
-  border-radius: var(--zylo-radius-sm);
+  border-radius: var(--jiara-radius-sm);
   font-weight: 700;
 }
 

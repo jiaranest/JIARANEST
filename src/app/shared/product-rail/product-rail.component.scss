@@ -72,17 +72,17 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
   background: #fff;
-  box-shadow: var(--zylo-shadow-1);
+  box-shadow: var(--jiara-shadow-1);
   cursor: pointer;
   place-items: center;
 }
 .nav.prev { left: -12px; }
 .nav.next { right: -12px; }
 .nav:hover {
-  background: var(--zylo-brand-tint);
-  color: var(--zylo-brand);
+  background: var(--jiara-brand-tint);
+  color: var(--jiara-brand);
 }
 @media (hover: hover) and (min-width: 768px) and (max-width: 1099px) {
   .nav { display: grid; }

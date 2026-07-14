@@ -7,7 +7,7 @@ import { inr } from '../../core/util/format';
 import { StarRatingComponent } from '../../shared/star-rating/star-rating.component';
 
 @Component({
-  selector: 'zylo-wishlist',
+  selector: 'jiara-wishlist',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, StarRatingComponent],

@@ -3,7 +3,7 @@ import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../../core/state/auth.service';
 
 @Component({
-  selector: 'zylo-login-dialog',
+  selector: 'jiara-login-dialog',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatDialogModule],

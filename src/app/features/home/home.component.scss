@@ -2,7 +2,7 @@
 // a few cards) but redundant on ≥1100px where the rail becomes a full grid
 // showing everything — so hide them there.
 @media (min-width: 1100px) {
-  .zylo-section-head a {
+  .jiara-section-head a {
     display: none;
   }
 }
@@ -13,10 +13,10 @@
 }
 .carousel {
   position: relative;
-  border-radius: var(--zylo-radius-lg);
+  border-radius: var(--jiara-radius-lg);
   overflow: hidden;
   min-height: 340px;
-  box-shadow: var(--zylo-shadow-1);
+  box-shadow: var(--jiara-shadow-1);
 }
 @media (min-width: 1920px) {
   .carousel {
@@ -44,11 +44,12 @@
   padding: 40px 48px;
   opacity: 0;
   transform: scale(1.02);
-  transition: opacity 0.6s var(--zylo-ease), transform 0.6s var(--zylo-ease);
+  transition: opacity 0.6s var(--jiara-ease), transform 0.6s var(--jiara-ease);
   pointer-events: none;
 }
 .slide.active {
   position: relative;
+  z-index: 1; // below the carousel controls (arrows/dots at z-index 5)
   opacity: 1;
   transform: scale(1);
   pointer-events: auto;
@@ -86,11 +87,11 @@
   align-items: center;
   gap: 8px;
   background: #fff;
-  color: var(--zylo-ink);
+  color: var(--jiara-ink);
   padding: 12px 22px;
   border-radius: 999px;
   font-weight: 700;
-  transition: transform 0.15s var(--zylo-ease);
+  transition: transform 0.15s var(--jiara-ease);
 }
 .hero-cta:hover {
   transform: translateX(3px);
@@ -100,10 +101,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  // Decorative image only — never capture clicks meant for the carousel arrows
+  // that sit in the same bottom-right area.
+  pointer-events: none;
 }
 .slide-art img {
   max-height: 280px;
-  border-radius: var(--zylo-radius);
+  border-radius: var(--jiara-radius);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   transform: rotate(-2deg);
 }
@@ -119,7 +123,8 @@
   cursor: pointer;
   display: grid;
   place-items: center;
-  z-index: 4;
+  z-index: 10; // above the active slide's transform stacking context
+  pointer-events: auto;
   transition: background 0.15s, transform 0.15s;
 }
 .c-nav.prev { right: 66px; }
@@ -163,12 +168,12 @@
   align-items: center;
   gap: 12px;
   background: #fff;
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius);
   padding: 16px;
 }
 .trust-item .material-icons {
-  color: var(--zylo-brand);
+  color: var(--jiara-brand);
   font-size: 28px;
 }
 .trust-item strong {
@@ -177,7 +182,7 @@
 }
 .trust-item span {
   font-size: 12px;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 
 // ---- Category grid ----
@@ -206,13 +211,13 @@
 .cat-img {
   width: 100%;
   aspect-ratio: 1;
-  border-radius: var(--zylo-radius);
+  border-radius: var(--jiara-radius);
   overflow: hidden;
-  border: 1px solid var(--zylo-line);
+  border: 1px solid var(--jiara-line);
   transition: box-shadow 0.2s, transform 0.2s;
 }
 .cat:hover .cat-img {
-  box-shadow: var(--zylo-shadow-2);
+  box-shadow: var(--jiara-shadow-2);
   transform: translateY(-3px);
 }
 .cat-img img {
@@ -226,7 +231,7 @@
 }
 .cat-count {
   font-size: 11px;
-  color: var(--zylo-ink-3);
+  color: var(--jiara-ink-3);
 }
 
 // ---- Shop by age ----
@@ -243,14 +248,14 @@
   gap: 10px;
   min-height: 110px;
   padding: 20px;
-  border-radius: var(--zylo-radius);
+  border-radius: var(--jiara-radius);
   color: #fff;
   font-weight: 700;
-  transition: transform 0.2s var(--zylo-ease), box-shadow 0.2s;
+  transition: transform 0.2s var(--jiara-ease), box-shadow 0.2s;
 }
 .age:hover {
   transform: translateY(-3px);
-  box-shadow: var(--zylo-shadow-2);
+  box-shadow: var(--jiara-shadow-2);
 }
 // Cohesive moss → honey progression across the four age tiles.
 .age:nth-child(1) { background: linear-gradient(135deg, #808e5c, #6e7b4f); }
@@ -276,7 +281,7 @@
   gap: 20px;
 }
 .promo {
-  border-radius: var(--zylo-radius-lg);
+  border-radius: var(--jiara-radius-lg);
   padding: 36px;
   min-height: 180px;
   display: flex;
@@ -284,7 +289,7 @@
   color: #fff;
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s var(--zylo-ease);
+  transition: transform 0.2s var(--jiara-ease);
 }
 .promo:hover {
   transform: translateY(-3px);
@@ -315,7 +320,7 @@
 // ---- Testimonials ----
 .testimonials {
   background: #fff;
-  border-block: 1px solid var(--zylo-line);
+  border-block: 1px solid var(--jiara-line);
 }
 .t-grid {
   display: grid;
@@ -324,23 +329,23 @@
 }
 .t-card {
   margin: 0;
-  border: 1px solid var(--zylo-line);
-  border-radius: var(--zylo-radius);
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius);
   padding: 22px;
-  background: var(--zylo-bg);
+  background: var(--jiara-bg);
 }
 .t-stars .material-icons {
   font-size: 18px;
   color: #d7dbe0;
 }
 .t-stars .material-icons.on {
-  color: var(--zylo-accent);
+  color: var(--jiara-accent);
 }
 .t-card blockquote {
   margin: 12px 0 16px;
   font-size: 14px;
   line-height: 1.6;
-  color: var(--zylo-ink);
+  color: var(--jiara-ink);
 }
 .t-card figcaption {
   display: flex;

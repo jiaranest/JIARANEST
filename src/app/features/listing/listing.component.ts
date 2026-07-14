@@ -21,7 +21,7 @@ const SORTS: { value: SortOption; label: string }[] = [
 ];
 
 @Component({
-  selector: 'zylo-listing',
+  selector: 'jiara-listing',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, ProductCardComponent, StarRatingComponent],
@@ -217,7 +217,7 @@ export class ListingComponent {
   openQuickView(product: Product): void {
     const ref = this.dialog.open(QuickViewComponent, {
       data: product,
-      panelClass: 'zylo-dialog',
+      panelClass: 'jiara-dialog',
       autoFocus: false,
     });
     ref.afterClosed().subscribe((r) => {

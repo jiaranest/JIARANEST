@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CatalogService } from '../../core/data/catalog.service';
@@ -18,7 +18,7 @@ interface Slide {
 }
 
 @Component({
-  selector: 'zylo-home',
+  selector: 'jiara-home',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, ProductRailComponent, RevealDirective],
@@ -67,6 +67,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     },
   ];
 
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly zone = inject(NgZone);
   readonly current = signal(0);
   private timer?: ReturnType<typeof setInterval>;
 
@@ -77,7 +79,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    this.timer = setInterval(() => this.next(), 5000);
+    // Run the autoplay timer outside Angular so it doesn't wake CD every 5s
+    // needlessly; the go() call marks the view for check itself.
+    this.zone.runOutsideAngular(() => {
+      this.timer = setInterval(() => this.zone.run(() => this.next()), 5000);
+    });
   }
 
   ngOnDestroy(): void {
@@ -86,6 +92,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   go(i: number): void {
     this.current.set((i + this.slides.length) % this.slides.length);
+    // Belt-and-suspenders for OnPush + zoneless: ensure the view repaints even
+    // if the change came from a source CD didn't automatically observe.
+    this.cdr.markForCheck();
   }
   next(): void {
     this.go(this.current() + 1);

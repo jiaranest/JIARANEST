@@ -5,7 +5,7 @@
 </div>
 
 <header class="hdr">
-  <div class="zylo-container hdr-inner">
+  <div class="jiara-container hdr-inner">
     <!-- Left cluster: menu (mobile) + primary categories (desktop) -->
     <nav class="nav nav-left">
       <button class="icon-btn menu-btn" type="button" aria-label="Menu" (click)="toggleMobileMenu()">
@@ -16,9 +16,11 @@
           <a [routerLink]="['/category', c.slug]" (click)="openMenu.set(null)">{{ c.name }}</a>
           @if (subCategories(c.id).length) {
             <div class="mega" [class.show]="openMenu() === c.id">
-              @for (sub of subCategories(c.id); track sub.id) {
-                <a [routerLink]="['/category', sub.slug]" (click)="openMenu.set(null)">{{ sub.name }}</a>
-              }
+              <div class="mega-inner">
+                @for (sub of subCategories(c.id); track sub.id) {
+                  <a [routerLink]="['/category', sub.slug]" (click)="openMenu.set(null)">{{ sub.name }}</a>
+                }
+              </div>
             </div>
           }
         </div>
@@ -36,9 +38,11 @@
       <div class="nav-item" (mouseenter)="openMenu.set('age')" (mouseleave)="openMenu.set(null)">
         <a class="age-trigger">Shop by Age</a>
         <div class="mega mega-right" [class.show]="openMenu() === 'age'">
-          @for (a of ageGroups; track a.id) {
-            <a routerLink="/search" [queryParams]="{ age: a.id }" (click)="openMenu.set(null)">{{ a.label }}</a>
-          }
+          <div class="mega-inner">
+            @for (a of ageGroups; track a.id) {
+              <a routerLink="/search" [queryParams]="{ age: a.id }" (click)="openMenu.set(null)">{{ a.label }}</a>
+            }
+          </div>
         </div>
       </div>
       <a class="nav-link sale" routerLink="/search" [queryParams]="{ discount: 30 }">Sale</a>
@@ -64,7 +68,7 @@
 @if (searchOpen()) {
   <div class="search-overlay" (click)="closeSearch()">
     <div class="search-panel" (click)="$event.stopPropagation()">
-      <div class="zylo-container">
+      <div class="jiara-container">
         <div class="search-row">
           <span class="material-icons">search</span>
           <input
@@ -87,7 +91,7 @@
               <li (click)="pickSuggestion(s.slug)">
                 <img [src]="s.images[0].url" [alt]="s.name" />
                 <div class="s-body">
-                  <span class="s-name zylo-clamp-1">{{ s.name }}</span>
+                  <span class="s-name jiara-clamp-1">{{ s.name }}</span>
                   <span class="s-brand">{{ s.brand }}</span>
                 </div>
                 <span class="s-price">{{ inr(s.price) }}</span>

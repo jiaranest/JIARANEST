@@ -265,18 +265,52 @@ export function avatar(name: string, index = 0): string {
   return uri;
 }
 
-/** Returns a `data:image/svg+xml` URI for the given illustration. */
+/**
+ * Returns a `data:image/svg+xml` URI for the given illustration, rendered with
+ * a soft "3D / clay" treatment applied globally so every art definition gains
+ * depth for free:
+ *   - a raised, gradient-shaded pedestal disc (light top-left → shaded bottom);
+ *   - a soft drop-shadow filter on the artwork so it lifts off the surface;
+ *   - a top glossy highlight overlay for a moulded, clay-like sheen.
+ */
 export function illus(kind: Illustration, index = 0): string {
   const key = `${kind}:${index}`;
   const hit = cache.get(key);
   if (hit) return hit;
 
   const bg = BG[index % BG.length];
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">`
-    + `<rect width="240" height="240" fill="${bg}"/>`
-    + `<circle cx="120" cy="120" r="96" fill="#ffffff" opacity="0.35"/>`
-    + (ART[kind] ?? '')
-    + `</svg>`;
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240">` +
+    `<defs>` +
+    // Soft drop shadow that makes the artwork float above the pedestal.
+    `<filter id="s3d" x="-30%" y="-30%" width="160%" height="160%">` +
+    `<feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#2a1e0e" flood-opacity="0.22"/>` +
+    `</filter>` +
+    // Pedestal volume: light at top-left, shaded at bottom-right.
+    `<radialGradient id="ped" cx="38%" cy="32%" r="75%">` +
+    `<stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>` +
+    `<stop offset="55%" stop-color="#ffffff" stop-opacity="0.35"/>` +
+    `<stop offset="100%" stop-color="#8a6d3b" stop-opacity="0.16"/>` +
+    `</radialGradient>` +
+    // Glossy top highlight for the clay sheen.
+    `<radialGradient id="gloss" cx="42%" cy="26%" r="45%">` +
+    `<stop offset="0%" stop-color="#ffffff" stop-opacity="0.6"/>` +
+    `<stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>` +
+    `</radialGradient>` +
+    `</defs>` +
+    // Background + contact shadow under the pedestal.
+    `<rect width="240" height="240" fill="${bg}"/>` +
+    `<ellipse cx="120" cy="196" rx="74" ry="16" fill="#2a1e0e" opacity="0.12"/>` +
+    // Raised, shaded pedestal disc.
+    `<circle cx="120" cy="118" r="98" fill="#ffffff" opacity="0.5"/>` +
+    `<circle cx="120" cy="118" r="98" fill="url(#ped)"/>` +
+    // Artwork lifted with a soft drop shadow.
+    `<g filter="url(#s3d)">` +
+    (ART[kind] ?? '') +
+    `</g>` +
+    // Clay-like top sheen over everything.
+    `<ellipse cx="102" cy="74" rx="70" ry="46" fill="url(#gloss)"/>` +
+    `</svg>`;
   const uri = 'data:image/svg+xml,' + encodeURIComponent(svg.replace(/\n\s*/g, ' ').trim());
   cache.set(key, uri);
   return uri;

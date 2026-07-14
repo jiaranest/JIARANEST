@@ -9,7 +9,7 @@ import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { QuantitySelectorComponent } from '../quantity-selector/quantity-selector.component';
 
 @Component({
-  selector: 'zylo-quick-view',
+  selector: 'jiara-quick-view',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [MatDialogModule, RouterLink, StarRatingComponent, QuantitySelectorComponent],

@@ -1,4 +1,4 @@
-<div class="zylo-container wishlist">
+<div class="jiara-container wishlist">
   <h1>Your Wishlist</h1>
 
   @if (wishlist.items().length === 0) {
@@ -20,12 +20,12 @@
           </a>
           <div class="body">
             <span class="brand">{{ p.brand }}</span>
-            <a class="name zylo-clamp-2" [routerLink]="['/product', p.slug]">{{ p.name }}</a>
-            <zylo-star-rating [value]="p.rating" [count]="p.ratingCount" />
+            <a class="name jiara-clamp-2" [routerLink]="['/product', p.slug]">{{ p.name }}</a>
+            <jiara-star-rating [value]="p.rating" [count]="p.ratingCount" />
             <div class="price">
-              <span class="zylo-price">{{ inr(p.price) }}</span>
+              <span class="jiara-price">{{ inr(p.price) }}</span>
               @if (discountPercent(p) > 0) {
-                <span class="zylo-mrp">{{ inr(p.mrp) }}</span>
+                <span class="jiara-mrp">{{ inr(p.mrp) }}</span>
               }
             </div>
             <button class="move" type="button" [disabled]="!p.inStock" (click)="moveToCart(p.id)">

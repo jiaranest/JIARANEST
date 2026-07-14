@@ -7,7 +7,7 @@ import { ProductCardComponent } from '../product-card/product-card.component';
 import { QuickViewComponent } from '../quick-view/quick-view.component';
 
 @Component({
-  selector: 'zylo-product-rail',
+  selector: 'jiara-product-rail',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ProductCardComponent],
@@ -19,7 +19,7 @@ import { QuickViewComponent } from '../quick-view/quick-view.component';
       <div class="rail" #rail>
         @for (p of products(); track p.id) {
           <div class="cell">
-            <zylo-product-card
+            <jiara-product-card
               [product]="p"
               (quickView)="openQuickView($event)"
               (buyNow)="onBuyNow($event)"
@@ -52,7 +52,7 @@ export class ProductRailComponent {
   openQuickView(product: Product): void {
     const ref = this.dialog.open(QuickViewComponent, {
       data: product,
-      panelClass: 'zylo-dialog',
+      panelClass: 'jiara-dialog',
       autoFocus: false,
     });
     ref.afterClosed().subscribe((r) => {

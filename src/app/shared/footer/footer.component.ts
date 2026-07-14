@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { APP_VERSION } from '../../core/version';
 
 @Component({
-  selector: 'zylo-footer',
+  selector: 'jiara-footer',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
