@@ -1,0 +1,145 @@
+<div class="zylo-container cart">
+  <h1>Your Cart</h1>
+
+  @if (cart.items().length === 0 && cart.saved().length === 0) {
+    <div class="empty">
+      <span class="material-icons">shopping_cart</span>
+      <h3>Your cart is empty</h3>
+      <p>Looks like you haven't added anything yet.</p>
+      <a routerLink="/" class="cta">Start Shopping</a>
+    </div>
+  } @else {
+    <div class="cart-layout">
+      <div class="items">
+        @if (cart.items().length > 0) {
+          <div class="panel">
+            <div class="panel-head">
+              <h2>{{ cart.count() }} item(s)</h2>
+              @if (savings() > 0) {
+                <span class="save-pill">You save {{ inr(savings()) }}</span>
+              }
+            </div>
+
+            @for (item of cart.items(); track item.product.id) {
+              <div class="item">
+                <a class="item-img" [routerLink]="['/product', item.product.slug]">
+                  <img [src]="item.product.images[0].url" [alt]="item.product.name" />
+                </a>
+                <div class="item-info">
+                  <a class="item-name" [routerLink]="['/product', item.product.slug]">
+                    {{ item.product.name }}
+                  </a>
+                  <span class="item-brand">{{ item.product.brand }}</span>
+                  @if (item.selectedOptions) {
+                    <span class="item-opts">
+                      @for (opt of item.selectedOptions | keyvalue; track opt.key) {
+                        {{ opt.key }}: {{ opt.value }}&nbsp;
+                      }
+                    </span>
+                  }
+                  <div class="item-price">
+                    <span class="zylo-price">{{ inr(item.product.price) }}</span>
+                    @if (discountPercent(item.product) > 0) {
+                      <span class="zylo-mrp">{{ inr(item.product.mrp) }}</span>
+                      <span class="zylo-off">{{ discountPercent(item.product) }}% off</span>
+                    }
+                  </div>
+                  <div class="item-actions">
+                    <zylo-quantity-selector
+                      size="sm"
+                      [value]="item.quantity"
+                      [max]="item.product.stockCount"
+                      (valueChange)="cart.setQuantity(item.product.id, $event)"
+                    />
+                    <button type="button" (click)="cart.saveForLater(item.product.id)">
+                      Save for later
+                    </button>
+                    <button type="button" class="rm" (click)="cart.remove(item.product.id)">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <div class="item-total">{{ inr(item.product.price * item.quantity) }}</div>
+              </div>
+            }
+          </div>
+        }
+
+        @if (cart.saved().length > 0) {
+          <div class="panel">
+            <div class="panel-head"><h2>Saved for later ({{ cart.saved().length }})</h2></div>
+            @for (item of cart.saved(); track item.product.id) {
+              <div class="item saved">
+                <a class="item-img" [routerLink]="['/product', item.product.slug]">
+                  <img [src]="item.product.images[0].url" [alt]="item.product.name" />
+                </a>
+                <div class="item-info">
+                  <a class="item-name" [routerLink]="['/product', item.product.slug]">
+                    {{ item.product.name }}
+                  </a>
+                  <span class="item-brand">{{ item.product.brand }}</span>
+                  <div class="item-price"><span class="zylo-price">{{ inr(item.product.price) }}</span></div>
+                  <div class="item-actions">
+                    <button type="button" class="primary-link" (click)="cart.moveToCart(item.product.id)">
+                      Move to cart
+                    </button>
+                    <button type="button" class="rm" (click)="cart.removeSaved(item.product.id)">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Order summary -->
+      @if (cart.items().length > 0) {
+        <aside class="summary">
+          <div class="panel">
+            <h2>Order Summary</h2>
+
+            <div class="coupon">
+              @if (cart.coupon(); as c) {
+                <div class="coupon-applied">
+                  <span><span class="material-icons">local_offer</span> {{ c.code }} applied</span>
+                  <button type="button" (click)="cart.removeCoupon()">Remove</button>
+                </div>
+              } @else {
+                <form class="coupon-form" (submit)="applyCoupon(couponInput.value); $event.preventDefault()">
+                  <input #couponInput type="text" placeholder="Coupon code" aria-label="Coupon code" />
+                  <button type="submit">Apply</button>
+                </form>
+                <div class="coupon-hints">
+                  Try: @for (c of coupons; track c.code) { <button type="button" class="hint" (click)="applyCoupon(c.code)">{{ c.code }}</button> }
+                </div>
+              }
+              @if (couponMsg(); as m) {
+                <div class="coupon-msg" [class.ok]="m.ok" [class.err]="!m.ok">{{ m.text }}</div>
+              }
+            </div>
+
+            <dl class="totals">
+              <div><dt>Subtotal</dt><dd>{{ inr(cart.summary().subtotal) }}</dd></div>
+              @if (cart.summary().discount > 0) {
+                <div class="disc"><dt>Coupon discount</dt><dd>− {{ inr(cart.summary().discount) }}</dd></div>
+              }
+              <div>
+                <dt>Shipping</dt>
+                <dd>{{ cart.summary().shipping === 0 ? 'FREE' : inr(cart.summary().shipping) }}</dd>
+              </div>
+              <div><dt>Tax (GST 18%)</dt><dd>{{ inr(cart.summary().tax) }}</dd></div>
+              <div class="grand"><dt>Total</dt><dd>{{ inr(cart.summary().total) }}</dd></div>
+            </dl>
+
+            <button class="checkout" type="button" (click)="checkout()">
+              Proceed to Checkout
+            </button>
+            <a routerLink="/" class="continue">← Continue shopping</a>
+          </div>
+        </aside>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,322 @@
+// ============================================================================
+// Jiaranest storefront — global styles & premium theme
+// Angular Material 3 (M3) theming via mat.theme(), plus design tokens.
+// Note: the `zylo-` / `--zylo-` prefix is retained as an internal namespace.
+// ============================================================================
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  color-scheme: light;
+  @include mat.theme(
+    (
+      color: (
+        // Premium "emerald & champagne" palette — heritage-luxury, not marketplace.
+        primary: mat.$green-palette,
+        tertiary: mat.$yellow-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+
+  // ---- Brand design tokens (consumed by our own components) ----
+  // Brand is a deep emerald with a subtle gradient for fills; champagne gold is
+  // the jewel accent, used sparingly. `--zylo-brand` is the solid emerald.
+  --zylo-brand: #0f5132; // deep emerald
+  --zylo-brand-dark: #0a3d26; // deeper emerald (hover)
+  --zylo-brand-tint: #edf3ef; // soft emerald wash
+  --zylo-brand-grad: linear-gradient(125deg, #137a49 0%, #0f5132 55%, #0a3d26 100%); // emerald
+  --zylo-brand-grad-dark: linear-gradient(125deg, #0f5132 0%, #072b1a 100%);
+  --zylo-accent: #c8a951; // champagne gold — prices/deals/stars/secondary
+  --zylo-accent-dark: #a4842f; // deeper gold (hover)
+  --zylo-success: #15803d;
+  --zylo-danger: #b91c1c;
+
+  --zylo-ink: #2a2420; // espresso (warm near-black)
+  --zylo-ink-2: #5c534b;
+  --zylo-ink-3: #a39a8e;
+  --zylo-line: #e8e2d6; // warm ivory hairline
+  --zylo-surface: #ffffff;
+  --zylo-bg: #fbf9f4; // warm ivory page background
+
+  --zylo-radius-sm: 8px;
+  --zylo-radius: 12px;
+  --zylo-radius-lg: 20px;
+
+  --zylo-shadow-1: 0 1px 3px rgba(42, 36, 32, 0.07), 0 1px 2px rgba(42, 36, 32, 0.04);
+  --zylo-shadow-2: 0 10px 30px rgba(15, 81, 50, 0.14);
+
+  --zylo-max: 1280px;
+  --zylo-header-h: 112px; // announcement strip (~32) + header (~80)
+
+  --zylo-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Scale the content width up on large monitors, 4K, and TVs so the layout
+// fills the screen instead of sitting in a narrow column with dead margins.
+@media (min-width: 1536px) {
+  html { --zylo-max: 1440px; }
+}
+@media (min-width: 1920px) {
+  html { --zylo-max: 1760px; font-size: 15px; }
+}
+@media (min-width: 2560px) {
+  html { --zylo-max: 2200px; font-size: 17px; }
+}
+@media (min-width: 3200px) {
+  html { --zylo-max: 2800px; font-size: 20px; }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100%;
+  background-color: var(--zylo-bg);
+  color: var(--zylo-ink);
+  font-family: 'Inter', Roboto, 'Helvetica Neue', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+// ---- Layout helpers ----
+.zylo-container {
+  width: 100%;
+  max-width: var(--zylo-max);
+  margin-inline: auto;
+  padding-inline: 16px;
+
+  @media (min-width: 768px) {
+    padding-inline: 24px;
+  }
+}
+
+.zylo-section {
+  padding-block: 32px;
+
+  @media (min-width: 768px) {
+    padding-block: 48px;
+  }
+}
+
+.zylo-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  a {
+    color: var(--zylo-brand);
+    font-weight: 600;
+    white-space: nowrap;
+  }
+}
+
+// ---- Utility ----
+.zylo-price {
+  color: var(--zylo-ink);
+  font-weight: 700;
+}
+.zylo-mrp {
+  color: var(--zylo-ink-3);
+  text-decoration: line-through;
+  font-weight: 500;
+}
+.zylo-off {
+  color: var(--zylo-success);
+  font-weight: 700;
+}
+
+.zylo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.zylo-badge--new { background: #dbeafe; color: #1d4ed8; }
+.zylo-badge--deal { background: #fee2e2; color: var(--zylo-danger); }
+.zylo-badge--bestseller { background: #fef3c7; color: var(--zylo-accent-dark); }
+.zylo-badge--trending { background: #dcefe4; color: #0f5132; }
+
+// Truncate helpers
+.zylo-clamp-1,
+.zylo-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.zylo-clamp-1 { -webkit-line-clamp: 1; }
+.zylo-clamp-2 { -webkit-line-clamp: 2; }
+
+// ============================================================================
+// Scroll-reveal motion (driven by the zyloReveal directive)
+// Signature "settle onto the shelf": rise + un-blur + soft over-shoot scale.
+// ============================================================================
+.reveal {
+  --reveal-delay: 0ms;
+  opacity: 0;
+  transform: translate3d(0, 34px, 0) scale(0.965);
+  filter: blur(6px);
+  will-change: opacity, transform, filter;
+  transition:
+    opacity 0.66s var(--zylo-ease) var(--reveal-delay),
+    transform 0.72s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay),
+    filter 0.66s var(--zylo-ease) var(--reveal-delay);
+}
+.reveal.is-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+// Stagger: each direct child animates on its own, offset by its index so the
+// group cascades in like items being placed on a shelf one after another.
+.reveal-stagger {
+  opacity: 1;
+  transform: none;
+  filter: none;
+  transition: none;
+}
+.reveal-stagger > * {
+  --reveal-i: 0;
+  --reveal-step: 80ms;
+  opacity: 0;
+  transform: translate3d(0, 30px, 0) scale(0.96);
+  filter: blur(5px);
+  will-change: opacity, transform, filter;
+}
+.reveal-stagger.is-in > * {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+  transition:
+    opacity 0.6s var(--zylo-ease),
+    transform 0.66s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.6s var(--zylo-ease);
+  transition-delay: calc(var(--reveal-i) * var(--reveal-step));
+}
+
+// A heading accent: a gold rule that draws itself in under revealed headings.
+.reveal-underline {
+  position: relative;
+}
+.reveal-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  height: 2px;
+  width: 0;
+  background: linear-gradient(90deg, var(--zylo-accent), transparent);
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+.reveal-underline.is-in::after {
+  width: 64px;
+}
+
+// Grid cell entry — used by product grids (listing, wishlist). Because @for
+// remounts cells on data change, this CSS animation replays automatically,
+// so it stays correct through filter/sort/remove without any observer.
+@keyframes zylo-cell-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 26px, 0) scale(0.96);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+.grid-cell {
+  --card-i: 0;
+  animation: zylo-cell-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--card-i) * 55ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal-stagger > * {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    transition: none !important;
+  }
+  .reveal-underline::after {
+    width: 64px !important;
+    transition: none !important;
+  }
+  .grid-cell {
+    animation: none !important;
+  }
+}
+
+// Skeleton shimmer for loading states
+@keyframes zylo-shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.zylo-skeleton {
+  background: #eceef1;
+  background-image: linear-gradient(90deg, #eceef1 0px, #f6f7f8 200px, #eceef1 400px);
+  background-size: 800px 100%;
+  animation: zylo-shimmer 1.4s infinite linear;
+  border-radius: 8px;
+}
+
+// Tighten Material's default button radius to match the premium look
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button {
+  border-radius: var(--zylo-radius-sm) !important;
+}
+
+// Our dialogs render their own chrome — strip Material's default padding.
+// The panel itself owns the width so the inner content fills it exactly and
+// never overflows past the surface (which would clip via overflow:hidden).
+.zylo-dialog {
+  width: min(94vw, 820px);
+  max-width: 94vw !important;
+}
+.zylo-dialog .mat-mdc-dialog-surface {
+  border-radius: var(--zylo-radius-lg) !important;
+  overflow: hidden;
+  padding: 0;
+}
+.zylo-dialog .mat-mdc-dialog-container {
+  --mat-dialog-container-max-width: 94vw;
+}
+// The login dialog is narrow — let it size to its own content instead.
+.zylo-dialog.zylo-dialog--sm {
+  width: auto;
+}
+

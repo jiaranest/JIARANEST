@@ -1,0 +1,243 @@
+@if (product(); as p) {
+  <div class="zylo-container product">
+    <nav class="crumbs">
+      <a routerLink="/">Home</a> <span>/</span>
+      <a [routerLink]="['/category', 'all']">{{ p.brand }}</a> <span>/</span>
+      <span class="zylo-clamp-1">{{ p.name }}</span>
+    </nav>
+
+    <div class="top">
+      <!-- Gallery -->
+      <div class="gallery">
+        <div class="thumbs">
+          @for (im of p.images; track im.url; let i = $index) {
+            <button
+              type="button"
+              [class.on]="activeImage() === i"
+              (mouseenter)="activeImage.set(i)"
+              (click)="activeImage.set(i)"
+            >
+              <img [src]="im.url" [alt]="im.alt" />
+            </button>
+          }
+        </div>
+        <div
+          class="main-img"
+          (mouseenter)="zoom.set(true)"
+          (mouseleave)="zoom.set(false)"
+          (mousemove)="onZoomMove($event)"
+        >
+          <img
+            [src]="p.images[activeImage()].url"
+            [alt]="p.images[activeImage()].alt"
+            [style.transform]="zoom() ? 'scale(1.8)' : 'scale(1)'"
+            [style.transform-origin]="zoomPos().x + '% ' + zoomPos().y + '%'"
+          />
+          <button class="wish" type="button" [class.active]="saved()" (click)="toggleWishlist()">
+            <span class="material-icons">{{ saved() ? 'favorite' : 'favorite_border' }}</span>
+          </button>
+          <span class="zoom-hint"><span class="material-icons">zoom_in</span> Hover to zoom</span>
+        </div>
+      </div>
+
+      <!-- Buy box -->
+      <div class="info">
+        <span class="brand">{{ p.brand }}</span>
+        <h1>{{ p.name }}</h1>
+
+        <div class="rating-row">
+          <zylo-star-rating [value]="p.rating" [count]="p.ratingCount" [showValue]="true" />
+          <button class="share" type="button" (click)="share()">
+            <span class="material-icons">share</span> Share
+          </button>
+        </div>
+
+        <div class="price">
+          <span class="zylo-price">{{ inr(p.price) }}</span>
+          @if (discount() > 0) {
+            <span class="zylo-mrp">{{ inr(p.mrp) }}</span>
+            <span class="zylo-badge zylo-badge--deal">{{ discount() }}% OFF</span>
+          }
+        </div>
+        <span class="tax-note">Inclusive of all taxes</span>
+
+        <!-- Variants -->
+        @for (opt of p.variantOptions; track opt.name) {
+          <div class="variant">
+            <span class="v-label">{{ opt.name }}:</span>
+            <div class="chips">
+              @for (val of opt.values; track val) {
+                <button
+                  type="button"
+                  class="chip"
+                  [class.on]="selectedOptions()[opt.name] === val"
+                  (click)="selectOption(opt.name, val)"
+                >
+                  {{ val }}
+                </button>
+              }
+            </div>
+          </div>
+        }
+
+        <div class="stock" [class.out]="!p.inStock">
+          <span class="material-icons">{{ p.inStock ? 'check_circle' : 'cancel' }}</span>
+          {{ p.inStock ? (p.stockCount <= 10 ? 'Only ' + p.stockCount + ' left in stock' : 'In stock') : 'Out of stock' }}
+        </div>
+
+        <div class="buy-actions">
+          <zylo-quantity-selector
+            [value]="qty()"
+            [max]="p.inStock ? p.stockCount : 1"
+            (valueChange)="qty.set($event)"
+          />
+          <button class="add" type="button" [disabled]="!p.inStock" (click)="addToCart()">
+            <span class="material-icons">shopping_cart</span> Add to Cart
+          </button>
+          <button class="buy" type="button" [disabled]="!p.inStock" (click)="buyNow()">
+            Buy Now
+          </button>
+        </div>
+
+        <!-- Delivery -->
+        <div class="delivery">
+          <div class="pin-check">
+            <span class="material-icons">location_on</span>
+            <input
+              #pin
+              type="text"
+              maxlength="6"
+              inputmode="numeric"
+              placeholder="Enter pincode"
+              aria-label="Delivery pincode"
+            />
+            <button type="button" (click)="checkPincode(pin.value)">Check</button>
+          </div>
+          @if (pinResult()) {
+            <div class="pin-result">{{ pinResult() }}</div>
+          }
+          <ul class="perks">
+            <li><span class="material-icons">local_shipping</span> Free delivery over ₹999</li>
+            <li><span class="material-icons">replay</span> 7-day easy returns</li>
+            <li><span class="material-icons">verified_user</span> Child-safe &amp; quality tested</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Frequently bought together -->
+    @if (frequentlyBought().length > 1) {
+      <section class="fbt zylo-section" zyloReveal>
+        <h2>Frequently bought together</h2>
+        <div class="fbt-row">
+          <div class="fbt-items">
+            @for (fp of frequentlyBought(); track fp.id; let last = $last) {
+              <a class="fbt-item" [routerLink]="['/product', fp.slug]">
+                <img [src]="fp.images[0].url" [alt]="fp.name" />
+                <span class="fbt-price">{{ inr(fp.price) }}</span>
+              </a>
+              @if (!last) { <span class="plus">+</span> }
+            }
+          </div>
+          <div class="fbt-buy">
+            <span class="fbt-total">Total: <strong>{{ inr(fbtTotal()) }}</strong></span>
+            <button type="button" (click)="addFbtToCart()">Add all to cart</button>
+          </div>
+        </div>
+      </section>
+    }
+
+    <!-- Tabs -->
+    <section class="tabs zylo-section" zyloReveal>
+      <div class="tab-head">
+        <button [class.on]="activeTab() === 'desc'" (click)="activeTab.set('desc')">Description</button>
+        <button [class.on]="activeTab() === 'specs'" (click)="activeTab.set('specs')">Specifications</button>
+        <button [class.on]="activeTab() === 'reviews'" (click)="activeTab.set('reviews')">
+          Reviews ({{ p.reviews?.length || 0 }})
+        </button>
+        <button [class.on]="activeTab() === 'qa'" (click)="activeTab.set('qa')">Q&amp;A</button>
+      </div>
+
+      <div class="tab-body">
+        @switch (activeTab()) {
+          @case ('desc') {
+            <p class="desc-text">{{ p.description }}</p>
+            <p class="desc-text">
+              Every Jiaranest product is safety-checked before it ships. If it's not right, our 7-day
+              return policy makes sending it back effortless.
+            </p>
+          }
+          @case ('specs') {
+            @if (p.specs?.length) {
+              <table class="specs">
+                @for (s of p.specs; track s.label) {
+                  <tr><th>{{ s.label }}</th><td>{{ s.value }}</td></tr>
+                }
+                <tr><th>Brand</th><td>{{ p.brand }}</td></tr>
+                <tr><th>In box</th><td>1 × {{ p.name }}, User manual, Warranty card</td></tr>
+              </table>
+            } @else {
+              <p class="muted">No detailed specifications available.</p>
+            }
+          }
+          @case ('reviews') {
+            <div class="rev-summary">
+              <div class="rev-score">
+                <span class="big">{{ p.rating.toFixed(1) }}</span>
+                <zylo-star-rating [value]="p.rating" />
+                <span class="muted">{{ p.ratingCount.toLocaleString('en-IN') }} ratings</span>
+              </div>
+            </div>
+            @for (r of p.reviews; track r.id) {
+              <article class="review">
+                <div class="rev-top">
+                  <span class="rev-badge">{{ r.rating }}★</span>
+                  <strong>{{ r.title }}</strong>
+                </div>
+                <p>{{ r.body }}</p>
+                @if (r.images?.length) {
+                  <div class="rev-imgs">
+                    @for (ri of r.images; track ri) { <img [src]="ri" alt="Customer photo" /> }
+                  </div>
+                }
+                <div class="rev-meta">
+                  <span>{{ r.author }}</span>
+                  @if (r.verifiedPurchase) {
+                    <span class="verified"><span class="material-icons">verified</span> Verified Purchase</span>
+                  }
+                  <span class="muted">· {{ r.date }}</span>
+                  <span class="muted">· {{ r.helpfulCount }} found helpful</span>
+                </div>
+              </article>
+            }
+          }
+          @case ('qa') {
+            <div class="qa">
+              <div class="qa-item">
+                <p class="q"><strong>Q:</strong> Is this covered under warranty?</p>
+                <p class="a"><strong>A:</strong> Yes, it comes with a 1-year manufacturer warranty.</p>
+              </div>
+              <div class="qa-item">
+                <p class="q"><strong>Q:</strong> Is cash on delivery available?</p>
+                <p class="a"><strong>A:</strong> COD is available on most pincodes — check using the pincode tool above.</p>
+              </div>
+              <button class="ask" type="button">Ask a question</button>
+            </div>
+          }
+        }
+      </div>
+    </section>
+
+    <!-- Related -->
+    @if (related().length) {
+      <section class="zylo-section related">
+        <div class="zylo-section-head"><h2 zyloReveal class="reveal-underline">Related Products</h2></div>
+        <div zyloReveal><zylo-product-rail [products]="related()" /></div>
+      </section>
+    }
+  </div>
+} @else {
+  <div class="zylo-container loading-state">
+    <div class="zylo-skeleton" style="height: 460px; border-radius: 16px"></div>
+  </div>
+}

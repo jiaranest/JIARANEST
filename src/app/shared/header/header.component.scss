@@ -1,0 +1,385 @@
+:host {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: block;
+}
+
+// ---- Announcement strip ----
+.promo-strip {
+  background: var(--zylo-brand-dark);
+  color: #e7efe9;
+  text-align: center;
+  font-size: 11.5px;
+  letter-spacing: 0.04em;
+  padding: 7px 12px;
+}
+
+// ---- Main header: ivory, three-column grid with centered wordmark ----
+.hdr {
+  background: rgba(251, 249, 244, 0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--zylo-line);
+  // Gold hairline accent under the header.
+  box-shadow: 0 1px 0 0 rgba(200, 169, 81, 0.35);
+}
+.hdr-inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+  min-height: 80px;
+}
+
+// ---- Brand wordmark (center) ----
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  position: relative;
+}
+.brand-name {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--zylo-brand);
+  padding-inline: 10px;
+}
+// Middle "ARA" in premium champagne gold with a subtle metallic sheen.
+.brand-accent {
+  color: var(--zylo-accent); // solid-gold fallback
+  background: linear-gradient(180deg, #e2c473 0%, #c8a951 50%, #a4842f 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.brand-orn {
+  display: none; // shown on ≥ md via .brand::before layout below
+  color: var(--zylo-accent);
+  font-size: 12px;
+}
+.brand-tagline {
+  margin-top: 5px;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--zylo-ink-3);
+}
+
+// place the two ornaments flanking the wordmark
+.brand {
+  .brand-orn { position: absolute; top: 8px; }
+  .brand-orn:first-of-type { left: -6px; }
+  .brand-orn:last-of-type { right: -6px; }
+}
+@media (min-width: 900px) {
+  .brand-orn { display: block; }
+}
+
+// ---- Nav clusters ----
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.nav-left { justify-content: flex-start; }
+.nav-right { justify-content: flex-end; }
+
+.nav-item {
+  position: relative;
+}
+.nav-item > a,
+.nav-link {
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--zylo-ink);
+  cursor: pointer;
+  padding: 6px 0;
+  position: relative;
+}
+// Gold underline grows on hover — the signature interaction.
+.nav-item > a::after,
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 1.5px;
+  width: 0;
+  background: var(--zylo-accent);
+  transition: width 0.25s var(--zylo-ease);
+}
+.nav-item:hover > a::after,
+.nav-link:hover::after {
+  width: 100%;
+}
+.sale {
+  color: var(--zylo-accent-dark);
+}
+
+// ---- Mega dropdown ----
+.mega {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  min-width: 210px;
+  background: var(--zylo-surface);
+  border: 1px solid var(--zylo-line);
+  border-top: 2px solid var(--zylo-accent);
+  border-radius: 0 0 var(--zylo-radius) var(--zylo-radius);
+  box-shadow: var(--zylo-shadow-2);
+  padding: 10px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+}
+.mega-right { left: auto; right: 0; }
+.mega.show { display: flex; }
+.mega a {
+  padding: 9px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  color: var(--zylo-ink-2);
+  border-radius: 8px;
+  transition: background 0.15s, color 0.15s;
+}
+.mega a:hover {
+  background: var(--zylo-brand-tint);
+  color: var(--zylo-brand);
+}
+
+// ---- Icons ----
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 8px;
+}
+.icon-btn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--zylo-ink);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background 0.15s var(--zylo-ease), color 0.15s;
+}
+.icon-btn:hover {
+  background: var(--zylo-brand-tint);
+  color: var(--zylo-brand);
+}
+.icon-btn .material-icons {
+  font-size: 22px;
+}
+.count {
+  position: absolute;
+  top: 4px;
+  right: 2px;
+  min-width: 17px;
+  height: 17px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--zylo-accent);
+  color: #3a2e0a;
+  font-size: 10px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+.menu-btn { display: none; }
+
+// ---- Search overlay ----
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(42, 36, 32, 0.35);
+  backdrop-filter: blur(2px);
+  animation: ov-fade 0.2s var(--zylo-ease);
+}
+@keyframes ov-fade { from { opacity: 0; } to { opacity: 1; } }
+.search-panel {
+  background: var(--zylo-bg);
+  border-bottom: 2px solid var(--zylo-accent);
+  padding: 22px 0 26px;
+  box-shadow: var(--zylo-shadow-2);
+  animation: ov-drop 0.25s var(--zylo-ease);
+}
+@keyframes ov-drop { from { transform: translateY(-16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--zylo-brand);
+  padding-bottom: 10px;
+}
+.search-row > .material-icons {
+  color: var(--zylo-brand);
+  font-size: 26px;
+}
+.search-row input {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  outline: none;
+  font-family: Georgia, serif;
+  font-size: 24px;
+  color: var(--zylo-ink);
+}
+.search-row input::placeholder {
+  color: var(--zylo-ink-3);
+}
+
+.suggest {
+  list-style: none;
+  margin: 14px 0 0;
+  padding: 0;
+  max-height: 56vh;
+  overflow: auto;
+}
+.suggest li {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.suggest li:hover { background: var(--zylo-brand-tint); }
+.suggest img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; }
+.s-body { flex: 1; display: flex; flex-direction: column; }
+.s-name { font-size: 14px; font-weight: 600; }
+.s-brand { font-size: 12px; color: var(--zylo-ink-3); }
+.s-price { font-weight: 700; color: var(--zylo-accent-dark); }
+
+.search-hint {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.sh-label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--zylo-ink-3);
+}
+.sh-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.sh-chips a {
+  padding: 7px 14px;
+  border: 1px solid var(--zylo-line);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--zylo-ink-2);
+  transition: border-color 0.15s, color 0.15s;
+}
+.sh-chips a:hover { border-color: var(--zylo-accent); color: var(--zylo-brand); }
+
+// ---- Mobile drawer ----
+.drawer-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 190;
+  background: rgba(42, 36, 32, 0.4);
+  animation: ov-fade 0.2s var(--zylo-ease);
+}
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(86vw, 340px);
+  z-index: 200;
+  background: var(--zylo-bg);
+  border-right: 2px solid var(--zylo-accent);
+  transform: translateX(-100%);
+  transition: transform 0.28s var(--zylo-ease);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.drawer.open { transform: translateX(0); }
+.drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 18px 14px;
+  border-bottom: 1px solid var(--zylo-line);
+}
+.drawer-head .brand-name {
+  font-size: 22px;
+  padding: 0;
+}
+.drawer-nav {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 10px 30px;
+}
+.drawer-nav > a {
+  padding: 12px 14px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--zylo-ink);
+  border-radius: 8px;
+}
+.drawer-nav > a:hover { background: var(--zylo-brand-tint); }
+.drawer-group {
+  margin-top: 14px;
+  padding: 6px 14px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--zylo-accent-dark);
+  font-weight: 700;
+}
+.drawer-sub {
+  padding: 9px 22px;
+  font-size: 14px;
+  color: var(--zylo-ink-2);
+  border-radius: 8px;
+}
+.drawer-sub:hover { background: var(--zylo-brand-tint); color: var(--zylo-brand); }
+.drawer-sale {
+  margin: 16px 14px 0;
+  padding: 11px 14px;
+  text-align: center;
+  background: var(--zylo-brand-grad);
+  color: #fff;
+  border-radius: var(--zylo-radius-sm);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+// ---- Responsive ----
+@media (max-width: 900px) {
+  .hdr-inner {
+    grid-template-columns: auto 1fr auto;
+    min-height: 64px;
+    gap: 10px;
+  }
+  // Hide desktop nav links; keep menu button + icons.
+  .nav-left .nav-item,
+  .nav-right .nav-item,
+  .nav-right .sale {
+    display: none;
+  }
+  .menu-btn { display: grid; }
+  .brand-name { font-size: 22px; letter-spacing: 0.1em; }
+  .brand-tagline { display: none; }
+  .brand-orn { display: none; }
+  .nav-left { gap: 0; }
+  .search-row input { font-size: 19px; }
+}

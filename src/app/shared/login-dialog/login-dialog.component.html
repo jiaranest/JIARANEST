@@ -1,0 +1,65 @@
+<div class="login">
+  <button class="x" type="button" aria-label="Close" (click)="close()">
+    <span class="material-icons">close</span>
+  </button>
+
+  <div class="brand">
+    <span class="logo-mark">J</span>
+    <span class="logo-text">jiaranest</span>
+  </div>
+  <h2>{{ step() === 'phone' ? 'Login or Sign up' : 'Verify your number' }}</h2>
+  <p class="sub">
+    {{
+      step() === 'phone'
+        ? 'Login to continue to checkout — no password needed.'
+        : 'Enter the 6-digit code sent to +91 ' + phone()
+    }}
+  </p>
+
+  @if (step() === 'phone') {
+    <form (submit)="sendOtp(phoneInput.value); $event.preventDefault()">
+      <div class="field">
+        <span class="prefix">+91</span>
+        <input
+          #phoneInput
+          type="tel"
+          inputmode="numeric"
+          maxlength="10"
+          placeholder="Mobile number"
+          aria-label="Mobile number"
+        />
+      </div>
+      @if (error()) {
+        <div class="err">{{ error() }}</div>
+      }
+      <button class="primary" type="submit">Continue</button>
+    </form>
+
+    <div class="or"><span>OR</span></div>
+
+    <button class="google" type="button" (click)="google()">
+      <span class="g">G</span> Continue with Google
+    </button>
+  } @else {
+    <form (submit)="verify(otpInput.value); $event.preventDefault()">
+      <input
+        #otpInput
+        class="otp"
+        type="text"
+        inputmode="numeric"
+        maxlength="6"
+        placeholder="••••••"
+        aria-label="OTP code"
+        autofocus
+      />
+      @if (error()) {
+        <div class="err">{{ error() }}</div>
+      }
+      <div class="hint">Demo: any 6-digit code works.</div>
+      <button class="primary" type="submit">Verify &amp; Continue</button>
+    </form>
+    <button class="link" type="button" (click)="back()">← Change number</button>
+  }
+
+  <p class="terms">By continuing, you agree to Jiaranest's Terms &amp; Privacy Policy.</p>
+</div>

@@ -1,0 +1,40 @@
+<div class="zylo-container wishlist">
+  <h1>Your Wishlist</h1>
+
+  @if (wishlist.items().length === 0) {
+    <div class="empty">
+      <span class="material-icons">favorite_border</span>
+      <h3>Your wishlist is empty</h3>
+      <p>Tap the heart on any product to save it here.</p>
+      <a routerLink="/" class="cta">Discover Products</a>
+    </div>
+  } @else {
+    <div class="grid">
+      @for (p of wishlist.items(); track p.id; let i = $index) {
+        <article class="card grid-cell" [style.--card-i]="i % 12">
+          <button class="rm" type="button" aria-label="Remove" (click)="wishlist.remove(p.id)">
+            <span class="material-icons">close</span>
+          </button>
+          <a class="img" [routerLink]="['/product', p.slug]">
+            <img [src]="p.images[0].url" [alt]="p.name" loading="lazy" />
+          </a>
+          <div class="body">
+            <span class="brand">{{ p.brand }}</span>
+            <a class="name zylo-clamp-2" [routerLink]="['/product', p.slug]">{{ p.name }}</a>
+            <zylo-star-rating [value]="p.rating" [count]="p.ratingCount" />
+            <div class="price">
+              <span class="zylo-price">{{ inr(p.price) }}</span>
+              @if (discountPercent(p) > 0) {
+                <span class="zylo-mrp">{{ inr(p.mrp) }}</span>
+              }
+            </div>
+            <button class="move" type="button" [disabled]="!p.inStock" (click)="moveToCart(p.id)">
+              <span class="material-icons">shopping_cart</span>
+              {{ p.inStock ? 'Move to Cart' : 'Out of stock' }}
+            </button>
+          </div>
+        </article>
+      }
+    </div>
+  }
+</div>

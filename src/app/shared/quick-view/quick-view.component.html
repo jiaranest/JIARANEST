@@ -1,0 +1,77 @@
+<div class="qv">
+  <button class="x" type="button" aria-label="Close" (click)="close()">
+    <span class="material-icons">close</span>
+  </button>
+
+  <div class="gallery">
+    <img [src]="product.images[activeImage()].url" [alt]="product.images[activeImage()].alt" />
+    <div class="thumbs">
+      @for (im of product.images; track im.url; let i = $index) {
+        <button type="button" [class.active]="activeImage() === i" (click)="activeImage.set(i)">
+          <img [src]="im.url" [alt]="im.alt" />
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="info">
+    <span class="brand">{{ product.brand }}</span>
+    <h2>{{ product.name }}</h2>
+    <zylo-star-rating [value]="product.rating" [count]="product.ratingCount" [showValue]="true" />
+
+    <div class="price">
+      <span class="zylo-price">{{ inr(product.price) }}</span>
+      @if (discount() > 0) {
+        <span class="zylo-mrp">{{ inr(product.mrp) }}</span>
+        <span class="zylo-off">{{ discount() }}% off</span>
+      }
+    </div>
+
+    <p class="desc zylo-clamp-2">{{ product.description }}</p>
+
+    @if (product.colors?.length) {
+      <div class="opt">
+        <span class="opt-label">Colours:</span>
+        <span class="chips">
+          @for (c of product.colors; track c) { <span class="chip">{{ c }}</span> }
+        </span>
+      </div>
+    }
+    @if (product.sizes?.length) {
+      <div class="opt">
+        <span class="opt-label">Sizes:</span>
+        <span class="chips">
+          @for (s of product.sizes; track s) { <span class="chip">{{ s }}</span> }
+        </span>
+      </div>
+    }
+
+    <div class="stock" [class.out]="!product.inStock">
+      <span class="material-icons">{{ product.inStock ? 'check_circle' : 'cancel' }}</span>
+      {{ product.inStock ? 'In stock' : 'Out of stock' }}
+    </div>
+
+    <div class="buy-row">
+      <zylo-quantity-selector
+        [value]="qty()"
+        [max]="product.inStock ? product.stockCount : 1"
+        (valueChange)="qty.set($event)"
+      />
+      <button class="add" type="button" [disabled]="!product.inStock" (click)="addToCart()">
+        <span class="material-icons">shopping_cart</span> Add to Cart
+      </button>
+    </div>
+    <div class="buy-row">
+      <button class="buy" type="button" [disabled]="!product.inStock" (click)="buyNow()">
+        Buy Now
+      </button>
+      <button class="wish" type="button" (click)="toggleWishlist()" [class.active]="saved()">
+        <span class="material-icons">{{ saved() ? 'favorite' : 'favorite_border' }}</span>
+      </button>
+    </div>
+
+    <a class="full" [routerLink]="['/product', product.slug]" (click)="close()"
+      >View full details →</a
+    >
+  </div>
+</div>

@@ -1,0 +1,193 @@
+@if (placed()) {
+  <!-- Order confirmation -->
+  <div class="zylo-container confirm">
+    <div class="confirm-card">
+      <div class="tick"><span class="material-icons">check_circle</span></div>
+      <h1>Order Confirmed!</h1>
+      <p class="sub">Thank you for shopping with Jiaranest. A confirmation has been sent to you.</p>
+
+      <div class="order-meta">
+        <div><span>Order Number</span><strong>{{ orderNumber() }}</strong></div>
+        <div><span>Estimated Delivery</span><strong>{{ eta() }}</strong></div>
+        <div><span>Payment</span><strong>{{ payment() | uppercase }}</strong></div>
+      </div>
+
+      <!-- Order tracking timeline -->
+      <div class="timeline">
+        <h3>Order Timeline</h3>
+        <ol>
+          <li class="done"><span class="dot"></span> Order Confirmed</li>
+          <li><span class="dot"></span> Packed</li>
+          <li><span class="dot"></span> Shipped</li>
+          <li><span class="dot"></span> Out for Delivery</li>
+          <li><span class="dot"></span> Delivered</li>
+        </ol>
+      </div>
+
+      <div class="confirm-actions">
+        <button class="ghost" type="button"><span class="material-icons">download</span> Download Invoice</button>
+        <button class="ghost" type="button"><span class="material-icons">support_agent</span> Contact Support</button>
+        <button class="primary" type="button" (click)="backToShop()">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+} @else if (cart.items().length === 0) {
+  <div class="zylo-container empty">
+    <span class="material-icons">shopping_cart</span>
+    <h3>Your cart is empty</h3>
+    <a routerLink="/" class="cta">Go Shopping</a>
+  </div>
+} @else {
+  <div class="zylo-container checkout">
+    <h1>Checkout</h1>
+
+    <div class="steps">
+      <span [class.on]="step() >= 1">1. Address</span>
+      <span [class.on]="step() >= 2">2. Payment</span>
+      <span [class.on]="step() >= 3">3. Done</span>
+    </div>
+
+    <div class="checkout-layout">
+      <div class="main">
+        @if (step() === 1) {
+          <section class="panel">
+            <h2>Shipping Address</h2>
+            @if (errors().length) {
+              <ul class="errs">
+                @for (e of errors(); track e) { <li>{{ e }}</li> }
+              </ul>
+            }
+            <div class="form-grid">
+              <label class="full">Full name
+                <input type="text" [ngModel]="address().name" (ngModelChange)="update('name', $event)" />
+              </label>
+              <label>Phone
+                <input type="tel" maxlength="10" [ngModel]="address().phone" (ngModelChange)="update('phone', $event)" />
+              </label>
+              <label>Pincode
+                <input type="text" maxlength="6" [ngModel]="address().pincode" (ngModelChange)="update('pincode', $event)" />
+              </label>
+              <label class="full">Address line 1
+                <input type="text" [ngModel]="address().line1" (ngModelChange)="update('line1', $event)" />
+              </label>
+              <label class="full">Address line 2 (optional)
+                <input type="text" [ngModel]="address().line2" (ngModelChange)="update('line2', $event)" />
+              </label>
+              <label>City
+                <input type="text" [ngModel]="address().city" (ngModelChange)="update('city', $event)" />
+              </label>
+              <label>State
+                <input type="text" [ngModel]="address().state" (ngModelChange)="update('state', $event)" />
+              </label>
+            </div>
+
+            <label class="check">
+              <input type="checkbox" [ngModel]="billingSame()" (ngModelChange)="billingSame.set($event)" />
+              Billing address same as shipping
+            </label>
+          </section>
+
+          <section class="panel">
+            <h2>Delivery Method</h2>
+            <label class="radio-card" [class.on]="delivery() === 'standard'">
+              <input type="radio" name="del" [checked]="delivery() === 'standard'" (change)="delivery.set('standard')" />
+              <div>
+                <strong>Standard Delivery</strong>
+                <span>4–6 days · {{ cart.summary().shipping === 0 ? 'FREE' : inr(cart.summary().shipping) }}</span>
+              </div>
+            </label>
+            <label class="radio-card" [class.on]="delivery() === 'express'">
+              <input type="radio" name="del" [checked]="delivery() === 'express'" (change)="delivery.set('express')" />
+              <div>
+                <strong>Express Delivery</strong>
+                <span>1–2 days · {{ inr(149) }}</span>
+              </div>
+            </label>
+
+            <button class="next" type="button" (click)="goToPayment()">Continue to Payment</button>
+          </section>
+        }
+
+        @if (step() === 2) {
+          <section class="panel">
+            <h2>Payment Method</h2>
+            <div class="pay-methods">
+              @for (m of [
+                { id: 'upi', label: 'UPI', icon: 'account_balance_wallet' },
+                { id: 'card', label: 'Credit / Debit Card', icon: 'credit_card' },
+                { id: 'netbanking', label: 'Net Banking', icon: 'account_balance' },
+                { id: 'wallet', label: 'Wallet', icon: 'wallet' },
+                { id: 'cod', label: 'Cash on Delivery', icon: 'payments' }
+              ]; track m.id) {
+                <label class="radio-card" [class.on]="payment() === m.id">
+                  <input type="radio" name="pay" [checked]="payment() === m.id" (change)="payment.set($any(m.id))" />
+                  <span class="material-icons">{{ m.icon }}</span>
+                  <strong>{{ m.label }}</strong>
+                </label>
+              }
+            </div>
+
+            @switch (payment()) {
+              @case ('upi') {
+                <div class="pay-fields">
+                  <label>UPI ID <input type="text" placeholder="yourname@upi" /></label>
+                </div>
+              }
+              @case ('card') {
+                <div class="pay-fields">
+                  <label class="full">Card number <input type="text" placeholder="1234 5678 9012 3456" maxlength="19" /></label>
+                  <label>Expiry <input type="text" placeholder="MM/YY" maxlength="5" /></label>
+                  <label>CVV <input type="password" placeholder="•••" maxlength="4" /></label>
+                </div>
+              }
+              @case ('netbanking') {
+                <div class="pay-fields">
+                  <label class="full">Select bank
+                    <select><option>HDFC Bank</option><option>ICICI Bank</option><option>SBI</option><option>Axis Bank</option></select>
+                  </label>
+                </div>
+              }
+              @case ('cod') {
+                <p class="cod-note">Pay in cash when your order arrives. A nominal handling fee may apply.</p>
+              }
+            }
+
+            <div class="pay-actions">
+              <button class="back" type="button" (click)="step.set(1)">← Back</button>
+              <button class="next" type="button" (click)="placeOrder()">
+                Place Order · {{ inr(grandTotal()) }}
+              </button>
+            </div>
+            <p class="secure"><span class="material-icons">lock</span> Payments are secured with 256-bit encryption (demo — no real charge)</p>
+          </section>
+        }
+      </div>
+
+      <!-- Summary -->
+      <aside class="summary">
+        <div class="panel">
+          <h2>Order Summary</h2>
+          <div class="mini-items">
+            @for (item of cart.items(); track item.product.id) {
+              <div class="mini-item">
+                <img [src]="item.product.images[0].url" [alt]="item.product.name" />
+                <span class="q">{{ item.quantity }}</span>
+                <span class="mi-name zylo-clamp-1">{{ item.product.name }}</span>
+                <span class="mi-price">{{ inr(item.product.price * item.quantity) }}</span>
+              </div>
+            }
+          </div>
+          <dl class="totals">
+            <div><dt>Subtotal</dt><dd>{{ inr(cart.summary().subtotal) }}</dd></div>
+            @if (cart.summary().discount > 0) {
+              <div class="disc"><dt>Discount</dt><dd>− {{ inr(cart.summary().discount) }}</dd></div>
+            }
+            <div><dt>Delivery</dt><dd>{{ deliveryFee() === 0 ? 'FREE' : inr(deliveryFee()) }}</dd></div>
+            <div><dt>Tax</dt><dd>{{ inr(cart.summary().tax) }}</dd></div>
+            <div class="grand"><dt>Total</dt><dd>{{ inr(grandTotal()) }}</dd></div>
+          </dl>
+        </div>
+      </aside>
+    </div>
+  </div>
+}

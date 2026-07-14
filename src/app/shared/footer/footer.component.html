@@ -1,0 +1,71 @@
+<footer class="footer">
+  <div class="zylo-container">
+    <!-- Brand statement -->
+    <div class="statement">
+      <span class="orn">✦</span>
+      <h2>Little things,<br />beautifully made.</h2>
+      <p>Thoughtfully designed toys &amp; clothing for the ones who matter most.</p>
+    </div>
+
+    <div class="gold-rule"></div>
+
+    <!-- Columns + newsletter -->
+    <div class="cols">
+      <div class="col">
+        <h4>Shop</h4>
+        <a routerLink="/category/toys">Toys</a>
+        <a routerLink="/category/clothing">Clothing</a>
+        <a routerLink="/category/soft-toys">Soft Toys</a>
+        <a routerLink="/category/educational-toys">Educational Toys</a>
+        <a routerLink="/category/ethnic-wear">Ethnic Wear</a>
+      </div>
+
+      <div class="col">
+        <h4>Maison</h4>
+        <a href="#">Our Story</a>
+        <a href="#">Craftsmanship</a>
+        <a href="#">Sustainability</a>
+        <a href="#">Journal</a>
+      </div>
+
+      <div class="col">
+        <h4>Care</h4>
+        <a href="#">Contact Us</a>
+        <a href="#">Shipping &amp; Returns</a>
+        <a href="#">Track Order</a>
+        <a href="#">Size Guide</a>
+        <a href="#">FAQs</a>
+      </div>
+
+      <div class="col news-col">
+        <h4>The Jiaranest Club</h4>
+        <p>Join for early access, private sales and 10% off your first order.</p>
+        @if (subscribed()) {
+          <div class="thanks"><span class="material-icons">check_circle</span> Welcome to the club!</div>
+        } @else {
+          <form class="news" (submit)="subscribe(emailInput.value); $event.preventDefault()">
+            <input #emailInput type="email" placeholder="Your email address" aria-label="Email" required />
+            <button type="submit" aria-label="Subscribe"><span class="material-icons">arrow_forward</span></button>
+          </form>
+        }
+        <div class="social">
+          <a aria-label="Instagram" href="#"><span class="material-icons">photo_camera</span></a>
+          <a aria-label="Facebook" href="#"><span class="material-icons">facebook</span></a>
+          <a aria-label="Pinterest" href="#"><span class="material-icons">push_pin</span></a>
+          <a aria-label="YouTube" href="#"><span class="material-icons">smart_display</span></a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="bottom">
+      <a class="fbrand" routerLink="/">Jiaranest</a>
+      <span class="copy">© {{ year }} Jiaranest Kids Pvt. Ltd. — Crafted with care.</span>
+      <span class="links">
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+        <a href="#">Cookies</a>
+      </span>
+    </div>
+  </div>
+</footer>

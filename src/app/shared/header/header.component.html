@@ -1,0 +1,139 @@
+<!-- Thin announcement strip -->
+<div class="promo-strip">
+  <span>Complimentary delivery over ₹999 · Gift wrapping on every order · 7-day returns</span>
+</div>
+
+<header class="hdr">
+  <div class="zylo-container hdr-inner">
+    <!-- Left cluster: menu (mobile) + primary categories (desktop) -->
+    <nav class="nav nav-left">
+      <button class="icon-btn menu-btn" type="button" aria-label="Menu" (click)="toggleMobileMenu()">
+        <span class="material-icons">menu</span>
+      </button>
+      @for (c of topCategories(); track c.id) {
+        <div class="nav-item" (mouseenter)="openMenu.set(c.id)" (mouseleave)="openMenu.set(null)">
+          <a [routerLink]="['/category', c.slug]" (click)="openMenu.set(null)">{{ c.name }}</a>
+          @if (subCategories(c.id).length) {
+            <div class="mega" [class.show]="openMenu() === c.id">
+              @for (sub of subCategories(c.id); track sub.id) {
+                <a [routerLink]="['/category', sub.slug]" (click)="openMenu.set(null)">{{ sub.name }}</a>
+              }
+            </div>
+          }
+        </div>
+      }
+    </nav>
+
+    <!-- Centered wordmark -->
+    <a class="brand" routerLink="/" aria-label="Jiaranest home">
+      <span class="brand-orn">✦</span>
+      <span class="brand-name">Ji<span class="brand-accent">ara</span>nest</span>
+      <span class="brand-orn">✦</span>
+      <span class="brand-tagline">toys &amp; clothing for little ones</span>
+    </a>
+
+    <!-- Right cluster: age/sale links (desktop) + action icons -->
+    <nav class="nav nav-right">
+      <div class="nav-item" (mouseenter)="openMenu.set('age')" (mouseleave)="openMenu.set(null)">
+        <a class="age-trigger">Shop by Age</a>
+        <div class="mega mega-right" [class.show]="openMenu() === 'age'">
+          @for (a of ageGroups; track a.id) {
+            <a routerLink="/search" [queryParams]="{ age: a.id }" (click)="openMenu.set(null)">{{ a.label }}</a>
+          }
+        </div>
+      </div>
+      <a class="nav-link sale" routerLink="/search" [queryParams]="{ discount: 30 }">Sale</a>
+
+      <span class="icons">
+        <button class="icon-btn" type="button" aria-label="Search" (click)="openSearch()">
+          <span class="material-icons">search</span>
+        </button>
+        <a class="icon-btn" routerLink="/wishlist" aria-label="Wishlist">
+          <span class="material-icons">favorite_border</span>
+          @if (wishlist.count() > 0) { <span class="count">{{ wishlist.count() }}</span> }
+        </a>
+        <a class="icon-btn" routerLink="/cart" aria-label="Cart">
+          <span class="material-icons">shopping_bag</span>
+          @if (cart.count() > 0) { <span class="count">{{ cart.count() }}</span> }
+        </a>
+      </span>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ Full-width search overlay ============ -->
+@if (searchOpen()) {
+  <div class="search-overlay" (click)="closeSearch()">
+    <div class="search-panel" (click)="$event.stopPropagation()">
+      <div class="zylo-container">
+        <div class="search-row">
+          <span class="material-icons">search</span>
+          <input
+            type="search"
+            placeholder="Search toys, dresses, brands…"
+            [value]="term()"
+            (input)="onInput($any($event.target).value)"
+            (keyup.enter)="submitSearch()"
+            aria-label="Search products"
+            autofocus
+          />
+          <button class="icon-btn" type="button" aria-label="Close search" (click)="closeSearch()">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+
+        @if (term().length > 0 && suggestions().length > 0) {
+          <ul class="suggest">
+            @for (s of suggestions(); track s.id) {
+              <li (click)="pickSuggestion(s.slug)">
+                <img [src]="s.images[0].url" [alt]="s.name" />
+                <div class="s-body">
+                  <span class="s-name zylo-clamp-1">{{ s.name }}</span>
+                  <span class="s-brand">{{ s.brand }}</span>
+                </div>
+                <span class="s-price">{{ inr(s.price) }}</span>
+              </li>
+            }
+          </ul>
+        } @else {
+          <div class="search-hint">
+            <span class="sh-label">Popular</span>
+            <div class="sh-chips">
+              <a routerLink="/category/soft-toys" (click)="closeSearch()">Soft toys</a>
+              <a routerLink="/category/building-blocks" (click)="closeSearch()">Building blocks</a>
+              <a routerLink="/category/girls-clothing" (click)="closeSearch()">Dresses</a>
+              <a routerLink="/category/ethnic-wear" (click)="closeSearch()">Ethnic wear</a>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ============ Mobile slide-in drawer ============ -->
+@if (mobileMenuOpen()) {
+  <div class="drawer-scrim" (click)="closeMobileMenu()"></div>
+}
+<aside class="drawer" [class.open]="mobileMenuOpen()" aria-label="Menu">
+  <div class="drawer-head">
+    <span class="brand-name">Ji<span class="brand-accent">ara</span>nest</span>
+    <button class="icon-btn" type="button" aria-label="Close menu" (click)="closeMobileMenu()">
+      <span class="material-icons">close</span>
+    </button>
+  </div>
+  <nav class="drawer-nav">
+    <a routerLink="/" (click)="closeMobileMenu()">Home</a>
+    @for (c of topCategories(); track c.id) {
+      <span class="drawer-group">{{ c.name }}</span>
+      @for (sub of subCategories(c.id); track sub.id) {
+        <a class="drawer-sub" [routerLink]="['/category', sub.slug]" (click)="closeMobileMenu()">{{ sub.name }}</a>
+      }
+    }
+    <span class="drawer-group">Shop by Age</span>
+    @for (a of ageGroups; track a.id) {
+      <a class="drawer-sub" routerLink="/search" [queryParams]="{ age: a.id }" (click)="closeMobileMenu()">{{ a.label }}</a>
+    }
+    <a class="drawer-sale" routerLink="/search" [queryParams]="{ discount: 30 }" (click)="closeMobileMenu()">Sale</a>
+  </nav>
+</aside>

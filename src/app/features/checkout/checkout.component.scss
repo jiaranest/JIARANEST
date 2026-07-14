@@ -1,0 +1,466 @@
+.checkout {
+  padding-block: 24px 48px;
+}
+.checkout h1 {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0 0 16px;
+}
+.steps {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.steps span {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--zylo-ink-3);
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid var(--zylo-line);
+}
+.steps span.on {
+  color: #fff;
+  background: var(--zylo-brand);
+  border-color: var(--zylo-brand);
+}
+
+.checkout-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 24px;
+  align-items: start;
+}
+.panel {
+  background: #fff;
+  border: 1px solid var(--zylo-line);
+  border-radius: var(--zylo-radius);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.panel h2 {
+  font-size: 17px;
+  font-weight: 700;
+  margin: 0 0 16px;
+}
+
+.errs {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--zylo-radius-sm);
+  padding: 10px 14px 10px 28px;
+  margin: 0 0 16px;
+  color: var(--zylo-danger);
+  font-size: 13px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.form-grid label,
+.pay-fields label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--zylo-ink-2);
+}
+.form-grid .full,
+.pay-fields .full {
+  grid-column: 1 / -1;
+}
+.form-grid input,
+.pay-fields input,
+.pay-fields select {
+  border: 1px solid var(--zylo-line);
+  border-radius: var(--zylo-radius-sm);
+  padding: 11px 12px;
+  font-size: 14px;
+  outline: none;
+  font-weight: 500;
+  color: var(--zylo-ink);
+}
+.form-grid input:focus,
+.pay-fields input:focus,
+.pay-fields select:focus {
+  border-color: var(--zylo-brand);
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.check input {
+  accent-color: var(--zylo-brand);
+}
+
+.radio-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--zylo-line);
+  border-radius: var(--zylo-radius-sm);
+  padding: 14px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.radio-card.on {
+  border-color: var(--zylo-brand);
+  background: var(--zylo-brand-tint);
+}
+.radio-card input {
+  accent-color: var(--zylo-brand);
+}
+.radio-card .material-icons {
+  color: var(--zylo-brand);
+}
+.radio-card div {
+  display: flex;
+  flex-direction: column;
+}
+.radio-card strong {
+  font-size: 14px;
+}
+.radio-card span:not(.material-icons) {
+  font-size: 12px;
+  color: var(--zylo-ink-2);
+}
+
+.pay-methods {
+  margin-bottom: 16px;
+}
+.pay-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 8px;
+}
+.cod-note {
+  font-size: 13px;
+  color: var(--zylo-ink-2);
+  background: var(--zylo-bg);
+  padding: 12px;
+  border-radius: var(--zylo-radius-sm);
+}
+
+.next {
+  width: 100%;
+  margin-top: 18px;
+  border: 0;
+  background: var(--zylo-brand-grad);
+  color: #fff;
+  height: 50px;
+  border-radius: var(--zylo-radius-sm);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: filter 0.15s var(--zylo-ease);
+}
+.next:hover {
+  filter: brightness(0.94);
+}
+.pay-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
+}
+.pay-actions .next {
+  margin-top: 0;
+  flex: 1;
+}
+.back {
+  border: 1px solid var(--zylo-line);
+  background: #fff;
+  height: 50px;
+  padding: 0 20px;
+  border-radius: var(--zylo-radius-sm);
+  font-weight: 700;
+  cursor: pointer;
+}
+.secure {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  justify-content: center;
+  margin: 14px 0 0;
+  font-size: 12px;
+  color: var(--zylo-ink-3);
+}
+.secure .material-icons {
+  font-size: 15px;
+}
+
+// ---- Summary ----
+.summary .panel {
+  position: sticky;
+  top: 128px;
+}
+.mini-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+.mini-item {
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+.mini-item img {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--zylo-line);
+}
+.mini-item .q {
+  position: absolute;
+  top: -6px;
+  left: 32px;
+  background: var(--zylo-ink);
+  color: #fff;
+  border-radius: 999px;
+  min-width: 18px;
+  height: 18px;
+  font-size: 11px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.mi-name {
+  font-size: 13px;
+  font-weight: 500;
+}
+.mi-price {
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.totals {
+  margin: 0;
+  border-top: 1px solid var(--zylo-line);
+  padding-top: 12px;
+}
+.totals > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  font-size: 14px;
+}
+.totals dt,
+.totals dd {
+  margin: 0;
+}
+.totals dd {
+  font-weight: 600;
+}
+.totals .disc dd {
+  color: var(--zylo-success);
+}
+.totals .grand {
+  border-top: 1px solid var(--zylo-line);
+  margin-top: 6px;
+  padding-top: 10px;
+  font-size: 18px;
+}
+.totals .grand dt,
+.totals .grand dd {
+  font-weight: 800;
+}
+
+// ---- Confirmation ----
+.confirm {
+  padding-block: 40px 60px;
+  display: flex;
+  justify-content: center;
+}
+.confirm-card {
+  background: #fff;
+  border: 1px solid var(--zylo-line);
+  border-radius: var(--zylo-radius-lg);
+  padding: 40px;
+  max-width: 620px;
+  width: 100%;
+  text-align: center;
+}
+.tick .material-icons {
+  font-size: 72px;
+  color: var(--zylo-success);
+}
+.confirm-card h1 {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 8px 0 6px;
+}
+.confirm-card .sub {
+  color: var(--zylo-ink-2);
+  margin: 0 0 24px;
+}
+.order-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  background: var(--zylo-bg);
+  border-radius: var(--zylo-radius);
+  padding: 18px;
+  margin-bottom: 28px;
+}
+.order-meta div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.order-meta span {
+  font-size: 12px;
+  color: var(--zylo-ink-3);
+}
+.order-meta strong {
+  font-size: 15px;
+}
+
+.timeline {
+  text-align: left;
+  margin-bottom: 28px;
+}
+.timeline h3 {
+  font-size: 15px;
+  margin: 0 0 16px;
+}
+.timeline ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+.timeline ol::before {
+  content: '';
+  position: absolute;
+  top: 7px;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  background: var(--zylo-line);
+}
+.timeline li {
+  position: relative;
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  color: var(--zylo-ink-3);
+  z-index: 1;
+}
+.timeline .dot {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--zylo-line);
+  margin: 0 auto 6px;
+}
+.timeline li.done {
+  color: var(--zylo-success);
+  font-weight: 700;
+}
+.timeline li.done .dot {
+  background: var(--zylo-success);
+  border-color: var(--zylo-success);
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.confirm-actions button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-radius: var(--zylo-radius-sm);
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+}
+.confirm-actions .ghost {
+  border: 1px solid var(--zylo-line);
+  background: #fff;
+  color: var(--zylo-ink);
+}
+.confirm-actions .ghost .material-icons {
+  font-size: 18px;
+}
+.confirm-actions .primary {
+  border: 0;
+  background: var(--zylo-brand-grad);
+  color: #fff;
+}
+
+.empty {
+  text-align: center;
+  padding: 70px 20px;
+}
+.empty .material-icons {
+  font-size: 64px;
+  color: var(--zylo-ink-3);
+}
+.empty .cta {
+  display: inline-block;
+  margin-top: 12px;
+  background: var(--zylo-brand-grad);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: var(--zylo-radius-sm);
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .checkout-layout {
+    grid-template-columns: 1fr;
+  }
+  .summary .panel {
+    position: static;
+  }
+}
+@media (max-width: 520px) {
+  .form-grid,
+  .pay-fields {
+    grid-template-columns: 1fr;
+  }
+  .order-meta {
+    grid-template-columns: 1fr;
+  }
+  .timeline ol {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .timeline ol::before {
+    display: none;
+  }
+  .timeline li {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .timeline .dot {
+    margin: 0;
+  }
+}

@@ -1,0 +1,368 @@
+.listing {
+  padding-block: 20px 40px;
+}
+.crumbs {
+  font-size: 12px;
+  color: var(--zylo-ink-3);
+  margin-bottom: 12px;
+}
+.crumbs a:hover {
+  color: var(--zylo-brand);
+}
+.crumbs span {
+  margin: 0 4px;
+}
+
+.head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.head h1 {
+  font-size: clamp(22px, 3vw, 30px);
+  font-weight: 800;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+.count {
+  font-size: 13px;
+  color: var(--zylo-ink-3);
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.filter-toggle {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--zylo-line);
+  background: #fff;
+  border-radius: var(--zylo-radius-sm);
+  padding: 8px 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.filter-toggle .badge {
+  background: var(--zylo-brand);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0 6px;
+  font-size: 11px;
+}
+.sort {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--zylo-line);
+  background: #fff;
+  border-radius: var(--zylo-radius-sm);
+  padding: 6px 10px;
+}
+.sort .material-icons {
+  font-size: 18px;
+  color: var(--zylo-ink-3);
+}
+.sort select {
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+.view-toggle {
+  display: flex;
+  border: 1px solid var(--zylo-line);
+  border-radius: var(--zylo-radius-sm);
+  overflow: hidden;
+}
+.view-toggle button {
+  border: 0;
+  background: #fff;
+  width: 38px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--zylo-ink-3);
+}
+.view-toggle button.on {
+  background: var(--zylo-brand);
+  color: #fff;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+// ---- Filters ----
+.filters {
+  background: #fff;
+  border: 1px solid var(--zylo-line);
+  border-radius: var(--zylo-radius);
+  padding: 18px;
+  position: sticky;
+  top: 128px;
+}
+.filters-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.filters-head h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+.clear {
+  border: 0;
+  background: transparent;
+  color: var(--zylo-brand);
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+}
+.fgroup {
+  padding: 14px 0;
+  border-top: 1px solid var(--zylo-line);
+}
+.fgroup h4 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--zylo-ink-2);
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 13px;
+  cursor: pointer;
+}
+.check input {
+  accent-color: var(--zylo-brand);
+}
+.check .c {
+  margin-left: auto;
+  color: var(--zylo-ink-3);
+  font-size: 12px;
+}
+.chips,
+.price-opts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pill {
+  border: 1px solid var(--zylo-line);
+  background: #fff;
+  border-radius: 999px;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.pill.sm {
+  padding: 5px 10px;
+  min-width: 38px;
+  text-align: center;
+}
+.pill.on {
+  background: var(--zylo-brand);
+  border-color: var(--zylo-brand);
+  color: #fff;
+}
+.apply-mobile {
+  display: none;
+}
+
+// ---- Results ----
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.grid.list {
+  grid-template-columns: 1fr;
+}
+@media (min-width: 1536px) {
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+@media (min-width: 1920px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+@media (min-width: 2560px) {
+  .grid {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 22px;
+  }
+}
+
+// (Grid-cell cascade animation lives globally in styles.scss so it also
+// applies to component hosts like <zylo-product-card> and the wishlist grid.)
+
+.row {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid var(--zylo-line);
+  border-radius: var(--zylo-radius);
+  padding: 14px;
+}
+.row-img img {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.row-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.row-brand {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--zylo-ink-3);
+}
+.row-name {
+  font-size: 16px;
+  font-weight: 600;
+}
+.row-name:hover {
+  color: var(--zylo-brand);
+}
+.row-desc {
+  font-size: 13px;
+  color: var(--zylo-ink-2);
+}
+.row-buy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 10px;
+  min-width: 140px;
+}
+.row-buy .zylo-price {
+  font-size: 20px;
+}
+.row-buy .add {
+  border: 0;
+  background: var(--zylo-brand-grad);
+  color: #fff;
+  border-radius: var(--zylo-radius-sm);
+  padding: 10px 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.15s var(--zylo-ease);
+}
+.row-buy .add:hover {
+  filter: brightness(0.94);
+}
+
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  background: #fff;
+  border: 1px solid var(--zylo-line);
+  border-radius: var(--zylo-radius);
+}
+.empty .material-icons {
+  font-size: 56px;
+  color: var(--zylo-ink-3);
+}
+.empty h3 {
+  margin: 12px 0 4px;
+}
+.empty p {
+  color: var(--zylo-ink-2);
+}
+.empty button {
+  margin-top: 12px;
+  border: 0;
+  background: var(--zylo-brand-grad);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: var(--zylo-radius-sm);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+// ---- Responsive ----
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .filter-toggle {
+    display: flex;
+  }
+  .filters {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    border-radius: 0;
+    overflow-y: auto;
+    display: none;
+  }
+  .filters.open {
+    display: block;
+  }
+  .apply-mobile {
+    display: block;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    margin-top: 16px;
+    border: 0;
+    background: var(--zylo-brand-grad);
+    color: #fff;
+    padding: 14px;
+    border-radius: var(--zylo-radius-sm);
+    font-weight: 700;
+    cursor: pointer;
+  }
+}
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .row {
+    grid-template-columns: 100px 1fr;
+  }
+  .row-img img {
+    width: 100px;
+    height: 100px;
+  }
+  .row-buy {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
