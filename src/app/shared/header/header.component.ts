@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, HostListener, computed, effect, inject, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { Subject, debounceTime, switchMap } from 'rxjs';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
+import { Subject, debounceTime, filter, switchMap } from 'rxjs';
 import { CatalogService } from '../../core/data/catalog.service';
 import { CartService } from '../../core/state/cart.service';
 import { WishlistService } from '../../core/state/wishlist.service';
@@ -59,6 +59,20 @@ export class HeaderComponent {
         document.body.style.overflow = lock ? 'hidden' : '';
       }
     });
+
+    // Robust safety net: ALWAYS close the drawer/search + unlock scroll on any
+    // completed navigation. This guarantees the drawer never lingers over the
+    // new page even if a link's (click) close handler is missed on some device.
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        takeUntilDestroyed(),
+      )
+      .subscribe(() => {
+        this.mobileMenuOpen.set(false);
+        this.searchOpen.set(false);
+        this.openMenu.set(null);
+      });
   }
 
   openSearch(): void {
