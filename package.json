@@ -6,7 +6,7 @@
     "gen:version": "node scripts/gen-version.mjs",
     "prestart": "node scripts/gen-version.mjs",
     "start": "ng serve",
-    "prebuild": "node scripts/gen-version.mjs",
+    "prebuild": "npm version patch --no-git-tag-version --allow-same-version && node scripts/gen-version.mjs",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
