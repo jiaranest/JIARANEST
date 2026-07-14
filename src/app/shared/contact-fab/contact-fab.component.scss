@@ -1,4 +1,8 @@
 // Fixed floating container in the bottom-right corner.
+// CRITICAL: the container spans a large fixed area (button + panel slot), so it
+// must NOT capture pointer events itself — otherwise its empty box blocks taps
+// across a big region of every page. Only the button and the open panel are
+// interactive (pointer-events re-enabled on them below).
 .fab-root {
   position: fixed;
   right: 24px;
@@ -8,7 +12,12 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 14px;
+  pointer-events: none;
 }
+.fab-root .fab {
+  pointer-events: auto;
+}
+// (The open panel re-enables pointer-events in its own .fab-root.open .panel rule.)
 
 // ---- Round toggle button ----
 .fab {

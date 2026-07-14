@@ -91,10 +91,6 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // Prevent a sideways page scroll WITHOUT making <body> a scroll container:
-  // `overflow-x: clip` clips overflow but (unlike `hidden`) does NOT establish
-  // a scroll container, so it never interferes with the rail's touch scrolling.
-  overflow-x: clip;
 }
 
 a {

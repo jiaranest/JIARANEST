@@ -24,6 +24,10 @@
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch; // momentum scrolling on iOS
+  // `pan-x` makes the gesture DETERMINISTIC: the browser treats a swipe here as
+  // horizontal panning of THIS scroller (vertical page scroll still works via
+  // the outer document). `auto` left the gesture ambiguous → inconsistent.
+  touch-action: pan-x;
   overscroll-behavior-x: contain;
   padding-bottom: 10px;
   scrollbar-width: thin;
