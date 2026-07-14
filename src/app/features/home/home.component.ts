@@ -71,9 +71,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   private timer?: ReturnType<typeof setInterval>;
 
   readonly testimonials = [
-    { name: 'Ananya R. (mom of 2)', text: 'The soft toys are so cuddly and the delivery was quick. My kids adore them!', avatar: avatar('Ananya', 0), rating: 5 },
-    { name: 'Karthik V.', text: 'Ordered a party frock for my daughter — beautiful stitching and true to size. Loved it.', avatar: avatar('Karthik', 1), rating: 5 },
-    { name: 'Meera S.', text: 'Returns were painless and the toys feel genuinely safe and well-made. My go-to kids store.', avatar: avatar('Meera', 2), rating: 4 },
+    { name: 'Pavithra', text: 'The soft toys are so cuddly and the delivery was quick. My kids adore them!', avatar: avatar('Pavithra', 0), rating: 5 },
+    { name: 'Sudhakanna', text: 'Ordered a party frock for my daughter — beautiful stitching and true to size. Loved it.', avatar: avatar('Sudhakanna', 1), rating: 5 },
+    { name: 'Aradhya', text: 'Returns were painless and the toys feel genuinely safe and well-made. My go-to kids store.', avatar: avatar('Aradhya', 2), rating: 4 },
   ];
 
   ngOnInit(): void {
