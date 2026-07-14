@@ -34,6 +34,9 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
         border-radius: 999px;
         overflow: hidden;
         background: #fff;
+        // Let horizontal swipes over the selector pan a parent rail; +/- taps
+        // still fire.
+        touch-action: pan-x pan-y;
       }
       button {
         border: 0;
@@ -45,10 +48,17 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
         cursor: pointer;
         color: var(--zylo-ink);
         transition: background 0.15s var(--zylo-ease);
+        touch-action: pan-x pan-y;
       }
-      button:hover:not(:disabled) {
+      button:active:not(:disabled) {
         background: var(--zylo-brand-tint);
         color: var(--zylo-brand);
+      }
+      @media (hover: hover) {
+        button:hover:not(:disabled) {
+          background: var(--zylo-brand-tint);
+          color: var(--zylo-brand);
+        }
       }
       button:disabled {
         color: var(--zylo-ink-3);
@@ -64,8 +74,8 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
         font-size: 14px;
       }
       .sm button {
-        width: 30px;
-        height: 30px;
+        width: 34px;
+        height: 34px;
       }
       .sm .material-icons {
         font-size: 16px;

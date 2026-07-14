@@ -67,7 +67,7 @@
   display: inline-block;
   // Preserve the wordmark's letter rhythm around the clipped-text span so the
   // adjacent "Ji" / "nest" letters never collide with the gold "ara".
-  margin-inline: 0.02em 0.14em;
+  // margin-inline: 0.02em 0.14em;
   color: var(--zylo-accent); // solid-honey fallback
   // Gold base + a bright highlight band; the band is swept by animating
   // background-position (the gradient is wider than the text, hence 220% size).
@@ -375,8 +375,10 @@
 .drawer-nav {
   flex: 1 1 auto; // fills remaining height and IS the scroll area
   min-height: 0; // allow the flex child to shrink so overflow can scroll
-  display: flex;
-  flex-direction: column;
+  // IMPORTANT: block flow (not flex) so ALL groups stack and contribute to
+  // scrollHeight — a flex column here compressed lower groups (Clothing /
+  // Shop by Age) into a non-scrollable dead zone.
+  display: block;
   padding: 12px 10px 30px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch; // momentum scroll on iOS
@@ -384,6 +386,7 @@
   overscroll-behavior: contain; // don't chain scroll to the page behind
 }
 .drawer-nav > a {
+  display: block;
   padding: 12px 14px;
   font-size: 15px;
   font-weight: 600;
@@ -392,6 +395,7 @@
 }
 .drawer-nav > a:hover { background: var(--zylo-brand-tint); }
 .drawer-group {
+  display: block;
   margin-top: 14px;
   padding: 6px 14px;
   font-size: 11px;
@@ -401,6 +405,7 @@
   font-weight: 700;
 }
 .drawer-sub {
+  display: block;
   padding: 9px 22px;
   font-size: 14px;
   color: var(--zylo-ink-2);
@@ -408,6 +413,7 @@
 }
 .drawer-sub:hover { background: var(--zylo-brand-tint); color: var(--zylo-brand); }
 .drawer-sale {
+  display: block;
   margin: 16px 14px 0;
   padding: 11px 14px;
   text-align: center;

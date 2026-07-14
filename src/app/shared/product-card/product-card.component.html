@@ -1,6 +1,10 @@
 <article class="card">
-  <a class="media" [routerLink]="['/product', product().slug]">
-    <img [src]="product().images[0].url" [alt]="product().images[0].alt" loading="lazy" />
+  <div class="media">
+    <!-- The image is the only navigating element; buttons are siblings, NOT
+         nested inside an <a> (which caused taps to navigate instead of act). -->
+    <a class="media-link" [routerLink]="['/product', product().slug]" [attr.aria-label]="product().name">
+      <img [src]="product().images[0].url" [alt]="product().images[0].alt" loading="lazy" />
+    </a>
 
     <div class="badges">
       @if (discount() > 0) {
@@ -30,7 +34,7 @@
     @if (!product().inStock) {
       <div class="oos">Out of stock</div>
     }
-  </a>
+  </div>
 
   <div class="body">
     <a class="brand" [routerLink]="['/product', product().slug]">{{ product().brand }}</a>

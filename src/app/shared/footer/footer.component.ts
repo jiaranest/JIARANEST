@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { APP_VERSION } from '../../core/version';
 
 @Component({
   selector: 'zylo-footer',
@@ -11,6 +12,7 @@ import { RouterLink } from '@angular/router';
 })
 export class FooterComponent {
   readonly year = 2026;
+  readonly version = APP_VERSION;
   readonly subscribed = signal(false);
 
   subscribe(email: string): void {

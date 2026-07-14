@@ -1,3 +1,12 @@
+// "View all" links in section headings are useful on mobile (rails show only
+// a few cards) but redundant on ≥1100px where the rail becomes a full grid
+// showing everything — so hide them there.
+@media (min-width: 1100px) {
+  .zylo-section-head a {
+    display: none;
+  }
+}
+
 // ---- Hero ----
 .hero {
   padding-top: 20px;
