@@ -427,7 +427,9 @@
   border-radius: 8px;
 }
 .drawer-sub:hover { background: var(--jiara-brand-tint); color: var(--jiara-brand); }
-.drawer-sale {
+// Scoped under `.drawer-nav` so it beats `.drawer-nav > a`'s ink colour and the
+// label renders white on the green fill (matching the other CTAs).
+.drawer-nav > a.drawer-sale {
   display: block;
   margin: 16px 14px 0;
   padding: 11px 14px;

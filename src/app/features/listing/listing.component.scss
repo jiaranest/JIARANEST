@@ -110,6 +110,10 @@
 }
 
 // ---- Filters ----
+// Sticky, self-contained scroll panel: it pins beside the results and, when its
+// own content is taller than the viewport, scrolls INTERNALLY. `overscroll-
+// behavior: contain` stops that scroll from chaining to the page, so hovering
+// the panel and scrolling moves only the filters — not the whole page.
 .filters {
   background: #fff;
   border: 1px solid var(--jiara-line);
@@ -117,6 +121,24 @@
   padding: 18px;
   position: sticky;
   top: 128px;
+  // Fill the space from the sticky offset to the bottom of the viewport.
+  max-height: calc(100vh - 128px - 16px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  // Slim, on-theme scrollbar for the panel.
+  scrollbar-width: thin;
+  scrollbar-color: var(--jiara-line) transparent;
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--jiara-line);
+    border-radius: 999px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
 }
 .filters-head {
   display: flex;
@@ -338,6 +360,10 @@
     inset: 0;
     z-index: 200;
     border-radius: 0;
+    // Full-screen drawer on mobile — override the desktop sticky cap so it
+    // uses the whole screen height, not the viewport-minus-header height.
+    max-height: none;
+    top: 0;
     overflow-y: auto;
     display: none;
   }
