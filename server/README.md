@@ -23,8 +23,8 @@ cd server
 docker compose up -d            # start local Postgres
 copy .env.example .env          # create .env (Windows; use cp on mac/linux)
 npm install                     # install deps
-npx prisma migrate dev --name init   # create tables
-npm run seed                    # 30 products, 11 categories (identical to the mock)
+npx prisma db push              # create tables from schema
+npm run seed                    # 32 products, 13 categories (identical to the mock)
 npm run start:dev               # run the API (watch mode)
 ```
 

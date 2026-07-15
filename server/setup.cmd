@@ -40,10 +40,10 @@ if errorlevel 1 (
 )
 
 REM --- 4. Database schema ----------------------------------------------------
-echo [4/5] Creating database tables (prisma migrate dev)...
-call npx prisma migrate dev --name init
+echo [4/5] Creating database tables (prisma db push)...
+call npx prisma db push
 if errorlevel 1 (
-  echo ERROR: prisma migrate failed. Is Postgres healthy? Try: docker compose ps
+  echo ERROR: prisma db push failed. Is Postgres healthy? Try: docker compose ps
   goto :fail
 )
 
