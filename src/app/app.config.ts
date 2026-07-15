@@ -23,7 +23,11 @@ import { FallbackOrderService } from './core/data/fallback-order.service';
 import { authInterceptor } from './core/data/auth.interceptor';
 import { environment } from './core/config/environment';
 
-/** Pick the implementation for the configured data mode. */
+/**
+ * Pick the implementation for the configured data mode. `T` is pinned to the
+ * abstract base (e.g. CatalogService) so the three sibling impls are all
+ * accepted as `Type<T>` rather than being inferred from the first argument.
+ */
 function forMode<T>(api: Type<T>, mock: Type<T>, fallback: Type<T>): Type<T> {
   switch (environment.dataMode) {
     case 'api':
@@ -48,15 +52,19 @@ export const appConfig: ApplicationConfig = {
     // Fallback (API-with-mock-backup) impl per environment.dataMode.
     {
       provide: CatalogService,
-      useClass: forMode(HttpCatalogService, MockCatalogService, FallbackCatalogService),
+      useClass: forMode<CatalogService>(
+        HttpCatalogService,
+        MockCatalogService,
+        FallbackCatalogService,
+      ),
     },
     {
       provide: AuthService,
-      useClass: forMode(HttpAuthService, MockAuthService, FallbackAuthService),
+      useClass: forMode<AuthService>(HttpAuthService, MockAuthService, FallbackAuthService),
     },
     {
       provide: OrderService,
-      useClass: forMode(HttpOrderService, MockOrderService, FallbackOrderService),
+      useClass: forMode<OrderService>(HttpOrderService, MockOrderService, FallbackOrderService),
     },
   ],
 };
