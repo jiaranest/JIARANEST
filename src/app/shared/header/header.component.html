@@ -27,12 +27,13 @@
       }
     </nav>
 
-    <!-- Centered wordmark -->
+    <!-- Centered wordmark. The single sparrow (a fixed element in app root)
+         parks over this wordmark at the top and flies to section titles on
+         scroll. `data-bird-home` marks its resting anchor. -->
     <a class="brand" routerLink="/" aria-label="Jiaranest home">
-      <span class="brand-name"
-        ><svg class="brand-orn brand-orn--lead" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="currentColor"/></svg
-        >Ji<span class="brand-accent">ara</span>nest<svg class="brand-orn" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0 L14 10 L24 12 L14 14 L12 24 L10 14 L0 12 L10 10 Z" fill="currentColor"/></svg
-      ></span>
+      <span class="brand-wordmark" data-bird-home>
+        <span class="brand-name">Ji<span class="brand-accent">ara</span>nest</span>
+      </span>
       <span class="brand-tagline">luxury for little ones</span>
     </a>
 

@@ -46,7 +46,7 @@
 
 <!-- Shop by category -->
 <section class="jiara-section jiara-container">
-  <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">Shop by Category</h2></div>
+  <div class="jiara-section-head"><h2 jiaraReveal data-guide-title class="reveal-underline">Shop by Category</h2></div>
   <div class="cat-grid" jiaraReveal="stagger" [revealStep]="70">
     @for (c of browseCategories(); track c.id) {
       <a class="cat" [routerLink]="['/category', c.slug]">
@@ -60,7 +60,7 @@
 
 <!-- Shop by age -->
 <section class="jiara-section jiara-container">
-  <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">Shop by Age</h2></div>
+  <div class="jiara-section-head"><h2 jiaraReveal data-guide-title class="reveal-underline">Shop by Age</h2></div>
   <div class="age-grid" jiaraReveal="stagger" [revealStep]="90">
     @for (a of ageGroups; track a.id) {
       <a class="age" routerLink="/search" [queryParams]="{ age: a.id }">
@@ -74,7 +74,7 @@
 <!-- Featured / deals -->
 <section class="jiara-section jiara-container">
   <div class="jiara-section-head">
-    <h2 jiaraReveal class="reveal-underline">⚡ Deals of the Day</h2>
+    <h2 jiaraReveal data-guide-title class="reveal-underline">⚡ Deals of the Day</h2>
     <a routerLink="/search" [queryParams]="{ discount: 30 }">View all</a>
   </div>
   <jiara-product-rail [products]="featured()" />
@@ -92,26 +92,26 @@
 
 <!-- New arrivals -->
 <section class="jiara-section jiara-container">
-  <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">New Arrivals</h2><a routerLink="/search" [queryParams]="{ sort: 'latest' }">View all</a></div>
+  <div class="jiara-section-head"><h2 jiaraReveal data-guide-title class="reveal-underline">New Arrivals</h2><a routerLink="/search" [queryParams]="{ sort: 'latest' }">View all</a></div>
   <jiara-product-rail [products]="newArrivals()" />
 </section>
 
 <!-- Best sellers -->
 <section class="jiara-section jiara-container">
-  <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">Best Sellers</h2><a routerLink="/search" [queryParams]="{ sort: 'popular' }">View all</a></div>
+  <div class="jiara-section-head"><h2 jiaraReveal data-guide-title class="reveal-underline">Best Sellers</h2><a routerLink="/search" [queryParams]="{ sort: 'popular' }">View all</a></div>
   <jiara-product-rail [products]="bestSellers()" />
 </section>
 
 <!-- Trending -->
 <section class="jiara-section jiara-container">
-  <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">🔥 Trending Now</h2></div>
+  <div class="jiara-section-head"><h2 jiaraReveal data-guide-title class="reveal-underline">🔥 Trending Now</h2></div>
   <jiara-product-rail [products]="trending()" />
 </section>
 
 <!-- Testimonials -->
 <section class="jiara-section testimonials">
   <div class="jiara-container">
-    <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">What shoppers say</h2></div>
+    <div class="jiara-section-head"><h2 jiaraReveal data-guide-title class="reveal-underline">What shoppers say</h2></div>
     <div class="t-grid" jiaraReveal="stagger" [revealStep]="110">
       @for (t of testimonials; track t.name) {
         <figure class="t-card">

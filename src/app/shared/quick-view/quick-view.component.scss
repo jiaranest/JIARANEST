@@ -193,10 +193,62 @@ h2 {
 }
 
 @media (max-width: 680px) {
+  // Stack the two panels, and cap the whole dialog to the viewport so it never
+  // runs off-screen. The single column scrolls internally, so the buy buttons
+  // are always reachable without the dialog itself overflowing.
   .qv {
     grid-template-columns: 1fr;
+    max-height: 90vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
+  // The image dominated the screen (a full square pushed the info below the
+  // fold). Shrink it and let the gallery be compact.
+  .gallery {
+    padding: 14px;
+    gap: 8px;
+  }
+  .gallery > img {
+    aspect-ratio: auto;
+    height: 40vh;
+    max-height: 300px;
+    object-fit: contain;
+  }
+  .thumbs button {
+    width: 46px;
+    height: 46px;
+  }
+  // Info panel no longer scrolls on its own (the whole dialog does); tighten it.
   .info {
     max-height: none;
+    overflow-y: visible;
+    padding: 18px 18px 20px;
+    gap: 8px;
+  }
+  h2 {
+    font-size: 19px;
+  }
+  .price .jiara-price {
+    font-size: 22px;
+  }
+  // Close button sits over the (smaller) image, keep it tappable.
+  .x {
+    width: 38px;
+    height: 38px;
+  }
+}
+// Very small phones: give the buy row a touch more room by wrapping if needed.
+@media (max-width: 380px) {
+  .buy-row {
+    flex-wrap: wrap;
+  }
+  .add,
+  .buy {
+    flex: 1 1 100%;
+  }
+  .wish {
+    flex: 0 0 auto;
+    width: 100%;
+    height: 40px;
   }
 }

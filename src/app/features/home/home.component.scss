@@ -367,6 +367,29 @@
   .trust { grid-template-columns: repeat(2, 1fr); }
   .t-grid { grid-template-columns: 1fr; }
 }
+// Compact trust strip on phones/tablets — smaller cards, icons and text.
+@media (max-width: 640px) {
+  .trust {
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .trust-item {
+    gap: 8px;
+    padding: 10px;
+    border-radius: var(--jiara-radius-sm);
+  }
+  .trust-item .material-icons {
+    font-size: 20px;
+  }
+  .trust-item strong {
+    font-size: 12px;
+    line-height: 1.2;
+  }
+  .trust-item span {
+    font-size: 10.5px;
+    line-height: 1.2;
+  }
+}
 @media (max-width: 720px) {
   // Single-column hero; reserve bottom room so the CTA never sits under the
   // dots, and hide the side arrows (dots + autoplay are enough on mobile).

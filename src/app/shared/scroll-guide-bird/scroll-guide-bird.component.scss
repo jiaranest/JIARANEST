@@ -1,0 +1,78 @@
+// The ONE sparrow. A fixed element positioned by JS via `left`/`top`:
+//  • Guide mode (scrolled into sections): eases beside the active section title
+//    — the smooth glide is a transition on left/top.
+//  • Header mode (`.is-in-header`, at page top): parked over the wordmark, its
+//    own `transform` keyframes fly it across "JIARANEST" (the original header
+//    behaviour), so `transform` is reserved for that animation.
+.guide-bird {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 24px;
+  // Above the sticky header (100) so the bird shows over the wordmark when
+  // parked; below the contact FAB (300). pointer-events:none, blocks nothing.
+  z-index: 160;
+  pointer-events: none;
+  // Smooth glide between title positions (and between header↔first title).
+  transition: left 0.9s cubic-bezier(0.34, 1.15, 0.5, 1),
+    top 0.9s cubic-bezier(0.34, 1.15, 0.5, 1);
+  will-change: left, top;
+}
+.guide-bird-svg {
+  display: block; // SVG defaults to inline → collapses to ~7px wide; block fixes it
+  width: 30px;
+  height: 24px;
+  overflow: visible;
+  filter: drop-shadow(0 3px 4px rgba(60, 50, 30, 0.28));
+}
+
+// Gentle continuous wing flap (child element, so it never fights the body
+// transform used by the header fly-across).
+.guide-bird-wing {
+  transform-origin: 15px 15px;
+  transform-box: fill-box;
+  animation: guide-flap 0.5s ease-in-out infinite;
+}
+@keyframes guide-flap {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-30deg); }
+}
+
+// ---- Header mode: fly back and forth across the wordmark (original feature) ----
+// `--home-w` is set by JS to the wordmark width so the flight spans the title.
+.guide-bird.is-in-header {
+  --home-w: 180px;
+  animation: header-fly 5s ease-in-out infinite;
+}
+// A gentle bob that stays LOW over the letters (small +Y dips, never lifting
+// high above the wordmark) so the bird reads as perched on the title.
+@keyframes header-fly {
+  0%, 12% {
+    transform: translateX(-6px) translateY(0) scaleX(1);
+  }
+  30% {
+    transform: translateX(calc(var(--home-w) * 0.4)) translateY(2px) scaleX(1);
+  }
+  50% {
+    transform: translateX(calc(var(--home-w) - 22px)) translateY(3px) scaleX(1);
+  }
+  // turn and glide back to the left
+  56% {
+    transform: translateX(calc(var(--home-w) - 22px)) translateY(1px) scaleX(-1);
+  }
+  80% {
+    transform: translateX(calc(var(--home-w) * 0.35)) translateY(2px) scaleX(-1);
+  }
+  100% {
+    transform: translateX(-6px) translateY(0) scaleX(1);
+  }
+}
+
+// Desktop-only feature — hide on tablets/phones to keep them clean & light.
+@media (max-width: 900px) {
+  .guide-bird { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .guide-bird { display: none; }
+}
