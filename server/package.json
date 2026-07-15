@@ -12,10 +12,11 @@
     "migrate": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "seed": "ts-node --project prisma/tsconfig.seed.json prisma/seed.ts",
+    "seed:force": "ts-node --project prisma/tsconfig.seed.json prisma/seed.ts --force",
     "gen:seed": "ts-node --project prisma/tsconfig.seed.json prisma/gen-seed-data.ts",
     "db:reset": "prisma migrate reset --force",
     "render:build": "npm install && prisma generate && nest build",
-    "render:start": "prisma db push --skip-generate && node dist/main.js"
+    "render:start": "prisma db push --skip-generate && npm run seed && node dist/main.js"
   },
   "prisma": {
     "seed": "ts-node --project prisma/tsconfig.seed.json prisma/seed.ts"

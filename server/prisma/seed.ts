@@ -47,6 +47,15 @@ interface SeedCategory {
 }
 
 async function main() {
+  // Skip if already seeded — makes it safe to run on every boot (the deploy
+  // start command calls this). Pass --force to reseed anyway.
+  const force = process.argv.includes('--force');
+  const existing = await prisma.product.count();
+  if (existing > 0 && !force) {
+    console.log(`Catalog already seeded (${existing} products) — skipping.`);
+    return;
+  }
+
   console.log('Seeding Jiaranest catalog…');
 
   const data = JSON.parse(readFileSync(join(__dirname, 'seed-data.json'), 'utf8')) as {
@@ -54,7 +63,7 @@ async function main() {
     products: SeedProduct[];
   };
 
-  // Idempotent: clear then reload.
+  // Clear then reload (reached only when empty, or with --force).
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
 
