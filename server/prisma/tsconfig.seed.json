@@ -4,5 +4,5 @@
     "rootDir": "..",
     "noEmit": true
   },
-  "include": ["seed.ts", "../../src/app/core/data/mock-data.ts"]
+  "include": ["seed.ts", "gen-seed-data.ts", "../../src/app/core/data/mock-data.ts"]
 }
