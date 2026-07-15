@@ -4,7 +4,7 @@ export const routes: Routes = [
   {
     path: '',
     loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
-    title: 'Jiaranest — Toys & Kids\' Clothing',
+    title: 'Jiaranest — Luxury for Little Ones',
   },
   {
     path: 'search',

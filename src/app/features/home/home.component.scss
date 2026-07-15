@@ -404,6 +404,22 @@
   .hero-cta { padding: 11px 20px; }
   .promos { grid-template-columns: 1fr; }
 }
+// Compact promo banners on phones — less padding/height and smaller text so
+// they don't dominate the mobile scroll.
+@media (max-width: 640px) {
+  .promos { gap: 12px; }
+  .promo {
+    padding: 20px;
+    min-height: 116px;
+    border-radius: var(--jiara-radius);
+  }
+  .promo h3 {
+    font-size: 20px;
+    margin: 4px 0 8px;
+  }
+  .p-eyebrow { font-size: 11px; }
+  .p-link { font-size: 13px; }
+}
 @media (max-width: 480px) {
   .cat-grid { grid-template-columns: repeat(3, 1fr); }
 }
