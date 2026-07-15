@@ -55,6 +55,9 @@
         <button class="icon-btn" type="button" aria-label="Search" (click)="openSearch()">
           <span class="material-icons">search</span>
         </button>
+        <a class="icon-btn" routerLink="/orders" aria-label="My Orders">
+          <span class="material-icons">receipt_long</span>
+        </a>
         <a class="icon-btn" routerLink="/wishlist" aria-label="Wishlist">
           <span class="material-icons">favorite_border</span>
           @if (wishlist.count() > 0) { <span class="count">{{ wishlist.count() }}</span> }
@@ -131,6 +134,7 @@
   </div>
   <nav class="drawer-nav">
     <a routerLink="/" (click)="closeMobileMenu()">Home</a>
+    <a routerLink="/orders" (click)="closeMobileMenu()">My Orders</a>
     @for (c of topCategories(); track c.id) {
       <span class="drawer-group">{{ c.name }}</span>
       @for (sub of subCategories(c.id); track sub.id) {

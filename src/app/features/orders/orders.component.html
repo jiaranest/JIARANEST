@@ -1,0 +1,81 @@
+<div class="jiara-container orders">
+  <h1>My Orders</h1>
+
+  @if (!auth.isLoggedIn()) {
+    <!-- Not logged in -->
+    <div class="empty">
+      <span class="material-icons">receipt_long</span>
+      <h3>Log in to see your orders</h3>
+      <p>Your order history appears here once you're signed in.</p>
+      <button type="button" class="cta" (click)="login()">Log in</button>
+    </div>
+  } @else if (loading()) {
+    <!-- Loading skeletons -->
+    <div class="order-list">
+      @for (s of [1, 2, 3]; track s) {
+        <div class="order-card skeleton">
+          <div class="sk-line w-40"></div>
+          <div class="sk-line w-60"></div>
+          <div class="sk-line w-30"></div>
+        </div>
+      }
+    </div>
+  } @else if (error()) {
+    <div class="empty">
+      <span class="material-icons">error_outline</span>
+      <h3>Something went wrong</h3>
+      <p>{{ error() }}</p>
+    </div>
+  } @else if (list().length === 0) {
+    <!-- No orders yet -->
+    <div class="empty">
+      <span class="material-icons">receipt_long</span>
+      <h3>No orders yet</h3>
+      <p>When you place an order, it'll show up here.</p>
+      <a routerLink="/" class="cta">Start Shopping</a>
+    </div>
+  } @else {
+    <!-- Orders -->
+    <div class="order-list">
+      @for (o of list(); track o.orderNumber) {
+        <article class="order-card">
+          <header class="oc-head">
+            <div>
+              <span class="oc-label">Order</span>
+              <strong class="oc-number">{{ o.orderNumber }}</strong>
+            </div>
+            <div class="oc-meta">
+              <span class="oc-date">{{ formatDate(o.createdAt) }}</span>
+              <span class="oc-status oc-status--{{ o.status }}">{{ o.status }}</span>
+            </div>
+          </header>
+
+          <div class="oc-items">
+            @for (it of o.items; track it.productId + (it.slug)) {
+              <a class="oc-item" [routerLink]="['/product', it.slug]">
+                <img [src]="it.image" [alt]="it.name" loading="lazy" />
+                <div class="oc-item-body">
+                  <span class="oc-item-name jiara-clamp-1">{{ it.name }}</span>
+                  <span class="oc-item-sub">
+                    {{ it.brand }} · Qty {{ it.quantity }}
+                    @if (it.selectedOptions) {
+                      @for (opt of it.selectedOptions | keyvalue; track opt.key) {
+                        · {{ opt.value }}
+                      }
+                    }
+                  </span>
+                </div>
+                <span class="oc-item-price">{{ inr(it.unitPrice * it.quantity) }}</span>
+              </a>
+            }
+          </div>
+
+          <footer class="oc-foot">
+            <span class="oc-count">{{ itemCount(o) }} item{{ itemCount(o) === 1 ? '' : 's' }}</span>
+            <span class="oc-total">Total <strong>{{ inr(o.total) }}</strong></span>
+          </footer>
+        </article>
+      }
+    </div>
+  }
+</div>
