@@ -23,8 +23,11 @@ async function bootstrap() {
     }),
   );
 
+  // Bind to 0.0.0.0 (all interfaces) — required by Render/most hosts so the
+  // platform's health checker can reach the app. Defaulting to localhost makes
+  // the service unreachable externally and it never passes health checks.
   const port = Number(process.env.PORT ?? 3000);
-  await app.listen(port);
-  console.log(`Jiaranest API listening on http://localhost:${port}/api`);
+  await app.listen(port, '0.0.0.0');
+  console.log(`Jiaranest API listening on port ${port} (/api)`);
 }
 bootstrap();
