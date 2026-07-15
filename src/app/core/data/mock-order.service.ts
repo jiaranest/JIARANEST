@@ -4,7 +4,7 @@ import { delay } from 'rxjs/operators';
 import { CreateOrderRequest, Order, OrderService } from './order.service';
 
 /**
- * Offline fallback for orders (environment.useApi === false). Computes totals
+ * Offline fallback for orders (dataMode 'mock' or 'fallback'). Computes totals
  * the same way the server does and echoes back a deterministic order — enough
  * for the checkout confirmation screen to work without a backend.
  */

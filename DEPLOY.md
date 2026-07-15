@@ -75,6 +75,12 @@ The API must allow your frontend's origin.
    ```
    (On localhost the app still uses the local API automatically.)
 
+   **Data mode:** `dataMode` in the same file controls behaviour:
+   - `'fallback'` *(default)* — try the API, silently use mock data if it's
+     down/asleep. The site always works. Best for a deployed demo.
+   - `'api'` — API only (errors if the backend is down).
+   - `'mock'` — mock only (no backend at all).
+
 2. Commit + push that change:
    ```bash
    git add src/app/core/config/environment.ts
@@ -115,9 +121,9 @@ If products don't load, open DevTools → Network:
   the GitHub repo (and Pages path) must be **JIARANEST**. If you name the repo
   differently, change `--base-href` in `package.json`'s `build:gh` script to
   `/<your-repo-name>/`.
-- **Switching off the backend:** set `useApi: false` in `environment.ts` to make
-  the deployed site run entirely on mock data (no backend needed) — handy if the
-  free DB expires.
+- **Switching off the backend:** set `dataMode: 'mock'` in `environment.ts` to
+  make the deployed site run entirely on mock data (no backend needed) — handy
+  if the free DB expires. `'fallback'` already degrades gracefully on its own.
 - **Re-seeding prod:** the start command seeds every boot (idempotent — it
   clears + reloads the catalog). Fine for a demo; remove `npm run seed` from
   `render:start` once you don't want the catalog reset on each deploy.

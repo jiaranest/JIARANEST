@@ -17,7 +17,7 @@ export interface OtpResult {
 /**
  * The auth seam — mirrors the CatalogService pattern. `app.config` binds this
  * token to `MockAuthService` (Phase-1 stub) or `HttpAuthService` (real API,
- * Phase 2b) based on `environment.useApi`.
+ * Phase 2b) based on `environment.dataMode`.
  *
  * `user` / `isLoggedIn` are synchronous signals (so header/checkout/login-gate
  * read them without change). The action methods are async (they hit the network

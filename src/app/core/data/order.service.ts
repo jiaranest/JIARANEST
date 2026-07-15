@@ -49,7 +49,7 @@ export interface Order {
 
 /**
  * The orders seam — mirrors CatalogService/AuthService. Bound to `HttpOrderService`
- * (real API) or `MockOrderService` (offline fallback) via environment.useApi.
+ * (real API) or `MockOrderService` (offline fallback) via environment.dataMode.
  */
 export abstract class OrderService {
   abstract createOrder(req: CreateOrderRequest): Observable<Order>;

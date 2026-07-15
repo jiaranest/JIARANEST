@@ -5,8 +5,8 @@ import { AuthService, AuthUser, OtpResult } from './auth.service';
 const KEY = 'jiara.auth.v1';
 
 /**
- * Phase-1 auth stub, kept as an env-switchable fallback (environment.useApi
- * === false). OTP + Google flows are simulated; any 4–6 digit code is accepted.
+ * Phase-1 auth stub, kept as an env-switchable fallback (dataMode 'mock' or
+ * 'fallback'). OTP + Google flows are simulated; any 4–6 digit code is accepted.
  * Same async signature as HttpAuthService so components don't care which is bound.
  */
 @Injectable({ providedIn: 'root' })

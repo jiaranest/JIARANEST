@@ -1,5 +1,6 @@
 import {
   ApplicationConfig,
+  Type,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
 } from '@angular/core';
@@ -10,14 +11,29 @@ import { routes } from './app.routes';
 import { CatalogService } from './core/data/catalog.service';
 import { MockCatalogService } from './core/data/mock-catalog.service';
 import { HttpCatalogService } from './core/data/http-catalog.service';
+import { FallbackCatalogService } from './core/data/fallback-catalog.service';
 import { AuthService } from './core/state/auth.service';
 import { MockAuthService } from './core/state/mock-auth.service';
 import { HttpAuthService } from './core/state/http-auth.service';
+import { FallbackAuthService } from './core/state/fallback-auth.service';
 import { OrderService } from './core/data/order.service';
 import { MockOrderService } from './core/data/mock-order.service';
 import { HttpOrderService } from './core/data/http-order.service';
+import { FallbackOrderService } from './core/data/fallback-order.service';
 import { authInterceptor } from './core/data/auth.interceptor';
 import { environment } from './core/config/environment';
+
+/** Pick the implementation for the configured data mode. */
+function forMode<T>(api: Type<T>, mock: Type<T>, fallback: Type<T>): Type<T> {
+  switch (environment.dataMode) {
+    case 'api':
+      return api;
+    case 'mock':
+      return mock;
+    default:
+      return fallback; // 'fallback' — try API, use mock on error
+  }
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -28,19 +44,19 @@ export const appConfig: ApplicationConfig = {
       routes,
       withInMemoryScrolling({ scrollPositionRestoration: 'enabled', anchorScrolling: 'enabled' }),
     ),
-    // The data + auth seams. Both flip on environment.useApi: the real NestJS
-    // API (Http*) or the in-memory Phase-1 stubs (Mock*), kept as fallbacks.
+    // The data + auth + orders seams. Each resolves to the Http, Mock, or
+    // Fallback (API-with-mock-backup) impl per environment.dataMode.
     {
       provide: CatalogService,
-      useClass: environment.useApi ? HttpCatalogService : MockCatalogService,
+      useClass: forMode(HttpCatalogService, MockCatalogService, FallbackCatalogService),
     },
     {
       provide: AuthService,
-      useClass: environment.useApi ? HttpAuthService : MockAuthService,
+      useClass: forMode(HttpAuthService, MockAuthService, FallbackAuthService),
     },
     {
       provide: OrderService,
-      useClass: environment.useApi ? HttpOrderService : MockOrderService,
+      useClass: forMode(HttpOrderService, MockOrderService, FallbackOrderService),
     },
   ],
 };
