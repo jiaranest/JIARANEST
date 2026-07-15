@@ -37,6 +37,13 @@ export class OrdersComponent {
     }
   }
 
+  /** Sign out and clear the shown orders. */
+  logout(): void {
+    this.auth.logout();
+    this.list.set([]);
+    this.error.set('');
+  }
+
   private load(): void {
     this.loading.set(true);
     this.error.set('');

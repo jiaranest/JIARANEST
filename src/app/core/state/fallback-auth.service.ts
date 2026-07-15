@@ -23,14 +23,14 @@ export class FallbackAuthService extends AuthService {
   readonly user = this._user.asReadonly();
   readonly isLoggedIn = computed(() => this._user() !== null);
 
-  requestOtp(phone: string): Observable<OtpResult> {
-    return withFallback(() => this.api.requestOtp(phone), () => this.mock.requestOtp(phone));
+  requestOtp(email: string): Observable<OtpResult> {
+    return withFallback(() => this.api.requestOtp(email), () => this.mock.requestOtp(email));
   }
 
-  verifyOtp(phone: string, code: string): Observable<OtpResult> {
+  verifyOtp(email: string, code: string): Observable<OtpResult> {
     return withFallback(
-      () => this.api.verifyOtp(phone, code),
-      () => this.mock.verifyOtp(phone, code),
+      () => this.api.verifyOtp(email, code),
+      () => this.mock.verifyOtp(email, code),
     ).pipe(tap(() => this.sync()));
   }
 

@@ -1,5 +1,17 @@
 <div class="jiara-container orders">
-  <h1>My Orders</h1>
+  <div class="orders-head">
+    <h1>My Orders</h1>
+    @if (auth.isLoggedIn()) {
+      <div class="account">
+        @if (auth.user()?.email || auth.user()?.phone) {
+          <span class="who">{{ auth.user()?.email || auth.user()?.phone }}</span>
+        }
+        <button type="button" class="logout" (click)="logout()">
+          <span class="material-icons">logout</span> Log out
+        </button>
+      </div>
+    }
+  </div>
 
   @if (!auth.isLoggedIn()) {
     <!-- Not logged in -->

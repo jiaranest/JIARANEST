@@ -61,25 +61,31 @@ inStockOnly, minDiscount, page, pageSize`. Array params accept repeated
 
 | Method | Route | Body / Auth | Purpose |
 |---|---|---|---|
-| POST | `/auth/otp/request` | `{ phone }` | generate OTP (printed to server console) |
-| POST | `/auth/otp/verify` | `{ phone, code }` | verify → `{ token, user }` |
+| POST | `/auth/otp/request` | `{ email }` | generate + email the OTP (via Resend) |
+| POST | `/auth/otp/verify` | `{ email, code }` | verify → `{ token, user }` |
 | GET | `/auth/me` | `Authorization: Bearer <token>` | current user |
 
-Dev OTP: a real 6-digit code is generated and **logged to the terminal** running
-the API; the code **`123456`** always works in dev. Codes expire in 5 minutes.
+**Email OTP delivery:** a real 6-digit code is generated and emailed via
+[Resend](https://resend.com). Set `RESEND_API_KEY` + `MAIL_FROM` in `.env`
+(and on Render). If `RESEND_API_KEY` is empty, the code is **logged to the API
+console** instead (dev). The code **`123456`** always works in dev. Codes expire
+in 5 minutes.
+
+> Resend free tier: without a verified domain, delivery is reliable only to your
+> own Resend account email (fine for demo). Verify a domain to email anyone.
 
 **Test with curl:**
 ```bash
 curl -X POST http://localhost:3000/api/auth/otp/request \
-  -H "Content-Type: application/json" -d "{\"phone\":\"9876543210\"}"
-# → { "ok": true }   (check the API terminal for the code)
+  -H "Content-Type: application/json" -d "{\"email\":\"you@example.com\"}"
+# → { "ok": true }   (check your inbox, or the API console if no RESEND_API_KEY)
 
 curl -X POST http://localhost:3000/api/auth/otp/verify \
-  -H "Content-Type: application/json" -d "{\"phone\":\"9876543210\",\"code\":\"123456\"}"
+  -H "Content-Type: application/json" -d "{\"email\":\"you@example.com\",\"code\":\"123456\"}"
 # → { "token": "...", "user": { ... } }
 
 curl http://localhost:3000/api/auth/me -H "Authorization: Bearer <token-from-above>"
-# → { "id": "...", "name": "Shopper", "phone": "9876543210", "method": "otp" }
+# → { "id": "...", "name": "Shopper", "email": "you@example.com", "method": "otp" }
 ```
 
 ### Orders (Phase 2c)

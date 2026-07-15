@@ -15,15 +15,15 @@ export class MockAuthService extends AuthService {
   readonly user = this._user.asReadonly();
   readonly isLoggedIn = computed(() => this._user() !== null);
 
-  requestOtp(_phone: string): Observable<OtpResult> {
+  requestOtp(_email: string): Observable<OtpResult> {
     return of({ ok: true });
   }
 
-  verifyOtp(phone: string, code: string): Observable<OtpResult> {
+  verifyOtp(email: string, code: string): Observable<OtpResult> {
     if (!/^\d{4,6}$/.test(code)) {
       return of({ ok: false, message: 'Enter the 6-digit code we sent you.' });
     }
-    this.setUser({ id: 'u-' + phone, name: 'Shopper', phone, method: 'otp' });
+    this.setUser({ id: 'u-' + email, name: 'Shopper', email, method: 'otp' });
     return of({ ok: true });
   }
 

@@ -30,11 +30,11 @@ export abstract class AuthService {
   abstract readonly user: Signal<AuthUser | null>;
   abstract readonly isLoggedIn: Signal<boolean>;
 
-  /** Ask the server to send an OTP to this phone. */
-  abstract requestOtp(phone: string): Observable<OtpResult>;
+  /** Ask the server to email an OTP to this address. */
+  abstract requestOtp(email: string): Observable<OtpResult>;
 
   /** Verify an OTP code; on success the user is signed in. */
-  abstract verifyOtp(phone: string, code: string): Observable<OtpResult>;
+  abstract verifyOtp(email: string, code: string): Observable<OtpResult>;
 
   /** One-click Google login (still a stub until Google SSO is wired). */
   abstract loginWithGoogle(): Observable<OtpResult>;

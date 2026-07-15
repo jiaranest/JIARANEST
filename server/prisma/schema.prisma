@@ -81,10 +81,10 @@ model User {
   @@map("users")
 }
 
-// One-time codes for phone OTP login. A fresh request replaces any prior code
-// for that phone (upsert), so only the latest code is valid.
+// One-time codes for email OTP login. A fresh request replaces any prior code
+// for that email (upsert), so only the latest code is valid.
 model OtpCode {
-  phone     String   @id
+  email     String   @id
   code      String
   expiresAt DateTime
   attempts  Int      @default(0)

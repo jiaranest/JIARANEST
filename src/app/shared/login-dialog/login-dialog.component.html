@@ -7,26 +7,25 @@
     <span class="logo-mark">J</span>
     <span class="logo-text">jiaranest</span>
   </div>
-  <h2>{{ step() === 'phone' ? 'Login or Sign up' : 'Verify your number' }}</h2>
+  <h2>{{ step() === 'email' ? 'Login or Sign up' : 'Verify your email' }}</h2>
   <p class="sub">
     {{
-      step() === 'phone'
+      step() === 'email'
         ? 'Login to continue to checkout — no password needed.'
-        : 'Enter the 6-digit code sent to +91 ' + phone()
+        : 'Enter the 6-digit code sent to ' + email()
     }}
   </p>
 
-  @if (step() === 'phone') {
-    <form (submit)="sendOtp(phoneInput.value); $event.preventDefault()">
+  @if (step() === 'email') {
+    <form (submit)="sendOtp(emailInput.value); $event.preventDefault()">
       <div class="field">
-        <span class="prefix">+91</span>
         <input
-          #phoneInput
-          type="tel"
-          inputmode="numeric"
-          maxlength="10"
-          placeholder="Mobile number"
-          aria-label="Mobile number"
+          #emailInput
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          placeholder="you@example.com"
+          aria-label="Email address"
         />
       </div>
       @if (error()) {
@@ -37,11 +36,13 @@
       </button>
     </form>
 
+    <!-- Google sign-in is parked (OTP is enough for now). To re-enable: uncomment
+         the divider + button below and wire real Google SSO in AuthService.
     <div class="or"><span>OR</span></div>
-
     <button class="google" type="button" (click)="google()" [disabled]="busy()">
       <span class="g">G</span> Continue with Google
     </button>
+    -->
   } @else {
     <form (submit)="verify(otpInput.value); $event.preventDefault()">
       <input
@@ -62,7 +63,7 @@
         {{ busy() ? 'Verifying…' : 'Verify & Continue' }}
       </button>
     </form>
-    <button class="link" type="button" (click)="back()">← Change number</button>
+    <button class="link" type="button" (click)="back()">← Change email</button>
   }
 
   <p class="terms">By continuing, you agree to Jiaranest's Terms &amp; Privacy Policy.</p>

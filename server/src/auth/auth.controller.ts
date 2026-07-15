@@ -8,16 +8,16 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 export class AuthController {
   constructor(private readonly auth: AuthService) {}
 
-  /** Request an OTP for a phone number (code is logged to the server console). */
+  /** Request an OTP for an email (sent via Resend, or logged to console in dev). */
   @Post('otp/request')
   requestOtp(@Body() dto: RequestOtpDto) {
-    return this.auth.requestOtp(dto.phone);
+    return this.auth.requestOtp(dto.email);
   }
 
   /** Verify the OTP; returns { token, user } on success. */
   @Post('otp/verify')
   verifyOtp(@Body() dto: VerifyOtpDto) {
-    return this.auth.verifyOtp(dto.phone, dto.code);
+    return this.auth.verifyOtp(dto.email, dto.code);
   }
 
   /** Current user for a valid bearer token. */

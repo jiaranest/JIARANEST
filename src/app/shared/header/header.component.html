@@ -146,5 +146,10 @@
       <a class="drawer-sub" routerLink="/search" [queryParams]="{ age: a.id }" (click)="closeMobileMenu()">{{ a.label }}</a>
     }
     <a class="drawer-sale" routerLink="/search" (click)="closeMobileMenu()">All Products</a>
+    @if (auth.isLoggedIn()) {
+      <button type="button" class="drawer-logout" (click)="logout()">
+        <span class="material-icons">logout</span> Log out
+      </button>
+    }
   </nav>
 </aside>

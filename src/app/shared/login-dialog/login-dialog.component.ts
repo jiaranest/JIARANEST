@@ -14,22 +14,23 @@ export class LoginDialogComponent {
   private readonly auth = inject(AuthService);
   private readonly ref = inject(MatDialogRef<LoginDialogComponent, boolean>);
 
-  readonly step = signal<'phone' | 'otp'>('phone');
-  readonly phone = signal('');
+  readonly step = signal<'email' | 'otp'>('email');
+  readonly email = signal('');
   readonly error = signal('');
   /** True while an auth request is in flight — disables buttons / shows "…". */
   readonly busy = signal(false);
 
-  sendOtp(phone: string): void {
+  sendOtp(email: string): void {
     if (this.busy()) return;
-    if (!/^\d{10}$/.test(phone)) {
-      this.error.set('Enter a valid 10-digit mobile number.');
+    const addr = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(addr)) {
+      this.error.set('Enter a valid email address.');
       return;
     }
     this.error.set('');
-    this.phone.set(phone);
+    this.email.set(addr);
     this.busy.set(true);
-    this.auth.requestOtp(phone).subscribe((res) => {
+    this.auth.requestOtp(addr).subscribe((res) => {
       this.busy.set(false);
       if (!res.ok) {
         this.error.set(res.message ?? 'Could not send the code. Try again.');
@@ -43,7 +44,7 @@ export class LoginDialogComponent {
     if (this.busy()) return;
     this.error.set('');
     this.busy.set(true);
-    this.auth.verifyOtp(this.phone(), code).subscribe((res) => {
+    this.auth.verifyOtp(this.email(), code).subscribe((res) => {
       this.busy.set(false);
       if (!res.ok) {
         this.error.set(res.message ?? 'Invalid code.');
@@ -68,7 +69,7 @@ export class LoginDialogComponent {
 
   back(): void {
     this.error.set('');
-    this.step.set('phone');
+    this.step.set('email');
   }
 
   close(): void {

@@ -47,15 +47,15 @@ export class HttpAuthService extends AuthService {
     }
   }
 
-  requestOtp(phone: string): Observable<OtpResult> {
-    return this.http.post<{ ok: boolean }>(`${this.base}/auth/otp/request`, { phone }).pipe(
+  requestOtp(email: string): Observable<OtpResult> {
+    return this.http.post<{ ok: boolean }>(`${this.base}/auth/otp/request`, { email }).pipe(
       map(() => ({ ok: true }) as OtpResult),
       catchError((e) => of({ ok: false, message: this.errMsg(e, 'Could not send code.') })),
     );
   }
 
-  verifyOtp(phone: string, code: string): Observable<OtpResult> {
-    return this.http.post<VerifyResponse>(`${this.base}/auth/otp/verify`, { phone, code }).pipe(
+  verifyOtp(email: string, code: string): Observable<OtpResult> {
+    return this.http.post<VerifyResponse>(`${this.base}/auth/otp/verify`, { email, code }).pipe(
       tap((res) => {
         this.storeToken(res.token);
         this.setUser(res.user);

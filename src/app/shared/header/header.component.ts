@@ -5,6 +5,7 @@ import { Subject, debounceTime, filter, switchMap } from 'rxjs';
 import { CatalogService } from '../../core/data/catalog.service';
 import { CartService } from '../../core/state/cart.service';
 import { WishlistService } from '../../core/state/wishlist.service';
+import { AuthService } from '../../core/state/auth.service';
 import { AGE_GROUPS, Category } from '../../core/models/product.model';
 import { inr } from '../../core/util/format';
 
@@ -22,6 +23,12 @@ export class HeaderComponent {
   private readonly host = inject(ElementRef<HTMLElement>);
   readonly cart = inject(CartService);
   readonly wishlist = inject(WishlistService);
+  readonly auth = inject(AuthService);
+
+  logout(): void {
+    this.auth.logout();
+    this.closeMobileMenu();
+  }
 
   readonly categories = toSignal(this.catalog.getCategories(), { initialValue: [] as Category[] });
 
