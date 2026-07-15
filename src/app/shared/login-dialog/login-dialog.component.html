@@ -58,7 +58,7 @@
       @if (error()) {
         <div class="err">{{ error() }}</div>
       }
-      <div class="hint">Demo: use code 123456.</div>
+      <div class="hint">Check your email for the 6-digit code.</div>
       <button class="primary" type="submit" [disabled]="busy()">
         {{ busy() ? 'Verifying…' : 'Verify & Continue' }}
       </button>

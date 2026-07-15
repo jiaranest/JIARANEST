@@ -1,6 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Resend } from 'resend';
+import * as nodemailer from 'nodemailer';
 import { PrismaService } from '../prisma/prisma.service';
 
 /** Shape returned to the client — matches the Angular `AuthUser` interface. */
@@ -14,15 +14,19 @@ export interface AuthUser {
 
 const OTP_TTL_MS = 5 * 60 * 1000; // codes valid 5 minutes
 const MAX_ATTEMPTS = 5;
-/** Dev backdoor: this code always verifies. Handy when email isn't delivering. */
-const DEV_CODE = '123456';
 
 @Injectable()
 export class AuthService {
-  private readonly resend = process.env.RESEND_API_KEY
-    ? new Resend(process.env.RESEND_API_KEY)
-    : null;
-  private readonly mailFrom = process.env.MAIL_FROM ?? 'Jiaranest <onboarding@resend.dev>';
+  // Gmail SMTP transport (via app password). If SMTP creds are unset, sending
+  // is skipped and the code is logged to the console (dev fallback).
+  private readonly mailer =
+    process.env.SMTP_USER && process.env.SMTP_PASS
+      ? nodemailer.createTransport({
+          service: 'gmail',
+          auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+        })
+      : null;
+  private readonly mailFrom = process.env.MAIL_FROM ?? process.env.SMTP_USER ?? 'Jiaranest';
 
   constructor(
     private readonly prisma: PrismaService,
@@ -31,8 +35,8 @@ export class AuthService {
 
   /**
    * Generate a 6-digit code for the email, store it (replacing any prior code),
-   * and email it via Resend. If RESEND_API_KEY is unset (or sending fails), the
-   * code is logged to the server console instead. In dev, `123456` also works.
+   * and email it via Gmail SMTP. If SMTP creds are unset (or sending fails), the
+   * code is logged to the server console instead (dev fallback).
    */
   async requestOtp(email: string): Promise<{ ok: true }> {
     const addr = email.trim().toLowerCase();
@@ -53,26 +57,23 @@ export class AuthService {
    */
   async verifyOtp(email: string, code: string): Promise<{ token: string; user: AuthUser }> {
     const addr = email.trim().toLowerCase();
-    const isDev = code === DEV_CODE;
 
-    if (!isDev) {
-      const record = await this.prisma.otpCode.findUnique({ where: { email: addr } });
-      if (!record) {
-        throw new UnauthorizedException('No code requested for this email.');
-      }
-      if (record.attempts >= MAX_ATTEMPTS) {
-        throw new UnauthorizedException('Too many attempts. Request a new code.');
-      }
-      if (record.expiresAt.getTime() < Date.now()) {
-        throw new UnauthorizedException('Code expired. Request a new one.');
-      }
-      if (record.code !== code) {
-        await this.prisma.otpCode.update({
-          where: { email: addr },
-          data: { attempts: { increment: 1 } },
-        });
-        throw new UnauthorizedException('Incorrect code.');
-      }
+    const record = await this.prisma.otpCode.findUnique({ where: { email: addr } });
+    if (!record) {
+      throw new UnauthorizedException('No code requested for this email.');
+    }
+    if (record.attempts >= MAX_ATTEMPTS) {
+      throw new UnauthorizedException('Too many attempts. Request a new code.');
+    }
+    if (record.expiresAt.getTime() < Date.now()) {
+      throw new UnauthorizedException('Code expired. Request a new one.');
+    }
+    if (record.code !== code) {
+      await this.prisma.otpCode.update({
+        where: { email: addr },
+        data: { attempts: { increment: 1 } },
+      });
+      throw new UnauthorizedException('Incorrect code.');
     }
 
     // Success — clear the code and upsert the user.
@@ -95,14 +96,14 @@ export class AuthService {
 
   // ---- helpers ----
 
-  /** Email the code via Resend; fall back to a console log if unavailable. */
+  /** Email the code via Gmail SMTP; fall back to a console log if unavailable. */
   private async sendCode(email: string, code: string): Promise<void> {
-    if (!this.resend) {
-      console.log(`[OTP] ${email} -> ${code}  (no RESEND_API_KEY; dev code ${DEV_CODE} also works)`);
+    if (!this.mailer) {
+      console.log(`[OTP] ${email} -> ${code}  (no SMTP creds set; logging code)`);
       return;
     }
     try {
-      await this.resend.emails.send({
+      await this.mailer.sendMail({
         from: this.mailFrom,
         to: email,
         subject: 'Your Jiaranest login code',
@@ -117,7 +118,7 @@ export class AuthService {
     } catch (e) {
       // Never fail the login flow on a mail error — log the code so dev can proceed.
       console.error('[OTP] email send failed, logging code instead:', e);
-      console.log(`[OTP] ${email} -> ${code}  (dev code ${DEV_CODE} also works)`);
+      console.log(`[OTP] ${email} -> ${code}`);
     }
   }
 

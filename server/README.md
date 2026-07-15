@@ -66,13 +66,15 @@ inStockOnly, minDiscount, page, pageSize`. Array params accept repeated
 | GET | `/auth/me` | `Authorization: Bearer <token>` | current user |
 
 **Email OTP delivery:** a real 6-digit code is generated and emailed via
-[Resend](https://resend.com). Set `RESEND_API_KEY` + `MAIL_FROM` in `.env`
-(and on Render). If `RESEND_API_KEY` is empty, the code is **logged to the API
-console** instead (dev). The code **`123456`** always works in dev. Codes expire
-in 5 minutes.
+**Gmail SMTP**. Set `SMTP_USER` (your Gmail) + `SMTP_PASS` (a Google
+[App Password](https://myaccount.google.com/apppasswords), needs 2-Step
+Verification) + `MAIL_FROM` in `.env` (and on Render). If SMTP creds are empty,
+the code is **logged to the API console** instead (dev). Codes expire in 5
+minutes; 5 wrong attempts locks that code.
 
-> Resend free tier: without a verified domain, delivery is reliable only to your
-> own Resend account email (fine for demo). Verify a domain to email anyone.
+> Gmail SMTP sends real codes to **any** address, free, ~500/day — no domain
+> needed. There is no hardcoded bypass code; login requires the real emailed code
+> (or the console-logged one if SMTP is unset).
 
 **Test with curl:**
 ```bash
@@ -81,7 +83,7 @@ curl -X POST http://localhost:3000/api/auth/otp/request \
 # → { "ok": true }   (check your inbox, or the API console if no RESEND_API_KEY)
 
 curl -X POST http://localhost:3000/api/auth/otp/verify \
-  -H "Content-Type: application/json" -d "{\"email\":\"you@example.com\",\"code\":\"123456\"}"
+  -H "Content-Type: application/json" -d "{\"email\":\"you@example.com\",\"code\":\"THE_CODE_FROM_EMAIL\"}"
 # → { "token": "...", "user": { ... } }
 
 curl http://localhost:3000/api/auth/me -H "Authorization: Bearer <token-from-above>"

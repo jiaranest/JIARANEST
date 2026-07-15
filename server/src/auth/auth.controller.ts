@@ -8,7 +8,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 export class AuthController {
   constructor(private readonly auth: AuthService) {}
 
-  /** Request an OTP for an email (sent via Resend, or logged to console in dev). */
+  /** Request an OTP for an email (sent via Gmail SMTP, or logged to console in dev). */
   @Post('otp/request')
   requestOtp(@Body() dto: RequestOtpDto) {
     return this.auth.requestOtp(dto.email);
