@@ -17,30 +17,53 @@ export class LoginDialogComponent {
   readonly step = signal<'phone' | 'otp'>('phone');
   readonly phone = signal('');
   readonly error = signal('');
+  /** True while an auth request is in flight — disables buttons / shows "…". */
+  readonly busy = signal(false);
 
   sendOtp(phone: string): void {
+    if (this.busy()) return;
     if (!/^\d{10}$/.test(phone)) {
       this.error.set('Enter a valid 10-digit mobile number.');
       return;
     }
     this.error.set('');
     this.phone.set(phone);
-    this.auth.requestOtp(phone);
-    this.step.set('otp');
+    this.busy.set(true);
+    this.auth.requestOtp(phone).subscribe((res) => {
+      this.busy.set(false);
+      if (!res.ok) {
+        this.error.set(res.message ?? 'Could not send the code. Try again.');
+        return;
+      }
+      this.step.set('otp');
+    });
   }
 
   verify(code: string): void {
-    const res = this.auth.verifyOtp(this.phone(), code);
-    if (!res.ok) {
-      this.error.set(res.message ?? 'Invalid code.');
-      return;
-    }
-    this.ref.close(true);
+    if (this.busy()) return;
+    this.error.set('');
+    this.busy.set(true);
+    this.auth.verifyOtp(this.phone(), code).subscribe((res) => {
+      this.busy.set(false);
+      if (!res.ok) {
+        this.error.set(res.message ?? 'Invalid code.');
+        return;
+      }
+      this.ref.close(true);
+    });
   }
 
   google(): void {
-    this.auth.loginWithGoogle();
-    this.ref.close(true);
+    if (this.busy()) return;
+    this.busy.set(true);
+    this.auth.loginWithGoogle().subscribe((res) => {
+      this.busy.set(false);
+      if (!res.ok) {
+        this.error.set(res.message ?? 'Google sign-in failed.');
+        return;
+      }
+      this.ref.close(true);
+    });
   }
 
   back(): void {

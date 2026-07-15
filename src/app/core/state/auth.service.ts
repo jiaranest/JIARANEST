@@ -1,4 +1,5 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Signal } from '@angular/core';
 
 export interface AuthUser {
   id: string;
@@ -8,69 +9,35 @@ export interface AuthUser {
   method: 'otp' | 'google';
 }
 
-const KEY = 'jiara.auth.v1';
+export interface OtpResult {
+  ok: boolean;
+  message?: string;
+}
 
 /**
- * Phase-1 auth stub. There is NO login wall on browsing — the storefront gates
- * login only at "Proceed to Checkout" / "Buy Now". OTP + Google flows are
- * simulated here; a real implementation will call the backend + SSO later.
+ * The auth seam — mirrors the CatalogService pattern. `app.config` binds this
+ * token to `MockAuthService` (Phase-1 stub) or `HttpAuthService` (real API,
+ * Phase 2b) based on `environment.useApi`.
+ *
+ * `user` / `isLoggedIn` are synchronous signals (so header/checkout/login-gate
+ * read them without change). The action methods are async (they hit the network
+ * in the real impl) and return Observables.
+ *
+ * There is NO login wall on browsing — the storefront gates login only at
+ * "Proceed to Checkout" / "Buy Now" via LoginGateService.
  */
-@Injectable({ providedIn: 'root' })
-export class AuthService {
-  private readonly _user = signal<AuthUser | null>(this.load());
-  readonly user = this._user.asReadonly();
-  readonly isLoggedIn = computed(() => this._user() !== null);
+export abstract class AuthService {
+  abstract readonly user: Signal<AuthUser | null>;
+  abstract readonly isLoggedIn: Signal<boolean>;
 
-  /** Pretend to send an OTP; always "sent" in the mock. */
-  requestOtp(_phone: string): { ok: boolean } {
-    return { ok: true };
-  }
+  /** Ask the server to send an OTP to this phone. */
+  abstract requestOtp(phone: string): Observable<OtpResult>;
 
-  /** Any 4–6 digit code is accepted in the mock. */
-  verifyOtp(phone: string, code: string): { ok: boolean; message?: string } {
-    if (!/^\d{4,6}$/.test(code)) {
-      return { ok: false, message: 'Enter the 6-digit code we sent you.' };
-    }
-    this.setUser({ id: 'u-' + phone, name: 'Shopper', phone, method: 'otp' });
-    return { ok: true };
-  }
+  /** Verify an OTP code; on success the user is signed in. */
+  abstract verifyOtp(phone: string, code: string): Observable<OtpResult>;
 
-  loginWithGoogle(): { ok: boolean } {
-    this.setUser({
-      id: 'u-google',
-      name: 'Google User',
-      email: 'shopper@gmail.com',
-      method: 'google',
-    });
-    return { ok: true };
-  }
+  /** One-click Google login (still a stub until Google SSO is wired). */
+  abstract loginWithGoogle(): Observable<OtpResult>;
 
-  logout(): void {
-    this._user.set(null);
-    this.persist();
-  }
-
-  private setUser(u: AuthUser): void {
-    this._user.set(u);
-    this.persist();
-  }
-
-  private persist(): void {
-    try {
-      const u = this._user();
-      if (u) localStorage.setItem(KEY, JSON.stringify(u));
-      else localStorage.removeItem(KEY);
-    } catch {
-      /* ignore */
-    }
-  }
-
-  private load(): AuthUser | null {
-    try {
-      const raw = localStorage.getItem(KEY);
-      return raw ? (JSON.parse(raw) as AuthUser) : null;
-    } catch {
-      return null;
-    }
-  }
+  abstract logout(): void;
 }

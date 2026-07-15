@@ -32,12 +32,14 @@
       @if (error()) {
         <div class="err">{{ error() }}</div>
       }
-      <button class="primary" type="submit">Continue</button>
+      <button class="primary" type="submit" [disabled]="busy()">
+        {{ busy() ? 'Sending…' : 'Continue' }}
+      </button>
     </form>
 
     <div class="or"><span>OR</span></div>
 
-    <button class="google" type="button" (click)="google()">
+    <button class="google" type="button" (click)="google()" [disabled]="busy()">
       <span class="g">G</span> Continue with Google
     </button>
   } @else {
@@ -55,8 +57,10 @@
       @if (error()) {
         <div class="err">{{ error() }}</div>
       }
-      <div class="hint">Demo: any 6-digit code works.</div>
-      <button class="primary" type="submit">Verify &amp; Continue</button>
+      <div class="hint">Demo: use code 123456.</div>
+      <button class="primary" type="submit" [disabled]="busy()">
+        {{ busy() ? 'Verifying…' : 'Verify & Continue' }}
+      </button>
     </form>
     <button class="link" type="button" (click)="back()">← Change number</button>
   }

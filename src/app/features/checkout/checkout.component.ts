@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { UpperCasePipe } from '@angular/common';
 import { CartService } from '../../core/state/cart.service';
 import { AuthService } from '../../core/state/auth.service';
+import { OrderService } from '../../core/data/order.service';
 import { inr } from '../../core/util/format';
 
 type PaymentMethod = 'upi' | 'card' | 'netbanking' | 'wallet' | 'cod';
@@ -30,12 +31,17 @@ interface Address {
 export class CheckoutComponent {
   readonly cart = inject(CartService);
   private readonly auth = inject(AuthService);
+  private readonly orders = inject(OrderService);
   private readonly router = inject(Router);
   inr = inr;
 
   readonly step = signal<1 | 2 | 3>(1);
   readonly placed = signal(false);
   readonly orderNumber = signal('');
+  /** True while the order POST is in flight. */
+  readonly placing = signal(false);
+  /** Server/network error shown on the payment step if placing fails. */
+  readonly placeError = signal('');
 
   readonly address = signal<Address>({
     name: '',
@@ -82,12 +88,47 @@ export class CheckoutComponent {
   }
 
   placeOrder(): void {
-    // Deterministic mock order id from cart contents + pincode (no Date.now()).
-    const seed = this.cart.count() * 7919 + parseInt(this.address().pincode || '0', 10);
-    this.orderNumber.set('ZYL' + (100000 + (seed % 900000)).toString());
-    this.placed.set(true);
-    this.cart.clear();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (this.placing()) return;
+    const items = this.cart.items();
+    if (items.length === 0) return;
+
+    this.placeError.set('');
+    this.placing.set(true);
+
+    // Server recomputes totals from real prices — we send items + address only.
+    this.orders
+      .createOrder({
+        items: items.map((i) => ({
+          slug: i.product.slug,
+          quantity: i.quantity,
+          selectedOptions: i.selectedOptions,
+        })),
+        address: this.address(),
+        delivery: this.delivery(),
+        paymentMethod: this.payment(),
+        couponCode: this.cart.coupon()?.code,
+      })
+      .subscribe({
+        next: (order) => {
+          this.placing.set(false);
+          this.orderNumber.set(order.orderNumber);
+          this.placed.set(true);
+          this.cart.clear();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        },
+        error: (e) => {
+          this.placing.set(false);
+          this.placeError.set(this.errMsg(e));
+        },
+      });
+  }
+
+  private errMsg(err: unknown): string {
+    const e = err as { status?: number; error?: { message?: string | string[] } };
+    if (e?.status === 401) return 'Your session expired. Please log in again.';
+    const m = e?.error?.message;
+    if (Array.isArray(m)) return m[0] ?? 'Could not place the order. Please try again.';
+    return m ?? 'Could not place the order. Please try again.';
   }
 
   backToShop(): void {

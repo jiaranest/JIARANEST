@@ -1,6 +1,6 @@
 # Jiaranest Storefront — project guide
 
-**Jiaranest** is a **kids-only** e-commerce storefront selling **toys and children's clothing exclusively** — no other product categories. Built with **Angular 22** (standalone components, signals, zoneless) and **Angular Material 3** with a custom theme. This is **Phase 1**: the customer-facing storefront over a **mock data layer**. Backend, real auth, payments, and the admin panel are later phases.
+**Jiaranest** is a **kids-only** e-commerce storefront selling **toys and children's clothing exclusively** — no other product categories. Built with **Angular 22** (standalone components, signals, zoneless) and **Angular Material 3** with a custom theme. **Phase 1** delivered the customer-facing storefront over a **mock data layer**. **Phase 2a (in progress)** adds a real **catalog backend** (NestJS + Prisma + PostgreSQL in `server/`) behind the same `CatalogService` seam; the storefront switches mock→API via `environment.useApi` (see `core/config/environment.ts`). Real auth, payments, orders, and the admin panel remain later phases.
 
 > The internal CSS/DI namespace prefix `zylo-` / `--zylo-` and the `ZyloTestingApp` folder are retained from the original scaffold — they are internal only and not shown to users. All user-facing text says "Jiaranest".
 
@@ -14,6 +14,23 @@ npm start          # ng serve on http://localhost:4200
 npm run build      # production build to dist/
 npm test           # vitest
 ```
+
+**Backend (Phase 2a catalog API)** — see `server/README.md`. Local dev uses
+**SQLite** (a single file, no Docker/DB server). Easiest: `cd server` then run
+`setup.cmd`, then `npm run start:dev`. Manual:
+
+```bash
+cd server
+copy .env.example .env         # create .env
+npm install
+npx prisma migrate dev --name init   # creates prisma/dev.db + tables
+npm run seed                   # load the 30 products (identical to the mock)
+npm run start:dev              # API on http://localhost:3000/api
+```
+
+With the API running and `environment.useApi === true`, the storefront serves
+live data. Set `useApi: false` to fall back to the in-memory mock. (Postgres is
+the production target — swap the Prisma provider when deploying.)
 
 ## Architecture
 
@@ -44,16 +61,22 @@ that single provider line — no component touches change.
 - Money is whole rupees; format with `inr()` from `core/util/format.ts`.
 - Login is **not** required to browse or add to cart. It is gated only at Buy Now /
   Proceed to Checkout via `LoginGateService.ensureLoggedIn()`.
-- Cart/wishlist/auth persist to `localStorage` (`zylo.*` keys).
+- Cart/wishlist/auth persist to `localStorage` (`jiara.*` keys).
 
 ### Mock behaviours worth knowing
 - Product/category images: on-theme **SVG illustrations** from `core/data/illustrations.ts` (teddy, blocks, dress, kurta, …), embedded as `data:` URIs — no external files or photos. `illustrationFor(name, categoryId)` maps each product to a look; `avatar(name)` makes initial-in-circle avatars for testimonials/reviews. To use real product photos later, replace `galleryFor()` in `mock-data.ts` (and the category `image` fields) with real URLs.
 - OTP login accepts any 4–6 digit code; Google login is a one-click stub.
-- Coupons: `ZYLO10`, `FLAT500`, `WELCOME` (see `cart.service.ts`).
+- Coupons: `PLAY10` (10% off), `FLAT300` (₹300 off over ₹1,499), `WELCOME` (15% off, min ₹999) — see `cart.service.ts`.
 - Order numbers / delivery ETAs are derived deterministically (no `Date.now()`), so the app
   behaves predictably.
 
+## Phases
+- **Phase 1 (done):** storefront over the in-memory mock (`MockCatalogService`).
+- **Phase 2a (in progress):** catalog backend — NestJS + Prisma + PostgreSQL in
+  `server/`, serving the `CatalogService` contract; `HttpCatalogService` bound
+  via `environment.useApi`. Cart/auth/orders still client-side.
+
 ## Not yet built (future phases)
-NestJS + PostgreSQL backend · real OTP/Google SSO · Razorpay/Stripe · S3 image upload ·
-admin panel · Google Analytics + Meta Pixel · SSR for SEO.
+Server-side cart/orders & checkout API · real OTP/Google SSO · Razorpay/Stripe ·
+S3 image upload · admin panel · Google Analytics + Meta Pixel · SSR for SEO.
 ```

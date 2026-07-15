@@ -54,6 +54,16 @@
   color: var(--jiara-danger);
   font-size: 13px;
 }
+// Single-line error on the payment step (order placement failed).
+.err {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--jiara-radius-sm);
+  padding: 10px 14px;
+  margin: 0 0 14px;
+  color: var(--jiara-danger);
+  font-size: 13px;
+}
 
 .form-grid {
   display: grid;

@@ -152,10 +152,13 @@
               }
             }
 
+            @if (placeError()) {
+              <div class="err">{{ placeError() }}</div>
+            }
             <div class="pay-actions">
-              <button class="back" type="button" (click)="step.set(1)">← Back</button>
-              <button class="next" type="button" (click)="placeOrder()">
-                Place Order · {{ inr(grandTotal()) }}
+              <button class="back" type="button" (click)="step.set(1)" [disabled]="placing()">← Back</button>
+              <button class="next" type="button" (click)="placeOrder()" [disabled]="placing()">
+                {{ placing() ? 'Placing order…' : 'Place Order · ' + inr(grandTotal()) }}
               </button>
             </div>
             <p class="secure"><span class="material-icons">lock</span> Payments are secured with 256-bit encryption (demo — no real charge)</p>

@@ -1,0 +1,152 @@
+// Jiaranest catalog + auth + orders schema — PostgreSQL.
+//
+// Filterable/sortable fields are real indexed columns; array facets
+// (colors/sizes/badges) use Postgres text[]; rich presentation blobs
+// (images/specs/variantOptions/reviews) are JSON columns. Array-membership and
+// text-search filters run in SQL (Prisma hasSome / insensitive contains).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---- Orders (Phase 2c) ----
+
+model Order {
+  id          String      @id @default(cuid())
+  orderNumber String      @unique
+  userId      String
+  status      String      @default("confirmed") // confirmed | shipped | delivered | cancelled
+
+  // Shipping address (denormalised snapshot at order time).
+  name    String
+  phone   String
+  line1   String
+  line2   String?
+  city    String
+  state   String
+  pincode String
+
+  delivery      String // 'standard' | 'express'
+  paymentMethod String // 'upi' | 'card' | 'netbanking' | 'wallet' | 'cod'
+
+  // Totals — RECOMPUTED on the server from real prices (never trusted from the client).
+  subtotal Int
+  discount Int
+  shipping Int
+  tax      Int
+  total    Int
+  couponCode String?
+
+  createdAt DateTime    @default(now())
+  items     OrderItem[]
+
+  @@index([userId])
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String @id @default(cuid())
+  orderId   String
+  order     Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  // Product snapshot at order time (so history is stable even if the catalog changes).
+  productId       String
+  slug            String
+  name            String
+  brand           String
+  image           String
+  unitPrice       Int
+  quantity        Int
+  selectedOptions Json? // { Color: 'Black', Size: 'M' }
+
+  @@index([orderId])
+  @@map("order_items")
+}
+
+// ---- Auth (Phase 2b) ----
+
+model User {
+  id        String   @id @default(cuid())
+  phone     String?  @unique
+  email     String?  @unique
+  name      String
+  method    String // 'otp' | 'google'
+  createdAt DateTime @default(now())
+
+  @@map("users")
+}
+
+// One-time codes for phone OTP login. A fresh request replaces any prior code
+// for that phone (upsert), so only the latest code is valid.
+model OtpCode {
+  phone     String   @id
+  code      String
+  expiresAt DateTime
+  attempts  Int      @default(0)
+  createdAt DateTime @default(now())
+
+  @@map("otp_codes")
+}
+
+model Category {
+  id       String  @id
+  slug     String  @unique
+  name     String
+  image    String
+  parentId String?
+
+  parent   Category?  @relation("CategoryChildren", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryChildren")
+
+  @@index([parentId])
+  @@map("categories")
+}
+
+model Product {
+  id          String @id
+  slug        String @unique
+  name        String
+  brand       String
+  categoryId  String
+  description String
+
+  price Int
+  mrp   Int
+
+  rating      Float
+  ratingCount Int
+  inStock     Boolean
+  stockCount  Int
+
+  // Facet arrays (Postgres text[]).
+  colors String[]
+  sizes  String[]
+  badges String[]
+
+  ageGroup String? // '0-2' | '3-5' | '6-8' | '9-12'
+  gender   String? // 'boys' | 'girls' | 'unisex'
+
+  soldCount Int
+  createdAt DateTime
+
+  // Presentation blobs the UI renders as-is.
+  images         Json // ProductImage[]
+  specs          Json? // ProductSpec[]
+  variantOptions Json? // ProductVariantOption[]
+  reviews        Json? // Review[]
+
+  @@index([categoryId])
+  @@index([brand])
+  @@index([price])
+  @@index([rating])
+  @@index([soldCount])
+  @@index([createdAt])
+  @@index([ageGroup])
+  @@index([gender])
+  @@map("products")
+}
