@@ -330,7 +330,8 @@
   }
 }
 .deal-label {
-  display: block;
+  // (no display:block — it would override .jiara-clamp-2's -webkit-box and
+  // break the 2-line ellipsis truncation)
   margin-top: 6px;
   font-size: 12px;
   color: var(--jiara-ink-2);

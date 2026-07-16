@@ -65,7 +65,7 @@
           @for (p of col.products; track p.id) {
             <a class="deal-cell" [routerLink]="['/product', p.slug]">
               <div class="deal-thumb"><img [src]="p.images[0].url" [alt]="p.name" loading="lazy" /></div>
-              <span class="deal-label jiara-clamp-1">{{ p.name }}</span>
+              <span class="deal-label jiara-clamp-2">{{ p.name }}</span>
             </a>
           }
         </div>

@@ -27,8 +27,8 @@
       <span class="material-icons">{{ saved() ? 'favorite' : 'favorite_border' }}</span>
     </button>
 
-    <button class="quick" type="button" (click)="openQuickView($event)">
-      <span class="material-icons">visibility</span> Quick View
+    <button class="quick" type="button" aria-label="Quick view" (click)="openQuickView($event)">
+      <span class="material-icons">visibility</span>
     </button>
 
     @if (!product().inStock) {

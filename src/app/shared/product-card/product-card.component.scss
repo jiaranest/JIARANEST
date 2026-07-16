@@ -96,43 +96,50 @@
   color: var(--jiara-danger);
 }
 
+// Quick-view is now a small round EYE icon in the image's bottom-right corner
+// (clear of the top badges + wishlist heart). The eye gently blinks to draw a
+// little attention without the heavy full-width bar.
 .quick {
   position: absolute;
-  left: 8px;
   right: 8px;
   bottom: 8px;
   z-index: 2; // above the media link
+  width: 34px;
+  height: 34px;
   border: 0;
-  border-radius: var(--jiara-radius-sm);
-  background: rgba(28, 24, 18, 0.9);
-  color: #fff;
-  padding: 10px;
-  font-weight: 600;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(4px);
+  box-shadow: var(--jiara-shadow-1);
+  display: grid;
+  place-items: center;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: opacity 0.2s var(--jiara-ease), transform 0.2s var(--jiara-ease);
+  transition: transform 0.15s var(--jiara-ease);
 }
 .quick .material-icons {
-  font-size: 17px;
+  font-size: 18px;
+  color: var(--jiara-ink);
+  // Gentle blink so the eye subtly winks, hinting it's interactive.
+  animation: quick-blink 3.2s ease-in-out infinite;
+}
+@keyframes quick-blink {
+  0%, 92%, 100% { transform: scaleY(1); opacity: 1; }
+  95% { transform: scaleY(0.1); opacity: 0.7; } // the "blink"
+  97% { transform: scaleY(1); opacity: 1; }
 }
 .quick:active {
-  transform: scale(0.98);
+  transform: scale(0.9);
 }
-// On devices that hover (desktop), keep the reveal-on-hover behaviour.
-// On touch devices (no hover) the button is ALWAYS visible so it's tappable.
 @media (hover: hover) {
-  .quick {
-    opacity: 0;
-    transform: translateY(8px);
+  .quick:hover {
+    transform: scale(1.1);
+    background: #fff;
   }
-  .card:hover .quick {
-    opacity: 1;
-    transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .quick .material-icons {
+    animation: none;
   }
 }
 
