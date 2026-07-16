@@ -130,8 +130,8 @@
     </button>
   </div>
   <nav class="drawer-nav">
-    <a routerLink="/" (click)="closeMobileMenu()">Home</a>
-    <a routerLink="/orders" (click)="closeMobileMenu()">My Orders</a>
+    <!-- Home & Orders live in the bottom nav on mobile, so they're omitted here
+         to avoid duplication. The drawer focuses on browsing (categories/ages). -->
     @for (c of topCategories(); track c.id) {
       <span class="drawer-group">{{ c.name }}</span>
       @for (sub of subCategories(c.id); track sub.id) {
