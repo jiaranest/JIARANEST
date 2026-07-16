@@ -157,9 +157,6 @@
 .nav-link:hover::after {
   width: 100%;
 }
-.sale {
-  color: var(--jiara-accent-dark);
-}
 
 // ---- Mega dropdown ----
 // The dropdown sits flush to the trigger (top:100%) with the visual gap created
@@ -473,10 +470,13 @@
     min-height: 64px;
     gap: 8px;
   }
-  // Hide desktop nav links; keep menu button + icons.
+  // Hide desktop nav links; keep menu button + search icon. (Orders is in the
+  // mobile drawer; wishlist + cart live in the bottom nav, so hide them here to
+  // avoid duplication — only the search icon stays in the header.)
   .nav-left .nav-item,
   .nav-right .nav-item,
-  .nav-right .sale {
+  .nav-right .nav-link,
+  .desktop-only-icon {
     display: none;
   }
   .menu-btn { display: grid; }

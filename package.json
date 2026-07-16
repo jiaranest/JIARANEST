@@ -1,6 +1,6 @@
 {
   "name": "zylo-testing-app",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "scripts": {
     "ng": "ng",
     "gen:version": "node scripts/gen-version.mjs",

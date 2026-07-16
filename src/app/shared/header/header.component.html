@@ -49,20 +49,17 @@
           </div>
         </div>
       </div>
-      <a class="nav-link sale" routerLink="/search" [queryParams]="{ discount: 30 }">Sale</a>
+      <a class="nav-link" routerLink="/orders">Your Orders</a>
 
       <span class="icons">
         <button class="icon-btn" type="button" aria-label="Search" (click)="openSearch()">
           <span class="material-icons">search</span>
         </button>
-        <a class="icon-btn" routerLink="/orders" aria-label="My Orders">
-          <span class="material-icons">receipt_long</span>
-        </a>
-        <a class="icon-btn" routerLink="/wishlist" aria-label="Wishlist">
+        <a class="icon-btn desktop-only-icon" routerLink="/wishlist" aria-label="Wishlist">
           <span class="material-icons">favorite_border</span>
           @if (wishlist.count() > 0) { <span class="count">{{ wishlist.count() }}</span> }
         </a>
-        <a class="icon-btn" routerLink="/cart" aria-label="Cart">
+        <a class="icon-btn desktop-only-icon" routerLink="/cart" aria-label="Cart">
           <span class="material-icons">shopping_bag</span>
           @if (cart.count() > 0) { <span class="count">{{ cart.count() }}</span> }
         </a>

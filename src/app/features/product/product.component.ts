@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { CatalogService } from '../../core/data/catalog.service';
 import { CartService } from '../../core/state/cart.service';
 import { WishlistService } from '../../core/state/wishlist.service';
+import { RecentlyViewedService } from '../../core/state/recently-viewed.service';
 import { LoginGateService } from '../../core/state/login-gate.service';
 import { Product, discountPercent } from '../../core/models/product.model';
 import { inr } from '../../core/util/format';
@@ -34,6 +35,7 @@ export class ProductComponent {
   private readonly router = inject(Router);
   private readonly cart = inject(CartService);
   private readonly wishlist = inject(WishlistService);
+  private readonly recent = inject(RecentlyViewedService);
   private readonly gate = inject(LoginGateService);
 
   inr = inr;
@@ -53,6 +55,17 @@ export class ProductComponent {
     ),
     { initialValue: [] as Product[] },
   );
+
+  /** Recently viewed products, excluding the one currently open. */
+  readonly recentlyViewed = computed(() => this.recent.list(this.product()?.id));
+
+  constructor() {
+    // Record a view whenever the loaded product changes.
+    effect(() => {
+      const p = this.product();
+      if (p) this.recent.add(p);
+    });
+  }
 
   // Local UI state
   readonly activeImage = signal(0);

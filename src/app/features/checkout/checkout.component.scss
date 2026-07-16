@@ -8,6 +8,7 @@
 }
 .steps {
   display: flex;
+  flex-wrap: wrap; // step pills wrap instead of overflowing on narrow phones
   gap: 10px;
   margin-bottom: 20px;
 }

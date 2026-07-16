@@ -55,25 +55,19 @@
     }
 
     <div class="actions">
-      <jiara-quantity-selector
-        size="sm"
-        [value]="qty()"
-        [max]="product().inStock ? product().stockCount : 1"
-        (valueChange)="qty.set($event)"
-      />
       <button
         class="add"
         type="button"
-        [disabled]="!product().inStock"
+        [class.added]="justAdded()"
+        [disabled]="!product().inStock || justAdded()"
         (click)="addToCart($event)"
       >
-        <span class="material-icons">shopping_cart</span>
-        Add
+        <span class="material-icons">{{ justAdded() ? 'check' : 'shopping_cart' }}</span>
+        {{ justAdded() ? 'Added' : 'Add to Cart' }}
+      </button>
+      <button class="buy" type="button" [disabled]="!product().inStock" (click)="onBuyNow($event)">
+        Buy Now
       </button>
     </div>
-
-    <button class="buy" type="button" [disabled]="!product().inStock" (click)="onBuyNow($event)">
-      Buy Now
-    </button>
   </div>
 </article>

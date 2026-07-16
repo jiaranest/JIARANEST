@@ -91,6 +91,11 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  // Safety net: clip any accidental horizontal spill at the page level so no
+  // stray element produces a full-page horizontal scrollbar. Uses `hidden`
+  // (not `clip`) on the BODY only — this does NOT affect the product rails'
+  // own `overflow-x: auto` touch scrolling (they're separate scroll containers).
+  overflow-x: hidden;
 }
 
 a {

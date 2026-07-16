@@ -274,6 +274,78 @@
   .age-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+// ---- Deal cards (4 category collections, each a 2×2 image grid) ----
+.deal-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  align-items: stretch; // equal-height cards so "See more" aligns across the row
+}
+.deal-card {
+  background: #fff;
+  border: 1px solid var(--jiara-line);
+  border-radius: var(--jiara-radius);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.deal-title {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin: 0 0 14px;
+  color: var(--jiara-ink);
+}
+// Skeleton title bar — same footprint as .deal-title (one ~22px line + the
+// 14px gap) so the placeholder doesn't jump when real content loads.
+.deal-title-sk {
+  height: 22px;
+  margin: 0 0 14px;
+  border-radius: 6px;
+}
+.deal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.deal-cell {
+  display: block;
+}
+.deal-thumb {
+  aspect-ratio: 1 / 1;
+  border-radius: var(--jiara-radius-sm);
+  overflow: hidden;
+  background: #f2f3f5;
+}
+.deal-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.25s var(--jiara-ease);
+}
+@media (hover: hover) {
+  .deal-cell:hover .deal-thumb img {
+    transform: scale(1.05);
+  }
+}
+.deal-label {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--jiara-ink-2);
+}
+.deal-more {
+  margin-top: auto; // pin to the card bottom so it aligns across all cards
+  padding-top: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--jiara-brand);
+}
+.deal-more:hover {
+  text-decoration: underline;
+}
+
 // ---- Promos ----
 .promos {
   display: grid;
@@ -366,6 +438,7 @@
   .cat-grid { grid-template-columns: repeat(4, 1fr); }
   .trust { grid-template-columns: repeat(2, 1fr); }
   .t-grid { grid-template-columns: 1fr; }
+  .deal-cards { grid-template-columns: repeat(2, 1fr); }
 }
 // Compact trust strip on phones/tablets — smaller cards, icons and text.
 @media (max-width: 640px) {
@@ -388,6 +461,34 @@
   .trust-item span {
     font-size: 10.5px;
     line-height: 1.2;
+  }
+  // Compact deal cards on phones — kept 2-up (not full-width) with tighter
+  // padding, gaps and text so the 2×2 image grids stay small and the section
+  // doesn't force a long scroll.
+  .deal-cards {
+    gap: 12px;
+  }
+  .deal-card {
+    padding: 12px;
+  }
+  .deal-title {
+    font-size: 13px;
+    margin: 0 0 10px;
+  }
+  .deal-title-sk {
+    height: 16px;
+    margin: 0 0 10px;
+  }
+  .deal-grid {
+    gap: 8px;
+  }
+  .deal-label {
+    font-size: 10.5px;
+    margin-top: 4px;
+  }
+  .deal-more {
+    margin-top: 10px;
+    font-size: 12.5px;
   }
 }
 @media (max-width: 720px) {

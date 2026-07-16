@@ -97,8 +97,21 @@ export class ScrollGuideBirdComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  /** On mobile/tablet the bird stays in the header only — no guide-to-title. */
+  private headerOnly(): boolean {
+    return typeof matchMedia !== 'undefined' && matchMedia('(max-width: 900px)').matches;
+  }
+
   private update(): void {
     const bird = this.birdRef().nativeElement;
+
+    // Mobile/tablet: always keep the bird perched on the header wordmark with
+    // its fly-across animation; never travel down to section titles.
+    if (this.headerOnly()) {
+      this.moveToHeader(bird);
+      this.lastIndex = -1;
+      return;
+    }
 
     // If we're above the first title (near the page top) — or there are no
     // titles on this route — the bird rests IN THE HEADER and plays its own
@@ -155,14 +168,16 @@ export class ScrollGuideBirdComponent implements AfterViewInit, OnDestroy {
     if (home) {
       const r = home.getBoundingClientRect();
       const birdH = bird.offsetHeight || 24;
-      // Anchor at the wordmark's left; sit so the bird's feet just touch the
-      // top of the letters (a slight overlap reads as "perched on" the title
-      // rather than floating high above it).
       const x = r.left;
-      const y = r.top - birdH + 12; // perch right on top of the wordmark text
+      // Perch just above the letters. On mobile the fly-across runs at a FIXED
+      // height (no vertical bob — the bird only glides left↔right), so this
+      // height stays constant and the text stays clear.
+      const y = this.headerOnly() ? r.top - birdH + 2 : r.top - birdH + 12;
       bird.style.setProperty('--home-w', `${Math.round(r.width)}px`);
       this.place(bird, x, y);
       bird.classList.add('is-in-header');
+      // Mobile: flatten the animation to horizontal-only (no translateY dip).
+      bird.classList.toggle('flat', this.headerOnly());
     } else {
       // Fallback: top-right corner if the wordmark isn't found.
       bird.classList.remove('is-in-header');

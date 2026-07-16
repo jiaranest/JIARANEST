@@ -1,0 +1,92 @@
+// Hidden on desktop — the header nav covers those needs there.
+:host {
+  display: none;
+}
+
+// Shown on phones + tablets.
+@media (max-width: 900px) {
+  :host {
+    display: block;
+  }
+}
+
+.bnav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 190; // above page content + FAB row, below dialogs/drawer (200+)
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: stretch;
+  background: var(--jiara-surface);
+  border-top: 1px solid var(--jiara-line);
+  box-shadow: 0 -2px 10px rgba(60, 50, 30, 0.06);
+  // Respect the iOS home-indicator area so items aren't under the gesture bar.
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+
+.bnav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-height: 56px; // touch-friendly target
+  padding: 8px 2px 6px;
+  color: var(--jiara-ink); // dark cocoa — clearly legible (was the light ink-3)
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.15s var(--jiara-ease);
+}
+.bnav-item .material-icons {
+  font-size: 23px;
+}
+.bnav-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1;
+}
+
+// Active route — brand color + subtle emphasis.
+.bnav-item.active {
+  color: var(--jiara-brand);
+}
+.bnav-item.active .bnav-label {
+  font-weight: 700;
+}
+.bnav-item:active {
+  color: var(--jiara-brand-dark);
+}
+
+// Count badge on Cart / Wishlist.
+.bnav-icon-wrap {
+  position: relative;
+  display: inline-flex;
+}
+.bnav-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background: var(--jiara-accent);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 16px;
+  text-align: center;
+}
+
+// Very small phones — trim a bit so 5 items never crowd.
+@media (max-width: 360px) {
+  .bnav-item .material-icons {
+    font-size: 21px;
+  }
+  .bnav-label {
+    font-size: 9.5px;
+  }
+}

@@ -44,6 +44,37 @@
   <div class="trust-item"><span class="material-icons">support_agent</span><div><strong>Friendly Support</strong><span>We're here to help</span></div></div>
 </section>
 
+<!-- Deal cards: 4 category collections, each a 2×2 grid of product images -->
+<section class="jiara-section jiara-container deal-cards">
+  @if (collections().loading) {
+    @for (s of [1, 2, 3, 4]; track s) {
+      <div class="deal-card">
+        <div class="deal-title-sk jiara-sk jiara-sk-w60"></div>
+        <div class="deal-grid">
+          @for (g of [1, 2, 3, 4]; track g) {
+            <div class="jiara-sk deal-thumb"></div>
+          }
+        </div>
+      </div>
+    }
+  } @else {
+    @for (col of collections().data; track col.title) {
+      <div class="deal-card">
+        <h3 class="deal-title">{{ col.title }}</h3>
+        <div class="deal-grid">
+          @for (p of col.products; track p.id) {
+            <a class="deal-cell" [routerLink]="['/product', p.slug]">
+              <div class="deal-thumb"><img [src]="p.images[0].url" [alt]="p.name" loading="lazy" /></div>
+              <span class="deal-label jiara-clamp-1">{{ p.name }}</span>
+            </a>
+          }
+        </div>
+        <a class="deal-more" [routerLink]="col.link" [queryParams]="col.queryParams">See more</a>
+      </div>
+    }
+  }
+</section>
+
 <!-- Shop by category -->
 <section class="jiara-section jiara-container">
   <div class="jiara-section-head"><h2 jiaraReveal data-guide-title class="reveal-underline">Shop by Category</h2></div>
@@ -108,6 +139,14 @@
   <jiara-product-rail [products]="newArrivals().data" [loading]="newArrivals().loading" />
 </section>
 
+<!-- Recently viewed (only for returning visitors who've browsed products) -->
+@if (recentlyViewed().length) {
+  <section class="jiara-section jiara-container">
+    <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">Recently Viewed</h2></div>
+    <jiara-product-rail [products]="recentlyViewed()" />
+  </section>
+}
+
 <!-- Best sellers -->
 <section class="jiara-section jiara-container">
   <div class="jiara-section-head"><h2 jiaraReveal data-guide-title class="reveal-underline">Best Sellers</h2><a routerLink="/search" [queryParams]="{ sort: 'popular' }">View all</a></div>
@@ -116,7 +155,7 @@
 
 <!-- Trending -->
 <section class="jiara-section jiara-container">
-  <div class="jiara-section-head"><h2 jiaraReveal data-guide-title class="reveal-underline">🔥 Trending Now</h2></div>
+  <div class="jiara-section-head"><h2 jiaraReveal data-guide-title class="reveal-underline">🔥 Trending Now</h2><a routerLink="/search" [queryParams]="{ sort: 'popular' }">View all</a></div>
   <jiara-product-rail [products]="trending().data" [loading]="trending().loading" />
 </section>
 

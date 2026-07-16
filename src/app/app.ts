@@ -4,12 +4,20 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { ContactFabComponent } from './shared/contact-fab/contact-fab.component';
 import { ScrollGuideBirdComponent } from './shared/scroll-guide-bird/scroll-guide-bird.component';
+import { BottomNavComponent } from './shared/bottom-nav/bottom-nav.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, ContactFabComponent, ScrollGuideBirdComponent],
+  imports: [
+    RouterOutlet,
+    HeaderComponent,
+    FooterComponent,
+    ContactFabComponent,
+    ScrollGuideBirdComponent,
+    BottomNavComponent,
+  ],
   template: `
     <jiara-header />
     <main class="app-main">
@@ -18,6 +26,7 @@ import { ScrollGuideBirdComponent } from './shared/scroll-guide-bird/scroll-guid
     <jiara-footer />
     <jiara-contact-fab />
     <jiara-scroll-guide-bird />
+    <jiara-bottom-nav />
   `,
   styles: [
     `
@@ -28,6 +37,13 @@ import { ScrollGuideBirdComponent } from './shared/scroll-guide-bird/scroll-guid
       }
       .app-main {
         flex: 1;
+      }
+      // On mobile, leave room so the fixed bottom nav never covers the footer
+      // or page content (bar height ~56px + iOS safe-area).
+      @media (max-width: 900px) {
+        :host {
+          padding-bottom: calc(56px + env(safe-area-inset-bottom, 0));
+        }
       }
     `,
   ],

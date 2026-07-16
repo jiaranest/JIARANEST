@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { combineLatest, map } from 'rxjs';
 import { CatalogService } from '../../core/data/catalog.service';
-import { AGE_GROUPS, Category } from '../../core/models/product.model';
+import { RecentlyViewedService } from '../../core/state/recently-viewed.service';
+import { AGE_GROUPS, Category, Product } from '../../core/models/product.model';
 import { avatar, illus } from '../../core/data/illustrations';
 import { loadable } from '../../core/util/loadable';
 import { ProductRailComponent } from '../../shared/product-rail/product-rail.component';
@@ -27,6 +29,9 @@ interface Slide {
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private readonly catalog = inject(CatalogService);
+  private readonly recent = inject(RecentlyViewedService);
+  /** Products the shopper viewed before (localStorage) — empty for new visitors. */
+  readonly recentlyViewed = this.recent.items;
 
   // Each source is a Loadable so the template can shimmer while pending.
   readonly categoriesL = loadable(this.catalog.getCategories(), [] as Category[]);
@@ -38,6 +43,32 @@ export class HomeComponent implements OnInit, OnDestroy {
   readonly newArrivals = loadable(this.catalog.getNewArrivals(), []);
   readonly bestSellers = loadable(this.catalog.getBestSellers(), []);
   readonly trending = loadable(this.catalog.getTrending(), []);
+
+  // "Deal card" collections — 4 cards, each a 2×2 grid of product illustrations
+  // + a "See more" link. Sources are chosen to reliably have ≥4 products so the
+  // grids fill: two top categories (Toys/Clothing aggregate all subcategories),
+  // educational toys (4), and a cross-catalog "deals" query.
+  private readonly COLLECTIONS = [
+    { title: 'Toys for every little one', link: ['/category', 'toys'], query: { categoryId: 'c-toys', pageSize: 4 } },
+    { title: 'Adorable kids’ clothing', link: ['/category', 'clothing'], query: { categoryId: 'c-clothing', pageSize: 4 } },
+    { title: 'Learn & grow — educational', link: ['/category', 'educational-toys'], query: { categoryId: 'c-educational', pageSize: 4 } },
+    { title: 'Up to 45% off — top deals', link: ['/search'], queryParams: { discount: 30 }, query: { minDiscount: 30, sort: 'popular' as const, pageSize: 4 } },
+  ];
+  readonly collections = loadable(
+    combineLatest(
+      this.COLLECTIONS.map((c) =>
+        this.catalog.queryProducts(c.query).pipe(
+          map((res) => ({
+            title: c.title,
+            link: c.link,
+            queryParams: (c as { queryParams?: Record<string, unknown> }).queryParams ?? {},
+            products: res.items,
+          })),
+        ),
+      ),
+    ),
+    [] as { title: string; link: string[]; queryParams: Record<string, unknown>; products: Product[] }[],
+  );
 
   readonly slides: Slide[] = [
     {

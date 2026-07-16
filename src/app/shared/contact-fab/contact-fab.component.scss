@@ -14,6 +14,13 @@
   gap: 14px;
   pointer-events: none;
 }
+// Lift the chat FAB above the mobile bottom nav so they don't overlap.
+@media (max-width: 900px) {
+  .fab-root {
+    bottom: calc(72px + env(safe-area-inset-bottom, 0));
+    right: 16px;
+  }
+}
 .fab-root .fab {
   pointer-events: auto;
 }
@@ -201,7 +208,8 @@
 @media (max-width: 560px) {
   .fab-root {
     right: 16px;
-    bottom: 16px;
+    // Sit above the bottom nav bar (~56px) + its safe-area inset.
+    bottom: calc(72px + env(safe-area-inset-bottom, 0));
     gap: 12px;
   }
   .fab {

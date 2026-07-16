@@ -5,13 +5,12 @@ import { CartService } from '../../core/state/cart.service';
 import { WishlistService } from '../../core/state/wishlist.service';
 import { inr } from '../../core/util/format';
 import { StarRatingComponent } from '../star-rating/star-rating.component';
-import { QuantitySelectorComponent } from '../quantity-selector/quantity-selector.component';
 
 @Component({
   selector: 'jiara-product-card',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, StarRatingComponent, QuantitySelectorComponent],
+  imports: [RouterLink, StarRatingComponent],
   templateUrl: './product-card.component.html',
   styleUrl: './product-card.component.scss',
 })
@@ -26,6 +25,9 @@ export class ProductCardComponent {
   readonly buyNow = output<Product>();
 
   readonly qty = signal(1);
+  /** Brief "Added" confirmation state after clicking Add to Cart. */
+  readonly justAdded = signal(false);
+  private addedTimer?: ReturnType<typeof setTimeout>;
 
   readonly discount = computed(() => discountPercent(this.product()));
   readonly saved = computed(() => this.wishlist.has(this.product().id));
@@ -34,7 +36,12 @@ export class ProductCardComponent {
 
   addToCart(e: Event): void {
     e.stopPropagation();
+    if (this.justAdded()) return;
     this.cart.add(this.product(), this.qty());
+    // Show "Added" + disable briefly, then revert so it can be added again.
+    this.justAdded.set(true);
+    clearTimeout(this.addedTimer);
+    this.addedTimer = setTimeout(() => this.justAdded.set(false), 1500);
   }
 
   onBuyNow(e: Event): void {

@@ -30,43 +30,37 @@
   touch-action: pan-x pan-y;
   overscroll-behavior-x: contain;
   padding-bottom: 10px;
-  scrollbar-width: thin;
+  scroll-snap-type: x proximity; // gentle snap as you scroll the carousel
+  scrollbar-width: none; // arrows/swipe drive it; hide the bar for a clean look
 }
+.rail::-webkit-scrollbar {
+  display: none;
+}
+// Single-row horizontal CAROUSEL at every width — cards never wrap to a second
+// row; extra products scroll sideways (swipe on touch, arrows on desktop). The
+// cell width sets how many are visible per view; the rest scroll off-edge.
 .cell {
-  flex: 0 0 78%; // % of the rail's own width → definite, forces overflow
+  flex: 0 0 46%; // ~2 cards in view on mobile
+  scroll-snap-align: start;
 }
-// Roomier cards on small tablets before the grid layout takes over.
 @media (min-width: 560px) {
-  .cell { flex-basis: 44%; }
+  .cell { flex-basis: 32%; } // ~3
 }
 @media (min-width: 768px) {
-  .cell { flex-basis: 30%; }
+  .cell { flex-basis: 24%; } // ~4
 }
-// Desktop: static wrapping grid, no horizontal scroll.
 @media (min-width: 1100px) {
-  .rail {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    overflow: visible;
-  }
-  .cell {
-    flex: none;
-  }
+  .cell { flex-basis: 19%; } // ~5 in view, rest scroll
 }
-@media (min-width: 1920px) {
-  .rail {
-    grid-template-columns: repeat(6, 1fr);
-  }
+@media (min-width: 1536px) {
+  .cell { flex-basis: 16%; } // ~6
 }
-@media (min-width: 2560px) {
-  .rail {
-    grid-template-columns: repeat(8, 1fr);
-  }
+@media (min-width: 2200px) {
+  .cell { flex-basis: 13.5%; } // ~7 on very wide screens
 }
 
-// Arrow buttons are hidden by default (touch devices swipe instead, and they
-// would overlap the rail edges and intercept touches). Shown only on
-// hover-capable devices in the horizontal-scroll range (tablet / small laptop).
+// Prev/next arrows for the carousel. Hidden on touch (swipe instead); shown on
+// hover-capable devices from tablet up, so desktop users can page the row.
 .nav {
   display: none;
   position: absolute;
@@ -88,6 +82,6 @@
   background: var(--jiara-brand-tint);
   color: var(--jiara-brand);
 }
-@media (hover: hover) and (min-width: 768px) and (max-width: 1099px) {
+@media (hover: hover) and (min-width: 768px) {
   .nav { display: grid; }
 }

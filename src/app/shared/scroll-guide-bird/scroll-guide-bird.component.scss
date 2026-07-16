@@ -45,6 +45,25 @@
   --home-w: 180px;
   animation: header-fly 5s ease-in-out infinite;
 }
+// Mobile: fly purely left↔right at a constant height (no vertical bob), so the
+// bird never dips onto the wordmark text.
+.guide-bird.is-in-header.flat {
+  animation: header-fly-flat 5s ease-in-out infinite;
+}
+@keyframes header-fly-flat {
+  0%, 12% {
+    transform: translateX(-6px) scaleX(1);
+  }
+  50% {
+    transform: translateX(calc(var(--home-w) - 22px)) scaleX(1);
+  }
+  56% {
+    transform: translateX(calc(var(--home-w) - 22px)) scaleX(-1);
+  }
+  100% {
+    transform: translateX(-6px) scaleX(-1);
+  }
+}
 // A gentle bob that stays LOW over the letters (small +Y dips, never lifting
 // high above the wordmark) so the bird reads as perched on the title.
 @keyframes header-fly {
@@ -69,10 +88,10 @@
   }
 }
 
-// Desktop-only feature — hide on tablets/phones to keep them clean & light.
-@media (max-width: 900px) {
-  .guide-bird { display: none; }
-}
+// The bird shows on all screens now. On mobile it stays in the HEADER only
+// (perched on the wordmark with its fly-across animation) and never travels to
+// section titles — that guide-on-scroll behaviour is desktop-only (enforced in
+// the component's update()).
 @media (prefers-reduced-motion: reduce) {
   .guide-bird { display: none; }
 }

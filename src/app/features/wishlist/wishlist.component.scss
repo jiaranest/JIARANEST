@@ -33,19 +33,20 @@
   font-weight: 700;
 }
 
+// Amazon-style density: full-width page, 5 across at standard desktop.
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
 }
 @media (min-width: 1536px) {
   .grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
 }
 @media (min-width: 1920px) {
   .grid {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
   }
 }
 .card {
@@ -137,6 +138,11 @@
 }
 
 @media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 720px) {
   .grid {
     grid-template-columns: repeat(3, 1fr);
   }

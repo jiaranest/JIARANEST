@@ -218,10 +218,12 @@
 }
 
 // ---- Results ----
+// Amazon-style density: tighter cards, more per row. Base is 5 across the
+// results column (beside the 250px filter sidebar); scales up on wide screens.
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
   min-width: 0; // let the grid shrink within its column instead of overflowing
 }
 // Grid tracks are `1fr`; ensure each cell can shrink below its content's
@@ -234,18 +236,18 @@
 }
 @media (min-width: 1536px) {
   .grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
   }
 }
 @media (min-width: 1920px) {
   .grid {
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(7, 1fr);
   }
 }
 @media (min-width: 2560px) {
   .grid {
-    grid-template-columns: repeat(7, 1fr);
-    gap: 22px;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 16px;
   }
 }
 
@@ -351,6 +353,10 @@
 @media (max-width: 900px) {
   .layout {
     grid-template-columns: 1fr;
+  }
+  // Sidebar collapses here → full width, so fit 4 across (Amazon tablet).
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
   }
   .filter-toggle {
     display: flex;

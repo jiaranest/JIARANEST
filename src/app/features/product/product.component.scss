@@ -18,18 +18,22 @@
 
 .top {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); // allow columns to shrink, no overflow
   gap: 40px;
+}
+.top > * {
+  min-width: 0;
 }
 
 // ---- Gallery ----
 .gallery {
   display: grid;
-  grid-template-columns: 72px 1fr;
+  grid-template-columns: 72px minmax(0, 1fr);
   gap: 12px;
   align-items: start;
   position: sticky;
   top: 128px;
+  min-width: 0;
 }
 .thumbs {
   display: flex;
@@ -519,5 +523,21 @@
     flex-direction: row;
     order: 2;
     overflow-x: auto;
+  }
+  // Quantity selector on its own full row; Add + Buy share the next row without
+  // the 140px min-width that overflowed the narrowest phones (~320px).
+  .buy-actions {
+    gap: 10px;
+  }
+  .buy-actions jiara-quantity-selector {
+    flex: 1 0 100%;
+    display: flex;
+    justify-content: center;
+  }
+  .buy-actions .add,
+  .buy-actions .buy {
+    min-width: 0;
+    height: 46px;
+    font-size: 14px;
   }
 }

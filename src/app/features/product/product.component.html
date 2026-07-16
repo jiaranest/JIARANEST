@@ -235,6 +235,14 @@
         <jiara-product-rail [products]="related()" />
       </section>
     }
+
+    <!-- Recently viewed -->
+    @if (recentlyViewed().length) {
+      <section class="jiara-section related">
+        <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">Recently Viewed</h2></div>
+        <jiara-product-rail [products]="recentlyViewed()" />
+      </section>
+    }
   </div>
 } @else {
   <div class="jiara-container loading-state">
