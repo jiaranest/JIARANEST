@@ -1,6 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import * as nodemailer from 'nodemailer';
 import { PrismaService } from '../prisma/prisma.service';
 
 /** Shape returned to the client — matches the Angular `AuthUser` interface. */
@@ -17,16 +16,12 @@ const MAX_ATTEMPTS = 5;
 
 @Injectable()
 export class AuthService {
-  // Gmail SMTP transport (via app password). If SMTP creds are unset, sending
-  // is skipped and the code is logged to the console (dev fallback).
-  private readonly mailer =
-    process.env.SMTP_USER && process.env.SMTP_PASS
-      ? nodemailer.createTransport({
-          service: 'gmail',
-          auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
-        })
-      : null;
-  private readonly mailFrom = process.env.MAIL_FROM ?? process.env.SMTP_USER ?? 'Jiaranest';
+  // Email via Brevo's HTTP API (works on hosts that block SMTP ports, e.g.
+  // Render). If BREVO_API_KEY is unset, sending is skipped and the code is
+  // logged to the console (dev fallback).
+  private readonly brevoKey = process.env.BREVO_API_KEY ?? '';
+  private readonly fromEmail = process.env.MAIL_FROM_EMAIL ?? 'no-reply@jiaranest.app';
+  private readonly fromName = process.env.MAIL_FROM_NAME ?? 'Jiaranest';
 
   constructor(
     private readonly prisma: PrismaService,
@@ -35,7 +30,7 @@ export class AuthService {
 
   /**
    * Generate a 6-digit code for the email, store it (replacing any prior code),
-   * and email it via Gmail SMTP. If SMTP creds are unset (or sending fails), the
+   * and email it via Brevo. If BREVO_API_KEY is unset (or sending fails), the
    * code is logged to the server console instead (dev fallback).
    */
   async requestOtp(email: string): Promise<{ ok: true }> {
@@ -96,29 +91,48 @@ export class AuthService {
 
   // ---- helpers ----
 
-  /** Email the code via Gmail SMTP; fall back to a console log if unavailable. */
+  /** Email the code via Brevo's HTTP API; fall back to a console log if unavailable. */
   private async sendCode(email: string, code: string): Promise<void> {
-    if (!this.mailer) {
-      console.log(`[OTP] ${email} -> ${code}  (no SMTP creds set; logging code)`);
+    if (!this.brevoKey) {
+      console.log(`[OTP] ${email} -> ${code}  (no BREVO_API_KEY set; logging code)`);
       return;
     }
+    // Abort after 10s so a slow mail call can never hang the request.
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 10000);
     try {
-      await this.mailer.sendMail({
-        from: this.mailFrom,
-        to: email,
-        subject: 'Your Jiaranest login code',
-        html: `
-          <div style="font-family:system-ui,sans-serif;max-width:420px;margin:auto">
-            <h2 style="color:#6e7b4f">Jiaranest</h2>
-            <p>Your login code is:</p>
-            <p style="font-size:32px;font-weight:800;letter-spacing:6px;color:#3b3325">${code}</p>
-            <p style="color:#6b6355;font-size:13px">This code expires in 5 minutes. If you didn't request it, ignore this email.</p>
-          </div>`,
+      const res = await fetch('https://api.brevo.com/v3/smtp/email', {
+        method: 'POST',
+        headers: {
+          'api-key': this.brevoKey,
+          'content-type': 'application/json',
+          accept: 'application/json',
+        },
+        body: JSON.stringify({
+          sender: { name: this.fromName, email: this.fromEmail },
+          to: [{ email }],
+          subject: 'Your Jiaranest login code',
+          htmlContent: `
+            <div style="font-family:system-ui,sans-serif;max-width:420px;margin:auto">
+              <h2 style="color:#6e7b4f">Jiaranest</h2>
+              <p>Your login code is:</p>
+              <p style="font-size:32px;font-weight:800;letter-spacing:6px;color:#3b3325">${code}</p>
+              <p style="color:#6b6355;font-size:13px">This code expires in 5 minutes. If you didn't request it, ignore this email.</p>
+            </div>`,
+        }),
+        signal: ctrl.signal,
       });
+      if (!res.ok) {
+        const body = await res.text();
+        console.error(`[OTP] Brevo send failed (${res.status}): ${body}`);
+        console.log(`[OTP] ${email} -> ${code}`);
+      }
     } catch (e) {
       // Never fail the login flow on a mail error — log the code so dev can proceed.
-      console.error('[OTP] email send failed, logging code instead:', e);
+      console.error('[OTP] email send error, logging code instead:', e);
       console.log(`[OTP] ${email} -> ${code}`);
+    } finally {
+      clearTimeout(timer);
     }
   }
 

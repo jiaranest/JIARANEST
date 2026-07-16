@@ -61,26 +61,27 @@ inStockOnly, minDiscount, page, pageSize`. Array params accept repeated
 
 | Method | Route | Body / Auth | Purpose |
 |---|---|---|---|
-| POST | `/auth/otp/request` | `{ email }` | generate + email the OTP (via Resend) |
+| POST | `/auth/otp/request` | `{ email }` | generate + email the OTP (via Brevo) |
 | POST | `/auth/otp/verify` | `{ email, code }` | verify → `{ token, user }` |
 | GET | `/auth/me` | `Authorization: Bearer <token>` | current user |
 
 **Email OTP delivery:** a real 6-digit code is generated and emailed via
-**Gmail SMTP**. Set `SMTP_USER` (your Gmail) + `SMTP_PASS` (a Google
-[App Password](https://myaccount.google.com/apppasswords), needs 2-Step
-Verification) + `MAIL_FROM` in `.env` (and on Render). If SMTP creds are empty,
-the code is **logged to the API console** instead (dev). Codes expire in 5
-minutes; 5 wrong attempts locks that code.
+**[Brevo](https://brevo.com)** (HTTP API — works on hosts that block SMTP ports
+like Render). Set `BREVO_API_KEY` + `MAIL_FROM_EMAIL` + `MAIL_FROM_NAME` in
+`.env` (and on Render). The `MAIL_FROM_EMAIL` must be verified as a sender in
+Brevo (Senders & IPs). If `BREVO_API_KEY` is empty, the code is **logged to the
+API console** instead (dev). Codes expire in 5 minutes; 5 wrong attempts locks
+that code.
 
-> Gmail SMTP sends real codes to **any** address, free, ~500/day — no domain
-> needed. There is no hardcoded bypass code; login requires the real emailed code
-> (or the console-logged one if SMTP is unset).
+> Brevo free tier: 300 emails/day to **any** address, no domain needed. There is
+> no hardcoded bypass code; login requires the real emailed code (or the
+> console-logged one if the key is unset).
 
 **Test with curl:**
 ```bash
 curl -X POST http://localhost:3000/api/auth/otp/request \
   -H "Content-Type: application/json" -d "{\"email\":\"you@example.com\"}"
-# → { "ok": true }   (check your inbox, or the API console if no RESEND_API_KEY)
+# → { "ok": true }   (check your inbox, or the API console if no BREVO_API_KEY)
 
 curl -X POST http://localhost:3000/api/auth/otp/verify \
   -H "Content-Type: application/json" -d "{\"email\":\"you@example.com\",\"code\":\"THE_CODE_FROM_EMAIL\"}"
