@@ -1,1 +1,0 @@
-import {o as V,z as j,J as Vi}from'./main-LPVKRBG7.js';function b(l,a){return V(l.pipe(j(r=>({loading:false,data:r})),Vi({loading:true,data:a})),{initialValue:{loading:true,data:a}})}export{b};
