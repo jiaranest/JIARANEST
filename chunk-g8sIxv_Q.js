@@ -1,0 +1,1 @@
+import {B as V,j,$ as $i}from'./main-L3S3RFBR.js';function b(l,a){return V(l.pipe(j(r=>({loading:false,data:r})),$i({loading:true,data:a})),{initialValue:{loading:true,data:a}})}export{b};
