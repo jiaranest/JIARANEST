@@ -59,11 +59,13 @@ export class HeaderComponent {
   inr = inr;
 
   constructor() {
-    // Lock body scroll while the search overlay or mobile drawer is open.
+    // Lock body scroll while the search overlay or mobile drawer is open, and
+    // flag it on <body> so overlays (e.g. the scroll-guide sparrow) can hide.
     effect(() => {
       const lock = this.searchOpen() || this.mobileMenuOpen();
       if (typeof document !== 'undefined') {
         document.body.style.overflow = lock ? 'hidden' : '';
+        document.body.classList.toggle('jiara-overlay-open', lock);
       }
     });
 

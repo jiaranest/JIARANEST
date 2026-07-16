@@ -355,11 +355,12 @@
   position: fixed;
   top: 0;
   left: 0;
-  bottom: 0;
-  height: 100%;
-  // Use dynamic viewport height on mobile so the drawer matches the visible
-  // area even with the browser's collapsing address bar.
-  height: 100dvh;
+  // End the drawer ABOVE the mobile bottom nav (~56px + safe-area) so its last
+  // item ("All Products") isn't hidden behind the bar and stays scrollable.
+  bottom: calc(56px + env(safe-area-inset-bottom, 0));
+  // Dynamic viewport height minus the bottom-nav so it matches the visible area
+  // even with the browser's collapsing address bar.
+  height: calc(100dvh - 56px - env(safe-area-inset-bottom, 0));
   width: min(86vw, 340px);
   z-index: 200;
   background: var(--jiara-bg);

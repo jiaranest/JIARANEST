@@ -103,6 +103,12 @@ a {
   text-decoration: none;
 }
 
+// While the mobile drawer / search overlay is open, hide the scroll-guide
+// sparrow so it never floats over (or beside) the overlay in the header.
+body.jiara-overlay-open jiara-scroll-guide-bird {
+  display: none;
+}
+
 img {
   max-width: 100%;
   display: block;
