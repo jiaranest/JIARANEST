@@ -27,7 +27,7 @@ import { WishlistService } from '../../core/state/wishlist.service';
       </a>
       <a class="bnav-item" routerLink="/search" routerLinkActive="active">
         <span class="material-icons">grid_view</span>
-        <span class="bnav-label">Categories</span>
+        <span class="bnav-label">All Products</span>
       </a>
       <a class="bnav-item" routerLink="/orders" routerLinkActive="active">
         <span class="material-icons">receipt_long</span>
