@@ -311,6 +311,26 @@ a,
   animation: jiara-shimmer 1.4s infinite linear;
   border-radius: 8px;
 }
+// Reusable shimmer line/block for building skeleton placeholders anywhere.
+// `.jiara-sk` is the shimmering surface; size it with width/height or the
+// width helpers below.
+.jiara-sk {
+  background: #eceef1;
+  background-image: linear-gradient(90deg, #eceef1 0px, #f6f7f8 200px, #eceef1 400px);
+  background-size: 800px 100%;
+  animation: jiara-shimmer 1.4s infinite linear;
+  border-radius: 6px;
+}
+.jiara-sk--line { height: 12px; }
+.jiara-sk-w40 { width: 40%; }
+.jiara-sk-w50 { width: 50%; }
+.jiara-sk-w60 { width: 60%; }
+.jiara-sk-w70 { width: 70%; }
+.jiara-sk-w90 { width: 90%; }
+@media (prefers-reduced-motion: reduce) {
+  .jiara-skeleton,
+  .jiara-sk { animation: none; }
+}
 
 // Tighten Material's default button radius to match the premium look
 .mat-mdc-raised-button,

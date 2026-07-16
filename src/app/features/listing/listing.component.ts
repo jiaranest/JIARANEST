@@ -8,7 +8,9 @@ import { CatalogService } from '../../core/data/catalog.service';
 import { LoginGateService } from '../../core/state/login-gate.service';
 import { AGE_GROUPS, AgeGroup, Product } from '../../core/models/product.model';
 import { ProductQuery, SortOption } from '../../core/models/filter.model';
+import { loadable } from '../../core/util/loadable';
 import { ProductCardComponent } from '../../shared/product-card/product-card.component';
+import { SkeletonCardComponent } from '../../shared/skeleton-card/skeleton-card.component';
 import { QuickViewComponent } from '../../shared/quick-view/quick-view.component';
 import { StarRatingComponent } from '../../shared/star-rating/star-rating.component';
 import { inr } from '../../core/util/format';
@@ -24,7 +26,7 @@ const SORTS: { value: SortOption; label: string }[] = [
   selector: 'jiara-listing',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, ProductCardComponent, StarRatingComponent],
+  imports: [RouterLink, ProductCardComponent, SkeletonCardComponent, StarRatingComponent],
   templateUrl: './listing.component.html',
   styleUrl: './listing.component.scss',
 })
@@ -136,12 +138,17 @@ export class ListingComponent {
     };
   });
 
-  readonly result = toSignal(
+  private readonly resultL = loadable(
     toObservable(this.fullQuery).pipe(switchMap((q) => this.catalog.queryProducts(q))),
-    { initialValue: { items: [] as Product[], total: 0, page: 1, pageSize: 24 } },
+    { items: [] as Product[], total: 0, page: 1, pageSize: 24 },
   );
 
-  readonly loading = computed(() => this.result().items.length === 0 && this.result().total === 0);
+  /** The current page of results. */
+  readonly result = computed(() => this.resultL().data);
+  /** True while a query is in flight — drives the skeleton grid. */
+  readonly loading = computed(() => this.resultL().loading);
+  /** Skeleton placeholders for the loading grid. */
+  readonly skeletons = Array.from({ length: 12 }, (_, i) => i);
 
   readonly activeFilterCount = computed(
     () =>

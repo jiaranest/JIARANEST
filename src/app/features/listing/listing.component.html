@@ -204,7 +204,15 @@
 
     <!-- Results -->
     <section class="results">
-      @if (result().total === 0) {
+      @if (loading()) {
+        <!-- Shimmer grid while the query is in flight (no more "No products
+             found" flashing during the initial load). -->
+        <div class="grid">
+          @for (s of skeletons; track s) {
+            <jiara-skeleton-card />
+          }
+        </div>
+      } @else if (result().total === 0) {
         <div class="empty">
           <span class="material-icons">search_off</span>
           <h3>No products found</h3>

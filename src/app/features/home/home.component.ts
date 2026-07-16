@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { CatalogService } from '../../core/data/catalog.service';
 import { AGE_GROUPS, Category } from '../../core/models/product.model';
 import { avatar, illus } from '../../core/data/illustrations';
+import { loadable } from '../../core/util/loadable';
 import { ProductRailComponent } from '../../shared/product-rail/product-rail.component';
 import { RevealDirective } from '../../shared/reveal/reveal.directive';
 
@@ -28,14 +28,16 @@ interface Slide {
 export class HomeComponent implements OnInit, OnDestroy {
   private readonly catalog = inject(CatalogService);
 
-  readonly categories = toSignal(this.catalog.getCategories(), { initialValue: [] as Category[] });
+  // Each source is a Loadable so the template can shimmer while pending.
+  readonly categoriesL = loadable(this.catalog.getCategories(), [] as Category[]);
   /** Subcategories (the ones with a parent) make the best browsable tiles. */
-  readonly browseCategories = computed(() => this.categories().filter((c) => c.parentId));
+  readonly browseCategories = computed(() => this.categoriesL().data.filter((c) => c.parentId));
+  readonly categoriesLoading = computed(() => this.categoriesL().loading);
   readonly ageGroups = AGE_GROUPS;
-  readonly featured = toSignal(this.catalog.getFeatured(), { initialValue: [] });
-  readonly newArrivals = toSignal(this.catalog.getNewArrivals(), { initialValue: [] });
-  readonly bestSellers = toSignal(this.catalog.getBestSellers(), { initialValue: [] });
-  readonly trending = toSignal(this.catalog.getTrending(), { initialValue: [] });
+  readonly featured = loadable(this.catalog.getFeatured(), []);
+  readonly newArrivals = loadable(this.catalog.getNewArrivals(), []);
+  readonly bestSellers = loadable(this.catalog.getBestSellers(), []);
+  readonly trending = loadable(this.catalog.getTrending(), []);
 
   readonly slides: Slide[] = [
     {
