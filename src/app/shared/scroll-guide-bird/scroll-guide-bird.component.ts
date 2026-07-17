@@ -105,6 +105,15 @@ export class ScrollGuideBirdComponent implements AfterViewInit, OnDestroy {
   private update(): void {
     const bird = this.birdRef().nativeElement;
 
+    // Once the footer comes into view, the bird belongs back in the header — it
+    // should never sit beside the footer or linger on the last section. This
+    // takes priority over every other placement (desktop and mobile alike).
+    if (this.footerInView()) {
+      this.moveToHeader(bird);
+      this.lastIndex = -1;
+      return;
+    }
+
     // Mobile/tablet: the bird normally stays perched on the header wordmark and
     // never travels down to section titles. The ONE exception is the nest: when
     // the testimonials nest is comfortably in view, the bird flies down to
@@ -218,6 +227,23 @@ export class ScrollGuideBirdComponent implements AfterViewInit, OnDestroy {
    * the viewport (used on mobile to decide when the bird should fly down to it
    * and when it should return to the header). A generous band avoids flicker.
    */
+  /**
+   * True once the page footer has scrolled up into the viewport — the cue to
+   * send the bird home to the header rather than leaving it on the last
+   * section. A small top margin means it triggers as the footer starts to
+   * appear, not only when fully visible.
+   */
+  private footerInView(): boolean {
+    const footer = document.querySelector<HTMLElement>('footer.footer');
+    if (!footer) return false;
+    const r = footer.getBoundingClientRect();
+    // Trigger only once the footer has risen into the upper-middle of the
+    // viewport — by then the last content section (and the nest) has clearly
+    // scrolled away, so the bird isn't yanked off the nest prematurely on short
+    // pages where the footer peeks in while the testimonials are still centred.
+    return r.top < window.innerHeight * 0.5;
+  }
+
   private visibleNest(): HTMLElement | null {
     const nest = document.querySelector<HTMLElement>('[data-guide-nest]');
     if (!nest) return null;
