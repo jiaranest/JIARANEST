@@ -105,9 +105,21 @@ export class ScrollGuideBirdComponent implements AfterViewInit, OnDestroy {
   private update(): void {
     const bird = this.birdRef().nativeElement;
 
-    // Mobile/tablet: always keep the bird perched on the header wordmark with
-    // its fly-across animation; never travel down to section titles.
+    // Mobile/tablet: the bird normally stays perched on the header wordmark and
+    // never travels down to section titles. The ONE exception is the nest: when
+    // the testimonials nest is comfortably in view, the bird flies down to
+    // perch beside the mother (the same delightful moment as on desktop), then
+    // returns to the header when you scroll away.
     if (this.headerOnly()) {
+      const nest = this.visibleNest();
+      if (nest) {
+        if (bird.classList.contains('is-in-header')) {
+          bird.classList.remove('is-in-header', 'flat');
+          bird.style.transform = 'none';
+        }
+        this.placeAtNest(bird, nest);
+        return;
+      }
       this.moveToHeader(bird);
       this.lastIndex = -1;
       return;
@@ -146,9 +158,21 @@ export class ScrollGuideBirdComponent implements AfterViewInit, OnDestroy {
       }
     }
 
-    const r = this.titles[bestIndex].getBoundingClientRect();
     const birdW = bird.offsetWidth || 30;
     const birdH = bird.offsetHeight || 24;
+
+    // Special case: if the active section carries a nest landing marker
+    // (`[data-guide-nest]`, e.g. the testimonials), the bird flies to PERCH ON
+    // THE NEST beside the mother sparrow instead of sitting left of the title.
+    const nest = this.nestFor(this.titles[bestIndex]);
+    if (nest) {
+      this.placeAtNest(bird, nest);
+      this.lastIndex = bestIndex;
+      return;
+    }
+    bird.classList.remove('at-nest');
+
+    const r = this.titles[bestIndex].getBoundingClientRect();
     // Sit just LEFT of the heading, vertically centred on it. Clamp Y so the
     // bird never drifts off-screen even mid-transition on very tall sections.
     const x = Math.max(4, r.left - birdW - 8);
@@ -160,10 +184,58 @@ export class ScrollGuideBirdComponent implements AfterViewInit, OnDestroy {
     this.lastIndex = bestIndex;
   }
 
+  /**
+   * If the section owning `title` contains a `[data-guide-nest]` marker, return
+   * it — that's the perch the bird should fly to (beside the mother sparrow).
+   * Returns null for ordinary sections (bird sits left of the heading).
+   */
+  private nestFor(title: HTMLElement | undefined): HTMLElement | null {
+    if (!title) return null;
+    const section = title.closest('section');
+    return section?.querySelector<HTMLElement>('[data-guide-nest]') ?? null;
+  }
+
+  /**
+   * Position the bird on the nest marker, beside the mother sparrow. The bird
+   * faces right there (its default facing) toward the mother; the `at-nest`
+   * class swaps its flight animation for a calm settle-bob (see .scss).
+   */
+  private placeAtNest(bird: HTMLElement, nest: HTMLElement): void {
+    const nr = nest.getBoundingClientRect();
+    const birdW = bird.offsetWidth || 30;
+    const birdH = bird.offsetHeight || 24;
+    const nx = Math.max(4, Math.min(window.innerWidth - birdW - 4, nr.left - birdW / 2));
+    const ny = Math.min(
+      window.innerHeight - birdH - 8,
+      Math.max(8, nr.top - birdH / 2),
+    );
+    bird.classList.add('at-nest');
+    this.place(bird, nx, ny);
+  }
+
+  /**
+   * The nest marker on the current route, but only once it's comfortably within
+   * the viewport (used on mobile to decide when the bird should fly down to it
+   * and when it should return to the header). A generous band avoids flicker.
+   */
+  private visibleNest(): HTMLElement | null {
+    const nest = document.querySelector<HTMLElement>('[data-guide-nest]');
+    if (!nest) return null;
+    const r = nest.getBoundingClientRect();
+    const vh = window.innerHeight;
+    // The marker is a 1px point, so test the point itself: is it within the
+    // viewport's middle band (clear of the sticky header, above the fold)? A
+    // generous band keeps the bird settled while the section is on-screen and
+    // avoids flicker at the edges.
+    const y = r.top + r.height / 2;
+    return y > 90 && y < vh * 0.92 ? nest : null;
+  }
+
   // Park the bird over the header wordmark and let its own header animation run
   // (fly across "JIARANEST"). The bird position tracks the wordmark's box so it
   // stays correct if the header layout shifts.
   private moveToHeader(bird: HTMLElement): void {
+    bird.classList.remove('at-nest'); // not at the nest when parked in the header
     const home = document.querySelector<HTMLElement>('[data-bird-home]');
     if (home) {
       const r = home.getBoundingClientRect();

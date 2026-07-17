@@ -1,4 +1,10 @@
-<article class="card">
+<article
+  class="card"
+  [class.accent-deal]="accent() === 'deal'"
+  [class.accent-bestseller]="accent() === 'bestseller'"
+  [class.accent-trending]="accent() === 'trending'"
+  [class.accent-new]="accent() === 'new'"
+>
   <div class="media">
     <!-- The image is the only navigating element; buttons are siblings, NOT
          nested inside an <a> (which caused taps to navigate instead of act). -->
@@ -8,11 +14,28 @@
 
     <div class="badges">
       @if (discount() > 0) {
-        <span class="jiara-badge jiara-badge--deal">{{ discount() }}% OFF</span>
+        <span class="jiara-badge jiara-badge--deal"
+          ><span class="badge-shine"></span>{{ discount() }}% OFF</span
+        >
       }
       @for (b of product().badges; track b) {
         @if (b !== 'deal') {
-          <span class="jiara-badge jiara-badge--{{ b }}">{{ b }}</span>
+          @if (b === 'trending') {
+            <span class="jiara-badge jiara-badge--trending">
+              <span class="flame">🔥</span> trending
+            </span>
+          } @else if (b === 'bestseller') {
+            <span class="jiara-badge jiara-badge--bestseller">
+              <span class="crown">👑</span> bestseller
+              <span class="badge-gleam"></span>
+            </span>
+          } @else if (b === 'new') {
+            <span class="jiara-badge jiara-badge--new">
+              <span class="spark">✦</span> new
+            </span>
+          } @else {
+            <span class="jiara-badge jiara-badge--{{ b }}">{{ b }}</span>
+          }
         }
       }
     </div>

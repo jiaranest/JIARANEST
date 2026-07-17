@@ -139,13 +139,14 @@
   <jiara-product-rail [products]="newArrivals().data" [loading]="newArrivals().loading" />
 </section>
 
-<!-- Recently viewed (only for returning visitors who've browsed products) -->
+<!-- Recently viewed — hidden per request. Kept for easy re-enable.
 @if (recentlyViewed().length) {
   <section class="jiara-section jiara-container">
     <div class="jiara-section-head"><h2 jiaraReveal class="reveal-underline">Recently Viewed</h2></div>
     <jiara-product-rail [products]="recentlyViewed()" />
   </section>
 }
+-->
 
 <!-- Best sellers -->
 <section class="jiara-section jiara-container">
@@ -161,11 +162,63 @@
 
 <!-- Testimonials -->
 <section class="jiara-section testimonials">
+  <!-- Decorative, non-interactive backdrop: soft glow blobs the glass reads
+       against + the mother sparrow perched on her nest. The SECOND sparrow is
+       the shared guide-bird (jiara-scroll-guide-bird) — it flies down from the
+       header and lands on `[data-guide-nest]` when this section is in view. -->
+  <div class="t-decor" aria-hidden="true">
+    <span class="t-blob t-blob--moss"></span>
+    <span class="t-blob t-blob--honey"></span>
+    <!-- Sparrow perched on a twig nest; the mother gently bobs, wing flaps.
+         `data-guide-nest` marks the empty spot (left of the mother) where the
+         shared guide-bird should land. -->
+    <svg class="t-nest" viewBox="0 0 120 90" fill="none">
+      <defs>
+        <radialGradient id="tNestBody" cx="40%" cy="35%" r="72%">
+          <stop offset="0%" stop-color="#a5875c" /><stop offset="55%" stop-color="#8a6f4a" /><stop offset="100%" stop-color="#6d5636" />
+        </radialGradient>
+        <radialGradient id="tNestHead" cx="40%" cy="35%" r="70%">
+          <stop offset="0%" stop-color="#b1936a" /><stop offset="100%" stop-color="#8a6f4a" />
+        </radialGradient>
+        <linearGradient id="tNestWing" x1="0" y1="0" x2="0.6" y2="1">
+          <stop offset="0%" stop-color="#c7a677" /><stop offset="100%" stop-color="#9c7c50" />
+        </linearGradient>
+      </defs>
+      <!-- Nest: woven twig arcs -->
+      <g class="t-nest-twigs" stroke="#a9884f" stroke-width="2.4" stroke-linecap="round" fill="none" opacity="0.9">
+        <path d="M14 74 Q60 60 106 74" />
+        <path d="M18 80 Q60 68 102 80" stroke="#8f7040" />
+        <path d="M22 86 Q60 76 98 86" stroke="#bb9a5e" />
+        <path d="M30 71 Q46 66 60 70" stroke-width="1.8" />
+        <path d="M62 70 Q78 66 92 72" stroke-width="1.8" />
+      </g>
+      <!-- Two small eggs nestled in -->
+      <ellipse class="t-egg" cx="50" cy="72" rx="6.5" ry="5" fill="#f3e7cf" />
+      <ellipse class="t-egg" cx="63" cy="73" rx="6" ry="4.6" fill="#ece0c4" />
+
+      <!-- MOTHER sparrow — mirrored to face LEFT (scaleX(-1) about her centre). -->
+      <g class="t-bird">
+        <path class="t-bird-wing" d="M44 46 Q56 30 70 44 Q56 50 44 46 Z" fill="url(#tNestWing)" />
+        <path d="M34 50 L20 44 L23 52 L20 60 L36 55 Z" fill="#6f5838" />
+        <ellipse cx="54" cy="52" rx="20" ry="15" fill="url(#tNestBody)" />
+        <ellipse cx="50" cy="60" rx="12" ry="6" fill="#d8bd91" opacity="0.85" />
+        <circle cx="74" cy="40" r="12" fill="url(#tNestHead)" />
+        <path d="M84 38 L98 41 L84 45 Z" fill="#e8a63c" />
+        <circle cx="77" cy="37" r="2.7" fill="#2a2018" />
+        <circle cx="78" cy="36" r="0.9" fill="#fff" opacity="0.9" />
+      </g>
+    </svg>
+    <!-- Landing spot for the shared guide-bird: an invisible marker sitting on
+         the nest's left edge, so the flying sparrow lands facing the mother. -->
+    <span class="t-landing" data-guide-nest></span>
+  </div>
+
   <div class="jiara-container">
     <div class="jiara-section-head"><h2 jiaraReveal data-guide-title class="reveal-underline">What shoppers say</h2></div>
     <div class="t-grid" jiaraReveal="stagger" [revealStep]="110">
       @for (t of testimonials; track t.name) {
-        <figure class="t-card">
+        <figure class="t-card jiara-glass jiara-lift">
+          <span class="t-quote" aria-hidden="true">&ldquo;</span>
           <div class="t-stars">
             @for (n of [1,2,3,4,5]; track n) {
               <span class="material-icons" [class.on]="n <= t.rating">star</span>

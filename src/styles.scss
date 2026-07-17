@@ -46,6 +46,18 @@ html {
 
   --jiara-shadow-1: 0 1px 3px rgba(59, 51, 37, 0.07), 0 1px 2px rgba(59, 51, 37, 0.04);
   --jiara-shadow-2: 0 12px 34px rgba(87, 98, 61, 0.14);
+  // Soft, premium "floating" shadow for 3D/glass cards — a close ambient layer
+  // plus a deep diffuse one, warm-toned to match the honey palette.
+  --jiara-shadow-3: 0 2px 6px rgba(59, 51, 37, 0.06), 0 18px 48px rgba(87, 98, 61, 0.18);
+
+  // ---- Glassmorphism tokens ----
+  // Frosted panel: translucent warm-cream fill + blur + a light top edge so the
+  // glass catches a highlight. Tuned to read over the honey page background.
+  // Fill is kept fairly opaque (0.72) so body text stays high-contrast/readable
+  // even where a bright glow blob sits directly behind the glass.
+  --jiara-glass-bg: rgba(254, 251, 244, 0.72);
+  --jiara-glass-border: rgba(255, 255, 255, 0.6);
+  --jiara-glass-blur: 14px;
 
   --jiara-max: 1280px;
   --jiara-header-h: 112px; // announcement strip (~32) + header (~80)
@@ -368,5 +380,44 @@ a,
 // The login dialog is narrow — let it size to its own content instead.
 .jiara-dialog.jiara-dialog--sm {
   width: auto;
+}
+
+// ---------------------------------------------------------------------------
+// Premium UI primitives — reusable glassmorphism + 3D-tilt helpers.
+// ---------------------------------------------------------------------------
+
+// Frosted "glass" surface. Uses backdrop-filter where supported; the
+// translucent fill + border already look good as a graceful fallback where it
+// isn't. A subtle inset top highlight gives the glass a lit edge.
+.jiara-glass {
+  background: var(--jiara-glass-bg);
+  border: 1px solid var(--jiara-glass-border);
+  box-shadow: var(--jiara-shadow-3), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(var(--jiara-glass-blur)) saturate(1.15);
+  -webkit-backdrop-filter: blur(var(--jiara-glass-blur)) saturate(1.15);
+}
+
+// Subtle 3D lift on hover — a small perspective raise + deeper shadow. Pointer
+// devices only (touch drags would fire the hover repeatedly while scrolling).
+// The base state keeps a will-change hint so the transform stays on the GPU.
+.jiara-lift {
+  transition: transform 0.28s var(--jiara-ease), box-shadow 0.28s var(--jiara-ease);
+  will-change: transform;
+}
+@media (hover: hover) {
+  .jiara-lift:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--jiara-shadow-3);
+  }
+}
+
+// Honour reduced-motion: keep the depth (shadow) but drop the movement.
+@media (prefers-reduced-motion: reduce) {
+  .jiara-lift {
+    transition: box-shadow 0.28s var(--jiara-ease);
+  }
+  .jiara-lift:hover {
+    transform: none;
+  }
 }
 

@@ -32,6 +32,21 @@ export class ProductCardComponent {
   readonly discount = computed(() => discountPercent(this.product()));
   readonly saved = computed(() => this.wishlist.has(this.product().id));
 
+  /**
+   * A subtle background accent for "special" cards, keyed to the product's
+   * badge (so the tint carries meaning — deal/bestseller/trending/new). Regular
+   * products return '' and stay on the plain surface. Priority order matters:
+   * a deal is the strongest signal, then bestseller, trending, new.
+   */
+  readonly accent = computed<'' | 'deal' | 'bestseller' | 'trending' | 'new'>(() => {
+    const badges = this.product().badges ?? [];
+    if (badges.includes('deal')) return 'deal';
+    if (badges.includes('bestseller')) return 'bestseller';
+    if (badges.includes('trending')) return 'trending';
+    if (badges.includes('new')) return 'new';
+    return '';
+  });
+
   inr = inr;
 
   addToCart(e: Event): void {

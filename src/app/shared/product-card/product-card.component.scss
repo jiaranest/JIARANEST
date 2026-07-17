@@ -13,6 +13,34 @@
   overflow: hidden;
   transition: box-shadow 0.2s var(--jiara-ease), transform 0.2s var(--jiara-ease), border-color 0.2s;
 }
+
+// ---- Subtle status accents for "special" cards (Amazon-style) ----
+// Very faint washes keyed to the product's badge, so color carries meaning
+// (deal / bestseller / trending / new). Regular cards keep the plain surface.
+// The tint sits on the whole card + a soft matching border; the media block has
+// its own bg so the accent mainly reads on the info area and edges.
+.card.accent-deal {
+  background: #fdf1e6; // warm honey wash — offers
+  border-color: #f0d9be;
+}
+.card.accent-bestseller {
+  background: #fbf3dc; // soft gold wash — top sellers
+  border-color: #efe0b8;
+}
+.card.accent-trending {
+  background: #eef2e4; // light moss wash — trending
+  border-color: #d9e2c6;
+}
+.card.accent-new {
+  background: #ecf1e6; // fresh green wash — new arrivals
+  border-color: #d6e2ca;
+}
+// Give the media block a matching translucent wash so the image area doesn't
+// look like a plain white patch on a tinted card.
+.card.accent-deal .media { background: #f7e6d3; }
+.card.accent-bestseller .media { background: #f6ebcd; }
+.card.accent-trending .media { background: #e6ecd8; }
+.card.accent-new .media { background: #e4ecdb; }
 // Hover lift only on pointer devices. On touch, dragging a finger across the
 // rail would otherwise fire :hover on each card → transform/shadow repaints
 // mid-scroll → the stiff/janky scrolling. Guarding it keeps the swipe smooth.
@@ -60,6 +88,126 @@
   flex-direction: column;
   gap: 4px;
   align-items: flex-start;
+}
+
+// ---- Special animated badges ----
+// % OFF — a bold "flash sale" tag: warm gradient fill, white text, with a light
+// shine that periodically sweeps across it.
+.badges .jiara-badge--deal {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(120deg, #e8892f, #c15b3c);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(193, 91, 60, 0.35);
+  padding: 3px 9px;
+}
+.badge-shine {
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.65),
+    transparent
+  );
+  transform: skewX(-18deg);
+  animation: badge-shine 3.4s ease-in-out infinite;
+}
+@keyframes badge-shine {
+  0%, 100% { left: -60%; }
+  // quick sweep across, then rest
+  22% { left: 130%; }
+  23%, 100% { left: 130%; }
+}
+
+// Trending — "hot right now": moss-tinted tag with a flame that flickers and a
+// soft pulsing glow.
+.badges .jiara-badge--trending {
+  background: #fff3e6;
+  color: var(--jiara-danger);
+  box-shadow: 0 0 0 0 rgba(193, 91, 60, 0.45);
+  animation: trend-pulse 2.4s ease-in-out infinite;
+}
+.badges .jiara-badge--trending .flame {
+  display: inline-block;
+  font-size: 11px;
+  animation: flame-flicker 1.1s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+@keyframes trend-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(193, 91, 60, 0.4); }
+  50% { box-shadow: 0 0 0 4px rgba(193, 91, 60, 0); }
+}
+@keyframes flame-flicker {
+  0%, 100% { transform: rotate(-4deg) scale(1); }
+  50% { transform: rotate(4deg) scale(1.12); }
+}
+
+// Bestseller — "top pick": gold tag with a crown that gives a little celebratory
+// bounce, plus a light gleam that sweeps across (like a polished award).
+.badges .jiara-badge--bestseller {
+  position: relative;
+  overflow: hidden;
+}
+.badges .jiara-badge--bestseller .crown {
+  display: inline-block;
+  font-size: 10px;
+  animation: crown-bounce 2.6s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+.badge-gleam {
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(
+    100deg,
+    transparent,
+    rgba(255, 255, 255, 0.7),
+    transparent
+  );
+  transform: skewX(-18deg);
+  animation: badge-gleam 3.8s ease-in-out infinite;
+}
+@keyframes crown-bounce {
+  0%, 82%, 100% { transform: translateY(0) rotate(0); }
+  88% { transform: translateY(-2px) rotate(-6deg); }
+  94% { transform: translateY(-1px) rotate(5deg); }
+}
+@keyframes badge-gleam {
+  0%, 100% { left: -60%; }
+  26% { left: 130%; }
+  27%, 100% { left: 130%; }
+}
+
+// New — "just arrived": fresh green tag with a sparkle that twinkles (scale +
+// fade + gentle spin) to feel bright and new.
+.badges .jiara-badge--new .spark {
+  display: inline-block;
+  font-size: 9px;
+  color: var(--jiara-accent);
+  animation: spark-twinkle 2s ease-in-out infinite;
+  transform-origin: 50% 50%;
+}
+@keyframes spark-twinkle {
+  0%, 100% { transform: scale(1) rotate(0); opacity: 1; }
+  40% { transform: scale(0.55) rotate(90deg); opacity: 0.55; }
+  70% { transform: scale(1.15) rotate(160deg); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge-shine,
+  .badge-gleam,
+  .badges .jiara-badge--trending,
+  .badges .jiara-badge--trending .flame,
+  .badges .jiara-badge--bestseller .crown,
+  .badges .jiara-badge--new .spark {
+    animation: none;
+  }
 }
 
 .wish {

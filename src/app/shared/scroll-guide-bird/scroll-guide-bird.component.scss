@@ -25,18 +25,47 @@
   height: 24px;
   overflow: visible;
   filter: drop-shadow(0 3px 4px rgba(60, 50, 30, 0.28));
+  // A subtle continuous "breathe/bank" gives the bird a sense of mass and depth
+  // as it flies (tiny scale + tilt), not just flat wing flapping.
+  animation: guide-breathe 1.6s ease-in-out infinite;
+  transform-origin: 50% 60%;
+  will-change: transform;
+}
+@keyframes guide-breathe {
+  0%, 100% { transform: rotate(-1.5deg) scale(1); }
+  50% { transform: rotate(1.5deg) scale(1.03); }
 }
 
-// Gentle continuous wing flap (child element, so it never fights the body
-// transform used by the header fly-across).
+// NEAR wing — the primary flap. A rigged, multi-keyframe stroke: it sweeps up
+// AND foreshortens (scaleY) at the top of the beat, so it reads as a wing
+// rotating through 3D space rather than a flat 2D hinge. Eased for a smooth,
+// cinematic 60fps motion.
 .guide-bird-wing {
   transform-origin: 15px 15px;
   transform-box: fill-box;
-  animation: guide-flap 0.5s ease-in-out infinite;
+  animation: guide-flap 0.46s cubic-bezier(0.45, 0, 0.35, 1) infinite;
+  will-change: transform;
 }
 @keyframes guide-flap {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(-30deg); }
+  0% { transform: rotate(4deg) scaleY(1); }
+  45% { transform: rotate(-34deg) scaleY(0.72); } // up + foreshortened (3D feel)
+  70% { transform: rotate(-12deg) scaleY(0.9); }
+  100% { transform: rotate(4deg) scaleY(1); }
+}
+
+// FAR wing — behind the body, flaps in counter-phase and with less travel, so
+// the two wings create parallax depth (you sense a near and a far wing).
+.guide-bird-wing-far {
+  transform-origin: 16px 15px;
+  transform-box: fill-box;
+  animation: guide-flap-far 0.46s cubic-bezier(0.45, 0, 0.35, 1) infinite;
+  will-change: transform;
+}
+@keyframes guide-flap-far {
+  0% { transform: rotate(-6deg) scaleY(0.9); }
+  45% { transform: rotate(22deg) scaleY(0.6); }
+  70% { transform: rotate(6deg) scaleY(0.78); }
+  100% { transform: rotate(-6deg) scaleY(0.9); }
 }
 
 // ---- Header mode: fly back and forth across the wordmark (original feature) ----
@@ -46,46 +75,100 @@
   animation: header-fly 5s ease-in-out infinite;
 }
 // Mobile: fly purely left↔right at a constant height (no vertical bob), so the
-// bird never dips onto the wordmark text.
+// bird never dips onto the wordmark text. The direction change is a BANKED TURN
+// — the bird's horizontal width collapses toward 0 (turning edge-on, as if
+// rotating around a vertical axis in 3D), pauses at the far end, then re-opens
+// mirrored — instead of an instant flat 2D flip.
 .guide-bird.is-in-header.flat {
-  animation: header-fly-flat 5s ease-in-out infinite;
+  animation: header-fly-flat 5.4s ease-in-out infinite;
 }
 @keyframes header-fly-flat {
-  0%, 12% {
+  0%, 10% {
     transform: translateX(-6px) scaleX(1);
   }
-  50% {
+  // approach the right end, still facing right
+  44% {
     transform: translateX(calc(var(--home-w) - 22px)) scaleX(1);
   }
+  // pivot: rotate edge-on (width → ~0), the "3D" turn
+  50% {
+    transform: translateX(calc(var(--home-w) - 20px)) scaleX(0.05);
+  }
+  // re-open, now facing left
   56% {
     transform: translateX(calc(var(--home-w) - 22px)) scaleX(-1);
   }
-  100% {
+  90% {
     transform: translateX(-6px) scaleX(-1);
+  }
+  // pivot back to face right for the next lap
+  95% {
+    transform: translateX(-8px) scaleX(-0.05);
+  }
+  100% {
+    transform: translateX(-6px) scaleX(1);
   }
 }
 // A gentle bob that stays LOW over the letters (small +Y dips, never lifting
-// high above the wordmark) so the bird reads as perched on the title.
+// high above the wordmark). The direction change is a banked pivot (scaleX →
+// near 0 → mirrored) so it reads as turning through depth, not a 2D flip.
 @keyframes header-fly {
-  0%, 12% {
+  0%, 10% {
     transform: translateX(-6px) translateY(0) scaleX(1);
   }
-  30% {
+  28% {
     transform: translateX(calc(var(--home-w) * 0.4)) translateY(2px) scaleX(1);
   }
-  50% {
+  44% {
     transform: translateX(calc(var(--home-w) - 22px)) translateY(3px) scaleX(1);
   }
-  // turn and glide back to the left
-  56% {
-    transform: translateX(calc(var(--home-w) - 22px)) translateY(1px) scaleX(-1);
+  // banked pivot at the right end — turn edge-on, then face left
+  50% {
+    transform: translateX(calc(var(--home-w) - 20px)) translateY(3px) scaleX(0.05);
   }
-  80% {
+  56% {
+    transform: translateX(calc(var(--home-w) - 22px)) translateY(2px) scaleX(-1);
+  }
+  78% {
     transform: translateX(calc(var(--home-w) * 0.35)) translateY(2px) scaleX(-1);
+  }
+  90% {
+    transform: translateX(-6px) translateY(0) scaleX(-1);
+  }
+  // banked pivot back at the left end
+  95% {
+    transform: translateX(-8px) translateY(0) scaleX(-0.05);
   }
   100% {
     transform: translateX(-6px) translateY(0) scaleX(1);
   }
+}
+
+// ---- Landed on the nest (beside the mother sparrow) ----
+// When the bird perches on the testimonials nest it faces RIGHT (toward the
+// mother, who faces left) and does a gentle settle-bob instead of the flight
+// breathe. The facing is on the SVG so it composes with the settle transform
+// on the wrapper. It sits on the nest until you scroll away, then the normal
+// guide logic flies it back up to the header.
+.guide-bird.at-nest .guide-bird-svg {
+  animation: guide-nest-settle 3.8s ease-in-out infinite;
+  transform-origin: 50% 70%;
+}
+@keyframes guide-nest-settle {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-2px) rotate(1.4deg); }
+}
+// Calm the wings right down once landed (an occasional settle-flap).
+.guide-bird.at-nest .guide-bird-wing {
+  animation: guide-nest-flap 4s ease-in-out infinite;
+}
+.guide-bird.at-nest .guide-bird-wing-far {
+  animation: guide-nest-flap 4s ease-in-out infinite;
+}
+@keyframes guide-nest-flap {
+  0%, 74%, 100% { transform: rotate(2deg) scaleY(1); }
+  84% { transform: rotate(-24deg) scaleY(0.78); }
+  92% { transform: rotate(-5deg) scaleY(0.94); }
 }
 
 // The bird shows on all screens now. On mobile it stays in the HEADER only

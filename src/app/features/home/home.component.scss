@@ -241,6 +241,8 @@
   gap: 16px;
 }
 .age {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -251,11 +253,40 @@
   border-radius: var(--jiara-radius);
   color: #fff;
   font-weight: 700;
-  transition: transform 0.2s var(--jiara-ease), box-shadow 0.2s;
+  transition: transform 0.28s var(--jiara-ease), box-shadow 0.28s var(--jiara-ease);
+  will-change: transform;
 }
-.age:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--jiara-shadow-2);
+// Glassy top-light sheen: a soft diagonal highlight gives the flat gradient
+// tile a lit, three-dimensional surface. A thin inset edge adds glass "rim".
+.age::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 46%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  pointer-events: none;
+}
+// A brighter glare that slides across on hover (pointer devices).
+.age::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.6s var(--jiara-ease);
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .age:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: var(--jiara-shadow-3);
+  }
+  .age:hover::after {
+    left: 130%;
+  }
 }
 // Cohesive moss → honey progression across the four age tiles.
 .age:nth-child(1) { background: linear-gradient(135deg, #808e5c, #6e7b4f); }
@@ -289,6 +320,23 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  transition: transform 0.28s var(--jiara-ease), box-shadow 0.28s var(--jiara-ease), border-color 0.28s;
+  will-change: transform;
+}
+@media (hover: hover) {
+  .deal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--jiara-shadow-3);
+    border-color: transparent;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .deal-card {
+    transition: box-shadow 0.28s var(--jiara-ease);
+  }
+  .deal-card:hover {
+    transform: none;
+  }
 }
 .deal-title {
   font-size: 17px;
@@ -362,10 +410,43 @@
   color: #fff;
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s var(--jiara-ease);
+  transition: transform 0.28s var(--jiara-ease), box-shadow 0.28s var(--jiara-ease);
+  will-change: transform;
 }
-.promo:hover {
-  transform: translateY(-3px);
+// Glass sheen + lit rim so the promo panels read as dimensional glass, not
+// flat colour blocks. Content sits above via its own z-index.
+.promo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0) 48%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  pointer-events: none;
+}
+.promo::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 55%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.7s var(--jiara-ease);
+  pointer-events: none;
+}
+.promo > div {
+  position: relative;
+  z-index: 1; // keep copy above the sheen layers
+}
+@media (hover: hover) {
+  .promo:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--jiara-shadow-3);
+  }
+  .promo:hover::after {
+    left: 130%;
+  }
 }
 .promo.p1 {
   background: linear-gradient(125deg, #6e7b4f, #57623d);
@@ -390,22 +471,139 @@
   font-weight: 700;
 }
 
-// ---- Testimonials ----
+// ---- Testimonials (glassmorphic cards over a soft, illustrated backdrop) ----
 .testimonials {
-  background: #fff;
+  position: relative;
+  overflow: hidden; // clip the decorative blobs/illustration to the section
   border-block: 1px solid var(--jiara-line);
+  // A gentle honey→cream wash so the frosted-glass cards have something with
+  // tonal depth to blur over (glass needs contrast behind it to read).
+  background:
+    radial-gradient(120% 90% at 12% -10%, #fff7e6 0%, rgba(255, 247, 230, 0) 55%),
+    radial-gradient(120% 90% at 92% 110%, #eef2e0 0%, rgba(238, 242, 224, 0) 55%),
+    var(--jiara-bg);
 }
+
+// Decorative backdrop — purely visual, pointer-events off, behind the content.
+.t-decor {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.t-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(46px);
+  opacity: 0.32; // gentle — enough for the glass to catch tone, not so much it hurts text contrast
+}
+.t-blob--moss {
+  width: 320px;
+  height: 320px;
+  left: -80px;
+  bottom: -120px;
+  background: radial-gradient(circle, rgba(126, 123, 79, 0.55), transparent 70%);
+}
+.t-blob--honey {
+  width: 280px;
+  height: 280px;
+  right: -60px;
+  top: -110px;
+  background: radial-gradient(circle, rgba(217, 154, 52, 0.5), transparent 70%);
+}
+
+// Sparrow-on-a-nest illustration, tucked into the top-right corner. Sized
+// modestly so it complements (never competes with) the testimonials.
+.t-nest {
+  position: absolute;
+  top: 8px;
+  right: clamp(8px, 4vw, 56px);
+  width: clamp(88px, 12vw, 128px);
+  height: auto;
+  opacity: 0.9;
+  overflow: visible; // don't clip the mother's tail/wing at the viewBox edges
+  filter: drop-shadow(0 6px 10px rgba(60, 50, 30, 0.14));
+}
+// The MOTHER gently bobs as if perched-and-breathing. She's mirrored to face
+// LEFT — the scaleX(-1) is baked into every keyframe so the flip persists
+// through the animation (transform-origin at her centre keeps her in place).
+.t-bird {
+  transform-box: fill-box;
+  transform-origin: 54px 52px;
+  animation: t-bird-bob 3.6s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes t-bird-bob {
+  0%, 100% { transform: scaleX(-1) translateY(0) rotate(-1deg); }
+  50% { transform: scaleX(-1) translateY(-3px) rotate(1.5deg); }
+}
+// Wing flaps occasionally (a soft, slow settle-flap, not a frantic flight).
+.t-bird-wing {
+  transform-box: fill-box;
+  transform-origin: 46px 46px;
+  animation: t-wing-flap 3.6s ease-in-out infinite;
+  will-change: transform;
+}
+@keyframes t-wing-flap {
+  0%, 62%, 100% { transform: rotate(0) scaleY(1); }
+  72% { transform: rotate(-26deg) scaleY(0.8); }
+  84% { transform: rotate(-6deg) scaleY(0.94); }
+}
+// The eggs breathe with the faintest scale so the nest feels alive.
+.t-egg {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: t-egg-pulse 4.2s ease-in-out infinite;
+}
+.t-egg:last-of-type { animation-delay: 0.6s; }
+@keyframes t-egg-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+}
+
+// Invisible landing marker for the shared guide-bird. It sits on the nest's
+// left edge (level with the mother) so the flying sparrow, when it targets
+// `[data-guide-nest]`, lands right beside her facing the mother. Zero-size but
+// positioned; the guide-bird reads its getBoundingClientRect().
+.t-landing {
+  position: absolute;
+  // Aligns to the left portion of the .t-nest SVG (which is top:8px, right:…).
+  // The SVG is ~clamp(88–128)px wide sitting at the section's right; the marker
+  // is nudged to the mother's left where the (now removed) baby used to perch.
+  top: clamp(44px, 6vw, 66px);
+  right: clamp(70px, 12vw, 150px);
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
 .t-grid {
+  position: relative;
+  z-index: 1; // above the decorative backdrop
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
+// Glass card. Border-radius/padding here; the frosted look + lift come from the
+// shared .jiara-glass / .jiara-lift utilities on the element.
 .t-card {
+  position: relative;
   margin: 0;
-  border: 1px solid var(--jiara-line);
-  border-radius: var(--jiara-radius);
-  padding: 22px;
-  background: var(--jiara-bg);
+  border-radius: var(--jiara-radius-lg);
+  padding: 26px 22px 22px;
+  overflow: hidden;
+}
+// Oversized decorative opening quote-mark watermark.
+.t-quote {
+  position: absolute;
+  top: -6px;
+  right: 14px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 84px;
+  line-height: 1;
+  color: var(--jiara-accent);
+  opacity: 0.18;
+  pointer-events: none;
 }
 .t-stars .material-icons {
   font-size: 18px;
@@ -415,6 +613,7 @@
   color: var(--jiara-accent);
 }
 .t-card blockquote {
+  position: relative;
   margin: 12px 0 16px;
   font-size: 14px;
   line-height: 1.6;
@@ -432,14 +631,42 @@
   height: 36px;
   border-radius: 50%;
   object-fit: cover;
+  // Crisp white ring lifts the avatar off the frosted card.
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.7);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .t-bird,
+  .t-bird-wing,
+  .t-egg {
+    animation: none;
+  }
+  // Keep the depth (shadow) but stop the movement/glare transitions.
+  .age,
+  .promo {
+    transition: box-shadow 0.28s var(--jiara-ease);
+  }
+  .age:hover,
+  .promo:hover {
+    transform: none;
+  }
+  .age::after,
+  .promo::after {
+    display: none;
+  }
 }
 
 // ---- Responsive ----
 @media (max-width: 1000px) {
   .cat-grid { grid-template-columns: repeat(4, 1fr); }
   .trust { grid-template-columns: repeat(2, 1fr); }
-  .t-grid { grid-template-columns: 1fr; }
+  // Tablets keep two testimonial columns (a single full-width card wastes the
+  // space); phones drop to one below.
+  .t-grid { grid-template-columns: repeat(2, 1fr); }
   .deal-cards { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  .t-grid { grid-template-columns: 1fr; }
 }
 // Compact trust strip on phones/tablets — smaller cards, icons and text.
 @media (max-width: 640px) {
